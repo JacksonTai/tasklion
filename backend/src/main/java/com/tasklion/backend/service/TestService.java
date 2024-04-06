@@ -1,4 +1,4 @@
-package com.tasklion.backend.service.test;
+package com.tasklion.backend.service;
 
 public interface TestService {
     String test();

@@ -1,6 +1,6 @@
-package com.tasklion.backend.service.test.implementation;
+package com.tasklion.backend.service.impl;
 
-import com.tasklion.backend.service.test.TestService;
+import com.tasklion.backend.service.TestService;
 import org.springframework.stereotype.Service;
 
 @Service

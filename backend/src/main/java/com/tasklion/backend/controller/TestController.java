@@ -1,6 +1,6 @@
 package com.tasklion.backend.controller;
 
-import com.tasklion.backend.service.test.TestService;
+import com.tasklion.backend.service.TestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
