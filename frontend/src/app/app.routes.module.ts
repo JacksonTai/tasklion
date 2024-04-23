@@ -4,7 +4,7 @@ import {RegisterComponent} from "./components/register/register.component";
 import {RouterModule, Routes} from "@angular/router";
 import {LandingPageComponent} from "./components/landing-page/landing-page.component";
 import {DevTemplateComponent} from "./shared/components/dev-template/dev-template.component";
-import {LoginComponent} from "./components/login/login/login.component";
+import {LoginComponent} from "./components/logina/login.component";
 
 const routes: Routes = [
   {path: '', component: LandingPageComponent},

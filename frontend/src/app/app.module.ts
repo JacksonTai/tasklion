@@ -12,7 +12,8 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {MaterialModule} from "./material.module";
 import {LandingPageComponent} from './components/landing-page/landing-page.component';
 import {DevTemplateComponent} from './shared/components/dev-template/dev-template.component';
-import { LoginComponent } from './components/login/login/login.component';
+import { LoginComponent } from './components/logina/login.component';
+import {FormsModule} from "@angular/forms";
 
 @NgModule({
   declarations: [
@@ -31,7 +32,7 @@ import { LoginComponent } from './components/login/login/login.component';
     BrowserModule,
     BrowserAnimationsModule,
     MaterialModule,
-
+    FormsModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
