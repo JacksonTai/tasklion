@@ -1,25 +1,32 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {
   HttpRequest,
   HttpHandler,
   HttpEvent,
   HttpInterceptor
 } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import {Observable} from 'rxjs';
+import {AuthService} from "../shared/services/auth/auth.service";
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
 
-  constructor() {}
+  constructor(
+    private authService: AuthService
+  ) {
+  }
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
-    console.log('Intercepted request:', request);
+    const accessToken = this.authService.getAccessToken();
+    const tokenType = this.authService.getTokenType();
+    if (accessToken && tokenType) {
+      request = request.clone({
+        setHeaders: {
+          Authorization: `${tokenType} ${accessToken}`
+        }
+      });
+    }
     const xsrf = sessionStorage.getItem('XSRF-TOKEN');
-
-    const authReq = request.clone({
-      // headers: request.headers.set('Authorization', authToken)
-    });
-
     return next.handle(request);
   }
 }

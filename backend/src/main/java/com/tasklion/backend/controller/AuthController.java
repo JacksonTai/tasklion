@@ -5,6 +5,7 @@ import com.tasklion.backend.model.LoginRequestModel;
 import com.tasklion.backend.model.RegisterRequestModel;
 import com.tasklion.backend.service.AuthService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -20,12 +21,12 @@ public class AuthController {
 
     @PostMapping("/register")
     public ResponseEntity<AuthResponseModel> register(@RequestBody RegisterRequestModel registerRequestModel) {
-        return ResponseEntity.ok(authService.register(registerRequestModel));
+        return new ResponseEntity<>(authService.register(registerRequestModel), HttpStatus.OK);
     }
 
     @PostMapping("/login")
     public ResponseEntity<AuthResponseModel> login(@RequestBody LoginRequestModel loginRequestModel) {
-        return ResponseEntity.ok(authService.login(loginRequestModel));
+        return new ResponseEntity<>(authService.login(loginRequestModel), HttpStatus.OK);
     }
 
 }

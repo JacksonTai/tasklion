@@ -7,7 +7,8 @@ import lombok.Data;
 @AllArgsConstructor
 public class AuthResponseModel {
 
-    private String token;
+    private String accessToken;
+    private final String tokenType = "Bearer";
 
 }
 
