@@ -4,8 +4,8 @@ package com.tasklion.backend.service.impl;
 import com.tasklion.backend.constant.TasklionUserRole;
 import com.tasklion.backend.domain.entity.TasklionUser;
 import com.tasklion.backend.domain.repository.TasklionUserRepo;
-import com.tasklion.backend.model.LoginRequestModel;
 import com.tasklion.backend.model.AuthResponseModel;
+import com.tasklion.backend.model.LoginRequestModel;
 import com.tasklion.backend.model.RegisterRequestModel;
 import com.tasklion.backend.service.AuthService;
 import com.tasklion.backend.service.JwtService;
@@ -30,7 +30,7 @@ public class AuthServiceImpl implements AuthService {
                 .username(registerRequestModel.getUsername())
                 .email(registerRequestModel.getEmail())
                 .password(passwordEncoder.encode(registerRequestModel.getPassword()))
-                .role(TasklionUserRole.ADMIN.getDisplayName())
+                .role(TasklionUserRole.CUSTOMER.getDisplayName())
                 .build();
         TasklionUser savedTasklionUser = tasklionUserRepo.save(tasklionUser);
         return new AuthResponseModel(jwtService.generateToken(savedTasklionUser));

@@ -13,12 +13,14 @@ import {MaterialModule} from "./material.module";
 import {LandingPageComponent} from './components/landing-page/landing-page.component';
 import {LoginComponent} from './components/auth/login/login.component';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
-import {HttpClientModule} from "@angular/common/http";
+import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {environment} from "../environments/environment";
 import {ENVIRONMENT} from "./shared/services/environment/environment";
-import { ErrorFieldComponent } from './shared/components/error-field/error-field.component';
-import { ValidationPipe } from './shared/pipe/validation/validation.pipe';
-import { HomeComponent } from './components/home/home.component';
+import {ErrorFieldComponent} from './shared/components/error-field/error-field.component';
+import {ValidationPipe} from './shared/pipe/validation/validation.pipe';
+import {HomeComponent} from './components/home/home.component';
+import {AuthInterceptor} from "./interceptors/auth.interceptor";
+import {CookieModule} from "ngx-cookie";
 
 @NgModule({
   declarations: [
@@ -39,11 +41,15 @@ import { HomeComponent } from './components/home/home.component';
     BrowserModule,
     BrowserAnimationsModule,
     HttpClientModule,
+    CookieModule.withOptions(),
     MaterialModule,
     FormsModule,
     ReactiveFormsModule,
   ],
-  providers: [{ provide: ENVIRONMENT, useValue: environment }],
+  providers: [
+    {provide: ENVIRONMENT, useValue: environment},
+    {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true}
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {

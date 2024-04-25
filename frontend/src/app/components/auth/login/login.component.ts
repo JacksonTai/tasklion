@@ -3,6 +3,7 @@ import {Router} from "@angular/router";
 import {AuthService} from "../../../shared/services/auth/auth.service";
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {finalize} from "rxjs";
+import {CookieService} from "ngx-cookie";
 
 @Component({
     selector: 'tasklion-login',
@@ -29,6 +30,7 @@ export class LoginComponent implements OnInit {
         private router: Router,
         private formBuilder: FormBuilder,
         private authService: AuthService,
+        private cookieService: CookieService
     ) {
     }
 
@@ -51,7 +53,7 @@ export class LoginComponent implements OnInit {
                 .subscribe({
                     next: (response) => {
                         this.isLoginFailed = false;
-                        // window.sessionStorage.setItem("XSRF-TOKEN", getCookie('XSRF-TOKEN'));
+                        this.cookieService.put('Authorization', response.headers.get('Authorization')!);
                         console.log('Login response:', response);
                     },
                     error: (error) => {
