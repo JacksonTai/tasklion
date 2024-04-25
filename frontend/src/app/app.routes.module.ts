@@ -1,17 +1,18 @@
 import {NgModule} from '@angular/core';
 import {TaskComponent} from "./components/task/task.component";
-import {RegisterComponent} from "./components/register/register.component";
+import {RegisterComponent} from "./components/auth/register/register.component";
 import {RouterModule, Routes} from "@angular/router";
-import {LandingPageComponent} from "./components/landing-page/landing-page.component";
-import {DevTemplateComponent} from "./shared/components/dev-template/dev-template.component";
-import {LoginComponent} from "./components/logina/login.component";
+import {LoginComponent} from "./components/auth/login/login.component";
+import {RouteConstant} from "./shared/constants/route.constant";
+import {AppPageConstant} from "./shared/constants/app.page.constant";
+import {AppConstant} from "./shared/constants/app.constant";
+import {HomeComponent} from "./components/home/home.component";
 
 const routes: Routes = [
-  {path: '', component: LandingPageComponent},
-  {path: 'login', component: LoginComponent},
-  {path: 'register', component: RegisterComponent},
-  {path: 'task', component: TaskComponent},
-  {path: 'dev-template', component: DevTemplateComponent}
+  {title: AppConstant.TASKLION, path: RouteConstant.ROOT, component: HomeComponent},
+  {title: AppPageConstant.LOGIN, path: RouteConstant.LOGIN, component: LoginComponent},
+  {title: AppPageConstant.REGISTER, path: RouteConstant.REGISTER, component: RegisterComponent},
+  {title: AppPageConstant.TASK, path: RouteConstant.TASK, component: TaskComponent},
 ];
 
 @NgModule({
