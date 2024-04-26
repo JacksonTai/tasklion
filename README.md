@@ -107,7 +107,7 @@ To get a local copy up and running follow these simple example steps.
 
 ### Prerequisites
 
-This is a list of things you need to install for the frontend application.
+This is a list of things you need to install for the application.
 * Npm
   ```sh
   npm install npm@latest -g
