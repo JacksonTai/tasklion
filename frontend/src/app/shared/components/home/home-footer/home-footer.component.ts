@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import {RouteConstant} from "../../../constants/route.constant";
 
 @Component({
   selector: 'tasklion-home-footer',
@@ -7,4 +8,5 @@ import { Component } from '@angular/core';
 })
 export class HomeFooterComponent {
 
+    protected readonly RouteConstant = RouteConstant;
 }

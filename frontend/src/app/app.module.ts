@@ -21,6 +21,12 @@ import {ValidationPipe} from './shared/pipe/validation/validation.pipe';
 import {HomeComponent} from './components/home/home.component';
 import {AuthInterceptor} from "./interceptors/auth.interceptor";
 import {CookieModule} from "ngx-cookie";
+import { AboutComponent } from './components/about/about.component';
+import { ContactComponent } from './components/contact/contact.component';
+import { ServiceComponent } from './components/service/service.component';
+import { LegalComponent } from './components/legal/legal.component';
+import { PrivacyPolicyComponent } from './components/privacy-policy/privacy-policy.component';
+import { FaqComponent } from './components/faq/faq.component';
 
 @NgModule({
   declarations: [
@@ -35,6 +41,12 @@ import {CookieModule} from "ngx-cookie";
     ErrorFieldComponent,
     ValidationPipe,
     HomeComponent,
+    AboutComponent,
+    ContactComponent,
+    ServiceComponent,
+    LegalComponent,
+    PrivacyPolicyComponent,
+    FaqComponent,
   ],
   imports: [
     AppRoutesModule,

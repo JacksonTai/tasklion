@@ -1,1 +1,5 @@
-<router-outlet></router-outlet>
+<tasklion-home-header *ngIf="!hideNavAndFooter"></tasklion-home-header>
+<main [ngClass]="hideNavAndFooter ? '' : 'main-content'">
+  <router-outlet></router-outlet>
+</main>
+<tasklion-home-footer *ngIf="!hideNavAndFooter"></tasklion-home-footer>
