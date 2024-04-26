@@ -20,8 +20,7 @@ import {ErrorFieldComponent} from './shared/components/error-field/error-field.c
 import {ValidationPipe} from './shared/pipe/validation/validation.pipe';
 import {HomeComponent} from './components/home/home.component';
 import {AuthInterceptor} from "./interceptors/auth.interceptor";
-import {CookieModule, CookieService} from "ngx-cookie";
-import {AuthService} from "./shared/services/auth/auth.service";
+import {CookieModule} from "ngx-cookie";
 
 @NgModule({
   declarations: [
@@ -43,6 +42,7 @@ import {AuthService} from "./shared/services/auth/auth.service";
     BrowserAnimationsModule,
     HttpClientModule,
     CookieModule.withOptions(),
+
     MaterialModule,
     FormsModule,
     ReactiveFormsModule,
@@ -50,7 +50,6 @@ import {AuthService} from "./shared/services/auth/auth.service";
   providers: [
     {provide: ENVIRONMENT, useValue: environment},
     {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},
-    {provide: CookieService, useClass: AuthService}
   ],
   bootstrap: [AppComponent]
 })

@@ -7,7 +7,8 @@ import {RouteConstant} from "./shared/constants/route.constant";
 import {AppPageConstant} from "./shared/constants/app.page.constant";
 import {AppConstant} from "./shared/constants/app.constant";
 import {HomeComponent} from "./components/home/home.component";
-import {authGuard} from "./guards/auth.guard";
+import {AuthGuard} from "./guards/auth/auth.guard";
+import {NoAuthGuard} from "./guards/no-auth/no.auth.guard";
 
 const routes: Routes = [
   {
@@ -19,17 +20,19 @@ const routes: Routes = [
     title: AppPageConstant.LOGIN,
     path: RouteConstant.LOGIN,
     component: LoginComponent,
+    canActivate: [NoAuthGuard],
   },
   {
     title: AppPageConstant.REGISTER,
     path: RouteConstant.REGISTER,
     component: RegisterComponent,
+    canActivate: [NoAuthGuard],
   },
   {
     title: AppPageConstant.TASK,
     path: RouteConstant.TASK,
     component: TaskComponent,
-    canActivate: [authGuard],
+    canActivate: [AuthGuard],
   },
 ];
 

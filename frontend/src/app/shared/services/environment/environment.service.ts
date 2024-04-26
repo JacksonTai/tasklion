@@ -13,8 +13,6 @@ export class EnvironmentService {
   }
 
   getValue(key: string, defaultValue?: any): any {
-    console.log(key);
-    console.log(this.environment[key]);
     return this.environment[key] || defaultValue;
   }
 }
