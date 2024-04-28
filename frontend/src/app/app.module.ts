@@ -18,7 +18,6 @@ import {environment} from "../environments/environment";
 import {ENVIRONMENT} from "./shared/services/environment/environment";
 import {ErrorFieldComponent} from './shared/components/error-field/error-field.component';
 import {ValidationPipe} from './shared/pipe/validation/validation.pipe';
-import {HomeComponent} from './components/home/home.component';
 import {AuthInterceptor} from "./interceptors/auth.interceptor";
 import {CookieModule} from "ngx-cookie";
 import { AboutComponent } from './components/about/about.component';
@@ -31,6 +30,7 @@ import { UserComponent } from './components/user/user.component';
 import { StatisticComponent } from './components/statistic/statistic.component';
 import { ProfileComponent } from './components/profile/profile.component';
 import { DashIfEmptyPipe } from './shared/pipe/dash-if-empty/dash-if-empty.pipe';
+import { DashboardComponent } from './components/dashboard/dashboard.component';
 
 @NgModule({
   declarations: [
@@ -44,7 +44,6 @@ import { DashIfEmptyPipe } from './shared/pipe/dash-if-empty/dash-if-empty.pipe'
     LoginComponent,
     ErrorFieldComponent,
     ValidationPipe,
-    HomeComponent,
     AboutComponent,
     ContactComponent,
     ServiceComponent,
@@ -55,6 +54,7 @@ import { DashIfEmptyPipe } from './shared/pipe/dash-if-empty/dash-if-empty.pipe'
     StatisticComponent,
     ProfileComponent,
     DashIfEmptyPipe,
+    DashboardComponent,
   ],
   imports: [
     AppRoutesModule,

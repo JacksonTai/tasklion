@@ -54,7 +54,7 @@ export class LoginComponent implements OnInit {
           next: (response: AuthResponseModel) => {
             this.isLoginFailed = false;
             this.cookieService.put('Authorization', response.accessToken);
-            window.location.href = RouteConstant.ROOT;
+            window.location.href = RouteConstant.DASHBOARD;
           },
           error: (error) => {
             console.log('Login error:', error);

@@ -6,7 +6,6 @@ import {LoginComponent} from "./components/auth/login/login.component";
 import {RouteConstant} from "./shared/constants/route.constant";
 import {AppPageConstant} from "./shared/constants/app-page.constant";
 import {AppConstant} from "./shared/constants/app.constant";
-import {HomeComponent} from "./components/home/home.component";
 import {AuthGuard} from "./guards/auth/auth.guard";
 import {NoAuthGuard} from "./guards/no-auth/no-auth.guard";
 import {AboutComponent} from "./components/about/about.component";
@@ -19,12 +18,14 @@ import {ProfileComponent} from "./components/profile/profile.component";
 import {UserRoleConstant} from "./shared/constants/user-role.constant";
 import {UserComponent} from "./components/user/user.component";
 import {StatisticComponent} from "./components/statistic/statistic.component";
+import {LandingPageComponent} from "./components/landing-page/landing-page.component";
+import {DashboardComponent} from "./components/dashboard/dashboard.component";
 
 const routes: Routes = [
   {
     title: AppConstant.TASKLION,
     path: RouteConstant.ROOT,
-    component: HomeComponent,
+    component: LandingPageComponent,
   },
   {
     title: AppPageConstant.LOGIN,
@@ -37,6 +38,12 @@ const routes: Routes = [
     path: RouteConstant.REGISTER,
     component: RegisterComponent,
     canActivate: [NoAuthGuard],
+  },
+  {
+    title: AppPageConstant.DASHBOARD,
+    path: RouteConstant.DASHBOARD,
+    component: DashboardComponent,
+    canActivate: [AuthGuard],
   },
   {
     title: AppPageConstant.ABOUT,

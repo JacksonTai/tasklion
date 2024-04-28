@@ -1,6 +1,7 @@
 export const AppPageConstant = {
   LOGIN: "Login",
   REGISTER: "Register",
+  DASHBOARD: "Dashboard",
   LEGAL: "Legal",
   PRIVACY_POLICY: "Privacy Policy",
   ABOUT: "About",
