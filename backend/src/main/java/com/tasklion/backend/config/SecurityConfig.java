@@ -3,6 +3,7 @@ package com.tasklion.backend.config;
 import com.tasklion.backend.constant.TasklionUserRole;
 import com.tasklion.backend.filter.CsrfCookieFilter;
 import com.tasklion.backend.filter.JwtAuthFilter;
+import com.tasklion.backend.security.BearerTokenAuthenticationEntryPoint;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -30,6 +31,7 @@ import java.util.List;
 public class SecurityConfig {
 
     private final JwtAuthFilter jwtAuthFilter;
+    private final BearerTokenAuthenticationEntryPoint bearerTokenAuthenticationEntryPoint;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
@@ -57,6 +59,9 @@ public class SecurityConfig {
                         .requestMatchers("/api/v1/auth/**").permitAll()
                         .requestMatchers("/api/v1/task/**").hasAuthority(TasklionUserRole.TASKER.getDisplayName())
                 )
+                .exceptionHandling((exceptions) -> exceptions
+                        .authenticationEntryPoint(bearerTokenAuthenticationEntryPoint)
+                )
                 .formLogin(Customizer.withDefaults())
                 .httpBasic(Customizer.withDefaults())
                 .build();
@@ -71,5 +76,6 @@ public class SecurityConfig {
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
+
 
 }

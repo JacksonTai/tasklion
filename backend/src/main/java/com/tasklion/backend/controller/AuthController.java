@@ -5,8 +5,10 @@ import com.tasklion.backend.model.LoginRequestModel;
 import com.tasklion.backend.model.RegisterRequestModel;
 import com.tasklion.backend.service.AuthService;
 import lombok.RequiredArgsConstructor;
+import org.apache.coyote.Response;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,6 +28,11 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<AuthResponseModel> login(@RequestBody LoginRequestModel loginRequestModel) {
+        try {
+            authService.login(loginRequestModel);
+        } catch (BadCredentialsException e) {
+            System.out.println("Exception: " + e);
+        }
         return new ResponseEntity<>(authService.login(loginRequestModel), HttpStatus.OK);
     }
 
