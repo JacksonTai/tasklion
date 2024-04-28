@@ -4,15 +4,22 @@ import {AuthService} from "../../shared/services/auth/auth.service";
 import {RouteConstant} from "../../shared/constants/route.constant";
 
 export const AuthGuard: CanActivateFn = (route, state) => {
-  const authService = inject(AuthService);
-  const router = inject(Router);
+
+  const authService: AuthService = inject(AuthService);
+  const router: Router = inject(Router);
+
   if (authService.isAuthenticated()) {
-    if (state.url.includes(RouteConstant.LOGIN) || state.url.includes(RouteConstant.REGISTER)) {
-      router.navigate([RouteConstant.ROOT]);
-      return false;
+    const {requiredRoles} = route.data;
+    if (!requiredRoles) {
+      return true;
     }
-    return true;
+
+    const roles: string[] | undefined = authService.getDecodedAccessToken()?.roles;
+    if (roles && requiredRoles?.some((requiredRole: string) => roles.includes(requiredRole))) {
+      return true;
+    }
   }
   router.navigate([RouteConstant.LOGIN]);
   return false;
+
 };

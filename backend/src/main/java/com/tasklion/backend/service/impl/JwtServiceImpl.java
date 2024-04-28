@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import javax.crypto.SecretKey;
 import java.util.*;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 @Service
 public class JwtServiceImpl implements JwtService {
@@ -48,7 +49,10 @@ public class JwtServiceImpl implements JwtService {
     @Override
     public String generateToken(UserDetails userDetails, Map<String, Object> claims) {
         claims.put("username", userDetails.getUsername());
-        claims.put("authorities", populateAuthorities(userDetails.getAuthorities()));
+        claims.put("roles", userDetails.getAuthorities().stream()
+                .map(GrantedAuthority::getAuthority)
+                .collect(Collectors.toList())
+        );
         return Jwts
                 .builder()
                 .issuer("Tasklion")
@@ -73,14 +77,6 @@ public class JwtServiceImpl implements JwtService {
 
     private Date extractExpiration(String token) {
         return extractClaim(token, Claims::getExpiration);
-    }
-
-    private String populateAuthorities(Collection<? extends GrantedAuthority> authorities) {
-        Set<String> authoritiesSet = new HashSet<>();
-        for (GrantedAuthority authority : authorities) {
-            authoritiesSet.add(authority.getAuthority());
-        }
-        return String.join(",", authoritiesSet);
     }
 
     private SecretKey getSignInKey() {

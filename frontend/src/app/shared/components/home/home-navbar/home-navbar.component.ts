@@ -1,22 +1,43 @@
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {AuthService} from 'src/app/shared/services/auth/auth.service';
 import {RouteConstant} from "../../../constants/route.constant";
-import {ActivatedRoute, Router} from "@angular/router";
+import {UserRoleConstant} from "../../../constants/user-role.constant";
 
 @Component({
   selector: 'tasklion-home-navbar',
   templateUrl: './home-navbar.component.html',
   styleUrls: ['./home-navbar.component.scss']
 })
-export class HomeNavbarComponent {
+export class HomeNavbarComponent implements OnInit {
 
-  private isAuthenticated: boolean;
+  protected readonly RouteConstant = RouteConstant;
+  protected isAuthenticated: boolean = false;
+  protected username: string | undefined;
+  protected roles: string[] | undefined;
+  protected isAdmin: boolean = false;
+  protected isTasker: boolean = false;
+  protected isCustomer: boolean = false;
 
   constructor(
     private authService: AuthService,
-  ) {
+  ) {}
+
+  ngOnInit(): void {
     this.isAuthenticated = this.authService.isAuthenticated();
+    if (this.isAuthenticated) {
+      const decodedToken = this.authService.getDecodedAccessToken();
+      this.username = decodedToken?.username;
+      this.roles = decodedToken?.roles;
+      if (this.roles) {
+        this.isAdmin = this.roles.includes(UserRoleConstant.ADMIN);
+        this.isTasker = this.roles.includes(UserRoleConstant.TASKER);
+        this.isCustomer = this.roles.includes(UserRoleConstant.CUSTOMER);
+      }
+    }
   }
 
-  protected readonly RouteConstant = RouteConstant;
+  logout(): void {
+    this.authService.logout();
+  }
+
 }

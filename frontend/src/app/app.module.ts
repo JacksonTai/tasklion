@@ -27,6 +27,10 @@ import { ServiceComponent } from './components/service/service.component';
 import { LegalComponent } from './components/legal/legal.component';
 import { PrivacyPolicyComponent } from './components/privacy-policy/privacy-policy.component';
 import { FaqComponent } from './components/faq/faq.component';
+import { UserComponent } from './components/user/user.component';
+import { StatisticComponent } from './components/statistic/statistic.component';
+import { ProfileComponent } from './components/profile/profile.component';
+import { DashIfEmptyPipe } from './shared/pipe/dash-if-empty/dash-if-empty.pipe';
 
 @NgModule({
   declarations: [
@@ -47,6 +51,10 @@ import { FaqComponent } from './components/faq/faq.component';
     LegalComponent,
     PrivacyPolicyComponent,
     FaqComponent,
+    UserComponent,
+    StatisticComponent,
+    ProfileComponent,
+    DashIfEmptyPipe,
   ],
   imports: [
     AppRoutesModule,
@@ -54,7 +62,6 @@ import { FaqComponent } from './components/faq/faq.component';
     BrowserAnimationsModule,
     HttpClientModule,
     CookieModule.withOptions(),
-
     MaterialModule,
     FormsModule,
     ReactiveFormsModule,

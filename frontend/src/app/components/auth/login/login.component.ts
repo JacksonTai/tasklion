@@ -4,7 +4,7 @@ import {AuthService} from "../../../shared/services/auth/auth.service";
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {finalize} from "rxjs";
 import {CookieService} from "ngx-cookie";
-import {AuthResponseModel} from "../../../shared/model/auth/auth.response.model";
+import {AuthResponseModel} from "../../../shared/model/auth/auth-response.model";
 import {RouteConstant} from "../../../shared/constants/route.constant";
 
 @Component({
@@ -54,7 +54,7 @@ export class LoginComponent implements OnInit {
           next: (response: AuthResponseModel) => {
             this.isLoginFailed = false;
             this.cookieService.put('Authorization', response.accessToken);
-            this.router.navigate([RouteConstant.ROOT]);
+            window.location.href = RouteConstant.ROOT;
           },
           error: (error) => {
             console.log('Login error:', error);

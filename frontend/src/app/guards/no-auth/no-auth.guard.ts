@@ -5,8 +5,8 @@ import {RouteConstant} from "../../shared/constants/route.constant";
 
 export const NoAuthGuard: CanActivateFn = (route, state) => {
 
-  const router = inject(Router);
-  const authService = inject(AuthService);
+  const router: Router = inject(Router);
+  const authService: AuthService = inject(AuthService);
   const protectedRoutes: string[] = [
     RouteConstant.LOGIN,
     RouteConstant.REGISTER

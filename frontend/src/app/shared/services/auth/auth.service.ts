@@ -1,14 +1,15 @@
 import {inject, Injectable} from '@angular/core';
-import {LoginRequestModel} from "../../model/auth/login.request.model";
-import {ApiUrlConstant} from "../../constants/api.url.constant";
+import {LoginRequestModel} from "../../model/auth/login-request.model";
+import {ApiUrlConstant} from "../../constants/api-url.constant";
 import {ApiService} from "../api/api.service";
 import {HttpHeaders} from "@angular/common/http";
 import {Observable} from "rxjs";
-import {AuthResponseModel} from "../../model/auth/auth.response.model";
+import {AuthResponseModel} from "../../model/auth/auth-response.model";
 import {CookieService} from "ngx-cookie";
 import {Router} from "@angular/router";
 import {RouteConstant} from "../../constants/route.constant";
-import {jwtDecode, JwtPayload} from "jwt-decode";
+import {jwtDecode} from "jwt-decode";
+import {JwtPayloadModel} from "../../model/auth/jwt-payload.model";
 
 @Injectable({
   providedIn: 'root'
@@ -31,6 +32,7 @@ export class AuthService extends ApiService {
   }
 
   logout() {
+    // TODO: Make Authorization as a constant
     this.cookieService.remove('Authorization');
     if (!this.getAccessToken()) {
       this.router.navigate([RouteConstant.LOGIN]);
@@ -45,13 +47,15 @@ export class AuthService extends ApiService {
     return this.cookieService.get('Authorization') || null;
   }
 
-  getDecodedAccessToken(): JwtPayload | null {
+  getDecodedAccessToken(): JwtPayloadModel | null {
     const accessToken = this.getAccessToken();
+    if (accessToken)
+      console.log(jwtDecode(accessToken))
     return accessToken ? jwtDecode(accessToken) : null;
   }
 
   getExpiryTime(): number | null {
-    const decodedAccessToken = this.getDecodedAccessToken();
+    const decodedAccessToken: JwtPayloadModel | null = this.getDecodedAccessToken();
     return decodedAccessToken && decodedAccessToken.exp !== undefined ? decodedAccessToken.exp : null;
   }
 
@@ -60,7 +64,7 @@ export class AuthService extends ApiService {
   }
 
   isTokenExpired(): boolean {
-    const expiryTime = this.getExpiryTime();
+    const expiryTime: number | null = this.getExpiryTime();
     return expiryTime ? (expiryTime * 1000) < Date.now() : true;
   }
 

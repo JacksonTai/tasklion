@@ -4,17 +4,21 @@ import {RegisterComponent} from "./components/auth/register/register.component";
 import {RouterModule, Routes} from "@angular/router";
 import {LoginComponent} from "./components/auth/login/login.component";
 import {RouteConstant} from "./shared/constants/route.constant";
-import {AppPageConstant} from "./shared/constants/app.page.constant";
+import {AppPageConstant} from "./shared/constants/app-page.constant";
 import {AppConstant} from "./shared/constants/app.constant";
 import {HomeComponent} from "./components/home/home.component";
 import {AuthGuard} from "./guards/auth/auth.guard";
-import {NoAuthGuard} from "./guards/no-auth/no.auth.guard";
+import {NoAuthGuard} from "./guards/no-auth/no-auth.guard";
 import {AboutComponent} from "./components/about/about.component";
 import {ServiceComponent} from "./components/service/service.component";
 import {ContactComponent} from "./components/contact/contact.component";
 import {FaqComponent} from "./components/faq/faq.component";
 import {LegalComponent} from "./components/legal/legal.component";
 import {PrivacyPolicyComponent} from "./components/privacy-policy/privacy-policy.component";
+import {ProfileComponent} from "./components/profile/profile.component";
+import {UserRoleConstant} from "./shared/constants/user-role.constant";
+import {UserComponent} from "./components/user/user.component";
+import {StatisticComponent} from "./components/statistic/statistic.component";
 
 const routes: Routes = [
   {
@@ -69,6 +73,26 @@ const routes: Routes = [
     path: RouteConstant.TASK,
     component: TaskComponent,
     canActivate: [AuthGuard],
+  },
+  {
+    title: AppPageConstant.PROFILE,
+    path: RouteConstant.PROFILE,
+    component: ProfileComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    title: AppPageConstant.USER,
+    path: RouteConstant.USER,
+    component: UserComponent,
+    canActivate: [AuthGuard],
+    data: {roles: [UserRoleConstant.ADMIN]}
+  },
+  {
+    title: AppPageConstant.STATISTIC,
+    path: RouteConstant.STATISTIC,
+    component: StatisticComponent,
+    canActivate: [AuthGuard],
+    data: {roles: [UserRoleConstant.ADMIN]}
   },
 ];
 

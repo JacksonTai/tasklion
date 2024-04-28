@@ -12,22 +12,21 @@ import {filter} from "rxjs";
 })
 export class AppComponent implements OnInit {
 
-  title: string = AppConstant.TASKLION;
-  hideNavAndFooter: boolean = false;
+  protected title: string = AppConstant.TASKLION;
+  protected hideNavAndFooter: boolean = false;
 
   private readonly headerFooterExcludedRoutes: string[] = [
     RouteConstant.LOGIN,
     RouteConstant.REGISTER
   ];
 
-  ngOnInit(): void {
-    initFlowbite();
-  }
-
   constructor(
     private router: Router,
     private activatedRoute: ActivatedRoute
-  ) {
+  ) {}
+
+  ngOnInit(): void {
+    initFlowbite();
     this.router.events.pipe(
       filter(event => event instanceof NavigationEnd)
     ).subscribe(() => {
