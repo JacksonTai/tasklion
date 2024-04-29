@@ -8,6 +8,9 @@ import lombok.Getter;
 public enum ApiMessage {
 
     INVALID_EMAIL_PASSWORD("Sorry, that email or password didn't work.", "invalid_email_password"),
+    LOGIN_SUCCESS("Login success", "login_success"),
+    REGISTER_SUCCESS("Register success", "register_success"),
+    RECORD_FOUND("Record found", "record_found"),
     ;
 
     private final String message;

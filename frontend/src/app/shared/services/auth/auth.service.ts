@@ -4,12 +4,13 @@ import {ApiUrlConstant} from "../../constants/api-url.constant";
 import {ApiService} from "../api/api.service";
 import {HttpHeaders} from "@angular/common/http";
 import {Observable} from "rxjs";
-import {AuthResponseModel} from "../../model/auth/auth-response.model";
 import {CookieService} from "ngx-cookie";
 import {Router} from "@angular/router";
 import {RouteConstant} from "../../constants/route.constant";
 import {jwtDecode} from "jwt-decode";
 import {JwtPayloadModel} from "../../model/auth/jwt-payload.model";
+import {ApiResponseModel} from "../../model/api/api-response.model";
+import {RegisterRequestModel} from "../../model/auth/register-request.model";
 
 @Injectable({
   providedIn: 'root'
@@ -19,12 +20,12 @@ export class AuthService extends ApiService {
   private cookieService: CookieService = inject(CookieService);
   private router: Router = inject(Router);
 
-  register(registerRequestModel: LoginRequestModel) {
-    return this.post<any>(ApiUrlConstant.REGISTER, registerRequestModel);
+  register(registerRequestModel: RegisterRequestModel): Observable<ApiResponseModel<any>> {
+    return this.post<RegisterRequestModel>(ApiUrlConstant.REGISTER, registerRequestModel);
   }
 
-  login(loginRequestModel: LoginRequestModel): Observable<AuthResponseModel> {
-    return this.post<any>(ApiUrlConstant.LOGIN, loginRequestModel, {
+  login(loginRequestModel: LoginRequestModel): Observable<ApiResponseModel<any>> {
+    return this.post<LoginRequestModel>(ApiUrlConstant.LOGIN, loginRequestModel, {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
       }),
@@ -49,8 +50,6 @@ export class AuthService extends ApiService {
 
   getDecodedAccessToken(): JwtPayloadModel | null {
     const accessToken = this.getAccessToken();
-    if (accessToken)
-      console.log(jwtDecode(accessToken))
     return accessToken ? jwtDecode(accessToken) : null;
   }
 

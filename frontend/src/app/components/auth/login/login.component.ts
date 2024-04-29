@@ -1,11 +1,11 @@
 import {Component, OnInit} from '@angular/core';
-import {Router} from "@angular/router";
 import {AuthService} from "../../../shared/services/auth/auth.service";
-import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {finalize} from "rxjs";
 import {CookieService} from "ngx-cookie";
 import {AuthResponseModel} from "../../../shared/model/auth/auth-response.model";
 import {RouteConstant} from "../../../shared/constants/route.constant";
+import {ApiResponseModel} from "../../../shared/model/api/api-response.model";
 
 @Component({
   selector: 'tasklion-login',
@@ -14,11 +14,11 @@ import {RouteConstant} from "../../../shared/constants/route.constant";
 })
 export class LoginComponent implements OnInit {
 
-  loginForm!: FormGroup;
-  isLoading: boolean = false;
-  isLoginFailed: boolean = false;
-
-  validationMessages = {
+  protected loginForm!: FormGroup;
+  protected isLoading: boolean = false;
+  protected isLoginFailed: boolean = false;
+  protected loginFailedMessage: string | undefined;
+  protected validationMessages = {
     email: {
       required: 'Email is required',
       invalid: 'Please provide a valid email',
@@ -29,7 +29,6 @@ export class LoginComponent implements OnInit {
   };
 
   constructor(
-    private router: Router,
     private formBuilder: FormBuilder,
     private authService: AuthService,
     private cookieService: CookieService
@@ -51,13 +50,14 @@ export class LoginComponent implements OnInit {
           finalize(() => this.isLoading = false)
         )
         .subscribe({
-          next: (response: AuthResponseModel) => {
+          next: (response: ApiResponseModel<AuthResponseModel>) => {
+            console.log(response)
             this.isLoginFailed = false;
-            this.cookieService.put('Authorization', response.accessToken);
+            this.cookieService.put('Authorization', response?.data?.accessToken);
             window.location.href = RouteConstant.DASHBOARD;
           },
-          error: (error) => {
-            console.log('Login error:', error);
+          error: (response: any) => {
+            this.loginFailedMessage = response.error.message || 'An error occurred';
             this.isLoginFailed = true;
           }
         });

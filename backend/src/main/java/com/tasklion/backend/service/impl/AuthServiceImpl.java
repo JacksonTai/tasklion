@@ -4,6 +4,7 @@ package com.tasklion.backend.service.impl;
 import com.tasklion.backend.constant.TasklionUserRole;
 import com.tasklion.backend.domain.entity.TasklionUser;
 import com.tasklion.backend.domain.repository.TasklionUserRepo;
+import com.tasklion.backend.model.ApiResponseModel;
 import com.tasklion.backend.model.AuthResponseModel;
 import com.tasklion.backend.model.LoginRequestModel;
 import com.tasklion.backend.model.RegisterRequestModel;
