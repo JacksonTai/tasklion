@@ -1,24 +1,29 @@
 package com.tasklion.backend.service.impl;
 
+import com.tasklion.backend.config.ApiConfig;
+import com.tasklion.backend.config.AppConfig;
 import com.tasklion.backend.service.JwtService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import javax.crypto.SecretKey;
-import java.util.*;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class JwtServiceImpl implements JwtService {
 
-    // TODO: Change to read from property file
-    private static final String SECRET_KEY = "a3981564f566fe8614ced1691df97451ebbd12d88179672e04d991a3b005d5fc";
+    private final AppConfig appConfig;
 
     @Override
     public String extractUsername(String token) {
@@ -59,7 +64,7 @@ public class JwtServiceImpl implements JwtService {
                 .claims(claims)
                 .subject("JWT Token")
                 .issuedAt(new Date(System.currentTimeMillis()))
-                .expiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60)) // 1 hour
+                .expiration(new Date(System.currentTimeMillis() + appConfig.getJwtExpirationInMs()))
                 .signWith(getSignInKey())
                 .compact();
     }
@@ -80,7 +85,7 @@ public class JwtServiceImpl implements JwtService {
     }
 
     private SecretKey getSignInKey() {
-        byte[] keyBytes = Decoders.BASE64.decode(SECRET_KEY);
+        byte[] keyBytes = Decoders.BASE64.decode(appConfig.getJwtSecretKey());
         return Keys.hmacShaKeyFor(keyBytes);
     }
 }

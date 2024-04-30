@@ -30,11 +30,13 @@ import java.util.List;
 @RequiredArgsConstructor
 public class SecurityConfig {
 
-    private final JwtAuthFilter jwtAuthFilter;
     private final BearerTokenAuthenticationEntryPoint bearerTokenAuthenticationEntryPoint;
+    private final JwtAuthFilter jwtAuthFilter;
+    private final ApiConfig apiConfig;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
+        String apiBaseUrl = apiConfig.getBasePath();
         CsrfTokenRequestAttributeHandler requestHandler = new CsrfTokenRequestAttributeHandler();
         requestHandler.setCsrfRequestAttributeName("_csrf");
         return httpSecurity
@@ -50,14 +52,14 @@ public class SecurityConfig {
                     return config;
                 }))
                 .csrf(csrf -> csrf.csrfTokenRequestHandler(requestHandler)
-                        .ignoringRequestMatchers("/api/v1/auth/**")
+                        .ignoringRequestMatchers(apiBaseUrl + "/auth/**")
                         .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
                 )
                 .addFilterAfter(new CsrfCookieFilter(), BasicAuthenticationFilter.class)
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
                 .authorizeHttpRequests(request -> request
-                        .requestMatchers("/api/v1/auth/**").permitAll()
-                        .requestMatchers("/api/v1/task/**").hasAnyRole(
+                        .requestMatchers(apiBaseUrl + "/auth/**").permitAll()
+                        .requestMatchers(apiBaseUrl + "/task/**").hasAnyRole(
                                 TasklionUserRole.CUSTOMER.name(),
                                 TasklionUserRole.TASKER.name())
                 )

@@ -15,7 +15,6 @@ public class GlobalExceptionHandlerAdvice {
     @ExceptionHandler({UsernameNotFoundException.class, BadCredentialsException.class})
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
     public ApiResponseModel<Void> handleAuthenticationException(Exception ex) {
-        System.out.println("Exception: " + ex.getMessage());
         return ApiResponseModel.<Void>builder()
                 .httpStatus(HttpStatus.UNAUTHORIZED.value())
                 .status(HttpStatus.UNAUTHORIZED.getReasonPhrase())

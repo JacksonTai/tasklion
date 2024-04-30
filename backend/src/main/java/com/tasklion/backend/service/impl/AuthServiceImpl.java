@@ -31,7 +31,7 @@ public class AuthServiceImpl implements AuthService {
                 .username(registerRequestModel.getUsername())
                 .email(registerRequestModel.getEmail())
                 .password(passwordEncoder.encode(registerRequestModel.getPassword()))
-                .role(TasklionUserRole.CUSTOMER.getDisplayName())
+                .role(TasklionUserRole.CUSTOMER.getDisplayName().toUpperCase())
                 .build();
         TasklionUser savedTasklionUser = tasklionUserRepo.save(tasklionUser);
         return new AuthResponseModel(jwtService.generateToken(savedTasklionUser));
