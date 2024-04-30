@@ -51,7 +51,6 @@ export class LoginComponent implements OnInit {
         )
         .subscribe({
           next: (response: ApiResponseModel<AuthResponseModel>) => {
-            console.log(response)
             this.isLoginFailed = false;
             this.cookieService.put('Authorization', response?.data?.accessToken);
             window.location.href = RouteConstant.DASHBOARD;

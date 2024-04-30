@@ -12,7 +12,7 @@ import {filter} from "rxjs";
 })
 export class AppComponent implements OnInit {
 
-  protected title: string = AppConstant.TASKLION;
+  title: string = AppConstant.TASKLION;
   protected hideNavAndFooter: boolean = false;
 
   private readonly headerFooterExcludedRoutes: string[] = [

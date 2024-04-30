@@ -57,7 +57,9 @@ public class SecurityConfig {
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
                 .authorizeHttpRequests(request -> request
                         .requestMatchers("/api/v1/auth/**").permitAll()
-                        .requestMatchers("/api/v1/task/**").hasAuthority(TasklionUserRole.TASKER.getDisplayName())
+                        .requestMatchers("/api/v1/task/**").hasAnyRole(
+                                TasklionUserRole.CUSTOMER.name(),
+                                TasklionUserRole.TASKER.name())
                 )
                 .exceptionHandling((exceptions) -> exceptions
                         .authenticationEntryPoint(bearerTokenAuthenticationEntryPoint)
