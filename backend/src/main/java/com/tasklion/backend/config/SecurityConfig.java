@@ -32,11 +32,12 @@ public class SecurityConfig {
 
     private final BearerTokenAuthenticationEntryPoint bearerTokenAuthenticationEntryPoint;
     private final JwtAuthFilter jwtAuthFilter;
-    private final ApiConfig apiConfig;
+    private final ApiPropertyConfig apiPropertyConfig;
+    private final SecurityPropertyConfig securityPropertyConfig;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
-        String apiBaseUrl = apiConfig.getBasePath();
+        String apiBaseUrl = apiPropertyConfig.getBasePath();
         CsrfTokenRequestAttributeHandler requestHandler = new CsrfTokenRequestAttributeHandler();
         requestHandler.setCsrfRequestAttributeName("_csrf");
         return httpSecurity
@@ -47,7 +48,7 @@ public class SecurityConfig {
                     config.setAllowedMethods(Collections.singletonList("*"));
                     config.setAllowCredentials(true);
                     config.setAllowedHeaders(Collections.singletonList("*"));
-                    config.setExposedHeaders(List.of("Authorization"));
+                    config.setExposedHeaders(List.of(securityPropertyConfig.getJwt().getHeader(), "_csrf"));
                     config.setMaxAge(3600L);
                     return config;
                 }))

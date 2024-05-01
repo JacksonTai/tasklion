@@ -5,7 +5,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 
 @Data
 @ConfigurationProperties(prefix = "api")
-public class ApiConfig {
+public class ApiPropertyConfig {
 
     private String version;
     private String baseUrl;
