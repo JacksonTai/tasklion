@@ -1,5 +1,6 @@
 package com.tasklion.backend.config;
 
+import com.tasklion.backend.aop.FilterChainExceptionHandler;
 import com.tasklion.backend.constant.TasklionUserRole;
 import com.tasklion.backend.filter.CsrfCookieFilter;
 import com.tasklion.backend.filter.JwtAuthFilter;
@@ -18,6 +19,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.authentication.logout.LogoutFilter;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.security.web.csrf.CsrfTokenRequestAttributeHandler;
@@ -34,7 +36,7 @@ public class SecurityConfig {
     private final BearerTokenAuthenticationEntryPoint bearerTokenAuthenticationEntryPoint;
     private final JwtAuthFilter jwtAuthFilter;
     private final ApiPropertyConfig apiPropertyConfig;
-    private final SecurityPropertyConfig securityPropertyConfig;
+    private final FilterChainExceptionHandler filterChainExceptionHandler;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
@@ -59,6 +61,7 @@ public class SecurityConfig {
                 )
                 .addFilterAfter(new CsrfCookieFilter(), BasicAuthenticationFilter.class)
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(filterChainExceptionHandler, LogoutFilter.class)
                 .authorizeHttpRequests(request -> request
                         .requestMatchers(apiBaseUrl + "/auth/**").permitAll()
                         .requestMatchers(apiBaseUrl + "/task/**").hasAnyRole(
