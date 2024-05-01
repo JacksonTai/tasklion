@@ -1,7 +1,6 @@
 package com.tasklion.backend.service.impl;
 
-import com.tasklion.backend.config.ApiConfig;
-import com.tasklion.backend.config.AppConfig;
+import com.tasklion.backend.config.SecurityPropertyConfig;
 import com.tasklion.backend.service.JwtService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -23,7 +22,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class JwtServiceImpl implements JwtService {
 
-    private final AppConfig appConfig;
+    private final SecurityPropertyConfig securityPropertyConfig;
 
     @Override
     public String extractUsername(String token) {
@@ -64,7 +63,7 @@ public class JwtServiceImpl implements JwtService {
                 .claims(claims)
                 .subject("JWT Token")
                 .issuedAt(new Date(System.currentTimeMillis()))
-                .expiration(new Date(System.currentTimeMillis() + appConfig.getJwtExpirationInMs()))
+                .expiration(new Date(System.currentTimeMillis() + securityPropertyConfig.getJwt().getExpirationInMs()))
                 .signWith(getSignInKey())
                 .compact();
     }
@@ -85,7 +84,7 @@ public class JwtServiceImpl implements JwtService {
     }
 
     private SecretKey getSignInKey() {
-        byte[] keyBytes = Decoders.BASE64.decode(appConfig.getJwtSecretKey());
+        byte[] keyBytes = Decoders.BASE64.decode(securityPropertyConfig.getJwt().getSecret());
         return Keys.hmacShaKeyFor(keyBytes);
     }
 }

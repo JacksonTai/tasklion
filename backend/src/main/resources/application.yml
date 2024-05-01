@@ -14,11 +14,16 @@ spring:
         dialect: org.hibernate.dialect.PostgreSQLDialect
     database: postgresql
     database-platform: org.hibernate.dialect.PostgreSQLDialect
+
 server:
   port: 8080
-app:
-  jwt-secret-key: <YOUR_JWT_SECRET_KEY>
-  jwt-expiration-in-ms: 1200000
+
 api:
   version: v1
   base-url: /api
+
+security:
+  jwt:
+    secret: <YOUR_JWT_SECRET_KEY>
+    expiration-in-ms: 1200000
+    header: Authorization
