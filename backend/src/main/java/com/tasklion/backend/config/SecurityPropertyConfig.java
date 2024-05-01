@@ -11,8 +11,16 @@ public class SecurityPropertyConfig {
 
     @Data
     public static class Jwt {
+        private String issuer;
+        private String subject;
         private String secret;
-        private String header;
+        private long expirationInMs;
+        private RefreshToken refreshToken;
+    }
+
+    @Data
+    public static class RefreshToken {
+        private String subject;
         private long expirationInMs;
     }
 }

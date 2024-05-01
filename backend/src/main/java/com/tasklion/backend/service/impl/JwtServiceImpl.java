@@ -24,6 +24,10 @@ public class JwtServiceImpl implements JwtService {
 
     private final SecurityPropertyConfig securityPropertyConfig;
 
+    private SecurityPropertyConfig.Jwt jwt() {
+        return securityPropertyConfig.getJwt();
+    }
+
     @Override
     public String extractUsername(String token) {
         return extractClaim(token, claims -> claims.get("username", String.class));
@@ -57,13 +61,25 @@ public class JwtServiceImpl implements JwtService {
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.toList())
         );
+        return buildToken(claims, jwt().getSubject(), jwt().getExpirationInMs());
+    }
+
+    @Override
+    public String generateRefreshToken(UserDetails userDetails) {
+        SecurityPropertyConfig.RefreshToken refreshToken = jwt().getRefreshToken();
+        HashMap<String, Object> claims = new HashMap<>();
+        claims.put("username", userDetails.getUsername());
+        return buildToken(claims, refreshToken.getSubject(), refreshToken.getExpirationInMs());
+    }
+
+    private String buildToken(Map<String, Object> claims, String subject, long expiration) {
         return Jwts
                 .builder()
-                .issuer("Tasklion")
+                .issuer(jwt().getIssuer())
                 .claims(claims)
-                .subject("JWT Token")
+                .subject(subject)
                 .issuedAt(new Date(System.currentTimeMillis()))
-                .expiration(new Date(System.currentTimeMillis() + securityPropertyConfig.getJwt().getExpirationInMs()))
+                .expiration(new Date(System.currentTimeMillis() + expiration))
                 .signWith(getSignInKey())
                 .compact();
     }
@@ -84,7 +100,7 @@ public class JwtServiceImpl implements JwtService {
     }
 
     private SecretKey getSignInKey() {
-        byte[] keyBytes = Decoders.BASE64.decode(securityPropertyConfig.getJwt().getSecret());
+        byte[] keyBytes = Decoders.BASE64.decode(jwt().getSecret());
         return Keys.hmacShaKeyFor(keyBytes);
     }
 }

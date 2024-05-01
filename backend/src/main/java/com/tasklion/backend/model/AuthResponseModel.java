@@ -8,7 +8,7 @@ import lombok.Data;
 public class AuthResponseModel {
 
     private String accessToken;
-    private final String tokenType = "Bearer";
+    private String refreshToken;
 
 }
 

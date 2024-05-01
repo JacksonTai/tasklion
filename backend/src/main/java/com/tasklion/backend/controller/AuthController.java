@@ -6,6 +6,8 @@ import com.tasklion.backend.model.AuthResponseModel;
 import com.tasklion.backend.model.LoginRequestModel;
 import com.tasklion.backend.model.RegisterRequestModel;
 import com.tasklion.backend.service.AuthService;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -45,4 +47,8 @@ public class AuthController {
         return ResponseEntity.status(response.getHttpStatus()).body(response);
     }
 
+    @PostMapping("/refresh-token")
+    public void refreshToken(HttpServletRequest request, HttpServletResponse response) {
+        authService.refreshToken(request, response);
+    }
 }

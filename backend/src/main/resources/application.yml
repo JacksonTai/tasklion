@@ -24,6 +24,10 @@ api:
 
 security:
   jwt:
+    issuer: tasklion
+    subject: jwt
     secret: <YOUR_JWT_SECRET_KEY>
-    expiration-in-ms: 1200000
-    header: Authorization
+    expiration-in-ms: 60000
+    refresh-token:
+      subject: refresh-token
+      expiration-in-ms: 604800000

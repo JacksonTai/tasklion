@@ -7,6 +7,7 @@ import com.tasklion.backend.security.BearerTokenAuthenticationEntryPoint;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
@@ -48,7 +49,7 @@ public class SecurityConfig {
                     config.setAllowedMethods(Collections.singletonList("*"));
                     config.setAllowCredentials(true);
                     config.setAllowedHeaders(Collections.singletonList("*"));
-                    config.setExposedHeaders(List.of(securityPropertyConfig.getJwt().getHeader(), "_csrf"));
+                    config.setExposedHeaders(List.of(HttpHeaders.AUTHORIZATION, "_csrf"));
                     config.setMaxAge(3600L);
                     return config;
                 }))
