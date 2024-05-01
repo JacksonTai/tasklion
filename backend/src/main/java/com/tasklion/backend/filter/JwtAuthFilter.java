@@ -1,5 +1,6 @@
 package com.tasklion.backend.filter;
 
+import com.tasklion.backend.config.SecurityPropertyConfig;
 import com.tasklion.backend.service.JwtService;
 import com.tasklion.backend.service.impl.TasklionUserDetailsService;
 import jakarta.servlet.FilterChain;
@@ -24,6 +25,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 
     private final JwtService jwtService;
     private final TasklionUserDetailsService tasklionUserDetailsService;
+    private final SecurityPropertyConfig securityPropertyConfig;
 
     @Override
     protected void doFilterInternal(@NonNull HttpServletRequest request, @NonNull HttpServletResponse response,
