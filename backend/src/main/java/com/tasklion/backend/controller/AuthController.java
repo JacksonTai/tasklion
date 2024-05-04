@@ -7,8 +7,10 @@ import com.tasklion.backend.model.LoginRequestModel;
 import com.tasklion.backend.model.RegisterRequestModel;
 import com.tasklion.backend.service.AuthService;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,10 +23,13 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("${api.base-url}/${api.version}/auth")
 public class AuthController {
 
+    private static final Logger logger = LoggerFactory.getLogger(AuthController.class);
+
     private final AuthService authService;
 
     @PostMapping("/register")
     public ResponseEntity<ApiResponseModel<AuthResponseModel>> register(@RequestBody RegisterRequestModel registerRequestModel) {
+        logger.info("[/register]: {}", registerRequestModel);
         ApiResponseModel<AuthResponseModel> response = ApiResponseModel.<AuthResponseModel>builder()
                 .httpStatus(HttpStatus.CREATED.value())
                 .status(HttpStatus.CREATED.getReasonPhrase())
@@ -37,6 +42,7 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<ApiResponseModel<AuthResponseModel>> login(@RequestBody LoginRequestModel loginRequestModel) {
+        logger.info("[/login]: {}", loginRequestModel.getEmail());
         ApiResponseModel<AuthResponseModel> response = ApiResponseModel.<AuthResponseModel>builder()
                 .httpStatus(HttpStatus.OK.value())
                 .status(HttpStatus.OK.getReasonPhrase())
@@ -48,7 +54,14 @@ public class AuthController {
     }
 
     @PostMapping("/refresh-token")
-    public void refreshToken(HttpServletRequest request, HttpServletResponse response) {
-        authService.refreshToken(request, response);
+    public  ResponseEntity<ApiResponseModel<AuthResponseModel>> refreshToken(HttpServletRequest request) {
+        logger.info("[/refresh-token]: {}", request.getHeader(HttpHeaders.AUTHORIZATION));
+        return ResponseEntity.ok(ApiResponseModel.<AuthResponseModel>builder()
+                .httpStatus(HttpStatus.OK.value())
+                .status(HttpStatus.OK.getReasonPhrase())
+                .message(ApiMessage.REFRESH_TOKEN_SUCCESS.getMessage())
+                .internalCode(ApiMessage.REFRESH_TOKEN_SUCCESS.getKey())
+                .data(authService.refreshToken(request))
+                .build());
     }
 }

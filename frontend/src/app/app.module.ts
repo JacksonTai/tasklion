@@ -20,17 +20,18 @@ import {ErrorFieldComponent} from './shared/components/error-field/error-field.c
 import {ValidationPipe} from './shared/pipe/validation/validation.pipe';
 import {AuthInterceptor} from "./interceptors/auth.interceptor";
 import {CookieModule} from "ngx-cookie";
-import { AboutComponent } from './components/about/about.component';
-import { ContactComponent } from './components/contact/contact.component';
-import { ServiceComponent } from './components/service/service.component';
-import { LegalComponent } from './components/legal/legal.component';
-import { PrivacyPolicyComponent } from './components/privacy-policy/privacy-policy.component';
-import { FaqComponent } from './components/faq/faq.component';
-import { UserComponent } from './components/user/user.component';
-import { StatisticComponent } from './components/statistic/statistic.component';
-import { ProfileComponent } from './components/profile/profile.component';
-import { DashIfEmptyPipe } from './shared/pipe/dash-if-empty/dash-if-empty.pipe';
-import { DashboardComponent } from './components/dashboard/dashboard.component';
+import {AboutComponent} from './components/about/about.component';
+import {ContactComponent} from './components/contact/contact.component';
+import {ServiceComponent} from './components/service/service.component';
+import {LegalComponent} from './components/legal/legal.component';
+import {PrivacyPolicyComponent} from './components/privacy-policy/privacy-policy.component';
+import {FaqComponent} from './components/faq/faq.component';
+import {UserComponent} from './components/user/user.component';
+import {StatisticComponent} from './components/statistic/statistic.component';
+import {ProfileComponent} from './components/profile/profile.component';
+import {DashIfEmptyPipe} from './shared/pipe/dash-if-empty/dash-if-empty.pipe';
+import {DashboardComponent} from './components/dashboard/dashboard.component';
+import {PageNotFoundComponent} from './shared/components/page-not-found/page-not-found.component';
 
 @NgModule({
   declarations: [
@@ -55,6 +56,7 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
     ProfileComponent,
     DashIfEmptyPipe,
     DashboardComponent,
+    PageNotFoundComponent,
   ],
   imports: [
     AppRoutesModule,

@@ -25,13 +25,16 @@ export class HomeNavbarComponent implements OnInit {
   ngOnInit(): void {
     this.isAuthenticated = this.authService.isAuthenticated();
     if (this.isAuthenticated) {
-      const decodedToken = this.authService.getDecodedAccessToken();
-      this.username = decodedToken?.username;
-      this.roles = decodedToken?.roles?.map(role => role.replace('ROLE_', ''));
-      if (this.roles) {
-        this.isAdmin = this.roles.includes(UserRoleConstant.ADMIN.toUpperCase());
-        this.isTasker = this.roles.includes(UserRoleConstant.TASKER.toUpperCase());
-        this.isCustomer = this.roles.includes(UserRoleConstant.CUSTOMER.toUpperCase());
+      const accessToken = this.authService.getAccessToken();
+      if (accessToken) {
+        const decodedToken = this.authService.getDecodedToken(accessToken);
+        this.username = decodedToken?.username;
+        this.roles = decodedToken?.roles?.map(role => role.replace('ROLE_', ''));
+        if (this.roles) {
+          this.isAdmin = this.roles.includes(UserRoleConstant.ADMIN);
+          this.isTasker = this.roles.includes(UserRoleConstant.TASKER);
+          this.isCustomer = this.roles.includes(UserRoleConstant.CUSTOMER);
+        }
       }
     }
   }

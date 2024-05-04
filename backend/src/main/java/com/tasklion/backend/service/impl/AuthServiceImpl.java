@@ -1,7 +1,7 @@
 package com.tasklion.backend.service.impl;
 
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.tasklion.backend.constant.ApiMessage;
 import com.tasklion.backend.constant.TasklionUserRole;
 import com.tasklion.backend.domain.entity.TasklionUser;
 import com.tasklion.backend.domain.repository.TasklionUserRepo;
@@ -10,8 +10,8 @@ import com.tasklion.backend.model.LoginRequestModel;
 import com.tasklion.backend.model.RegisterRequestModel;
 import com.tasklion.backend.service.AuthService;
 import com.tasklion.backend.service.JwtService;
+import io.jsonwebtoken.MalformedJwtException;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.http.HttpHeaders;
@@ -53,18 +53,19 @@ public class AuthServiceImpl implements AuthService {
 
     @SneakyThrows
     @Override
-    public void refreshToken(HttpServletRequest request, HttpServletResponse response) {
+    public AuthResponseModel refreshToken(HttpServletRequest request) {
         final String authHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
         final String refreshToken;
-        if (authHeader == null ||!authHeader.startsWith("Bearer ")) {
-            return;
+        final String TOKE_PREFIX = "Bearer ";
+        if (authHeader != null && authHeader.startsWith(TOKE_PREFIX)) {
+            refreshToken = authHeader.substring(TOKE_PREFIX.length());
+            String username = jwtService.extractUsername(refreshToken);
+            TasklionUser tasklionUser = tasklionUserRepo.findByUsername(username).orElseThrow();
+            if (jwtService.isTokenValid(refreshToken, tasklionUser)) {
+                String newAccessToken = jwtService.generateToken(tasklionUser);
+                return new AuthResponseModel(newAccessToken, refreshToken);
+            }
         }
-        refreshToken = authHeader.substring(7);
-        String username = jwtService.extractUsername(refreshToken);
-        TasklionUser tasklionUser = tasklionUserRepo.findByUsername(username).orElseThrow();
-        if (jwtService.isTokenValid(refreshToken, tasklionUser)) {
-            String accessToken = jwtService.generateToken(tasklionUser);
-            new ObjectMapper().writeValue(response.getOutputStream(), new AuthResponseModel(accessToken, refreshToken));
-        }
+        throw new MalformedJwtException(ApiMessage.INVALID_TOKEN.getMessage());
     }
 }

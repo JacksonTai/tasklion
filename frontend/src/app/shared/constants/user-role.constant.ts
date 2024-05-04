@@ -1,5 +1,5 @@
 export const UserRoleConstant = {
-  ADMIN: 'Admin',
-  TASKER: 'Tasker',
-  CUSTOMER: 'Customer',
+  ADMIN: 'ADMIN',
+  TASKER: 'TASKER',
+  CUSTOMER: 'CUSTOMER',
 }

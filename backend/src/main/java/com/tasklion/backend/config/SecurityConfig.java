@@ -64,7 +64,7 @@ public class SecurityConfig {
                 .addFilterBefore(filterChainExceptionHandler, LogoutFilter.class)
                 .authorizeHttpRequests(request -> request
                         .requestMatchers(apiBaseUrl + "/auth/**").permitAll()
-                        .requestMatchers(apiBaseUrl + "/task/**").hasAnyRole(
+                        .requestMatchers(apiBaseUrl + "/tasks/**").hasAnyRole(
                                 TasklionUserRole.CUSTOMER.name(),
                                 TasklionUserRole.TASKER.name())
                 )

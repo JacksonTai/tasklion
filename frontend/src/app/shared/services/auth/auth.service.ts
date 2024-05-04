@@ -3,7 +3,7 @@ import {LoginRequestModel} from "../../model/auth/login-request.model";
 import {ApiUrlConstant} from "../../constants/api-url.constant";
 import {ApiService} from "../api/api.service";
 import {HttpHeaders} from "@angular/common/http";
-import {Observable} from "rxjs";
+import {catchError, Observable, tap, throwError} from "rxjs";
 import {CookieService} from "ngx-cookie";
 import {Router} from "@angular/router";
 import {RouteConstant} from "../../constants/route.constant";
@@ -33,37 +33,57 @@ export class AuthService extends ApiService {
   }
 
   logout() {
-    // TODO: Make Authorization as a constant
-    this.cookieService.remove('Authorization');
+    this.cookieService.remove('access-token');
+    this.cookieService.remove('refresh-token');
     if (!this.getAccessToken()) {
       this.router.navigate([RouteConstant.LOGIN]);
     }
   }
 
+  requestNewAccessToken(): Observable<any> {
+    const refreshToken = this.getRefreshToken();
+    return this.post<any>(ApiUrlConstant.REFRESH_TOKEN, null, {
+      headers: new HttpHeaders({
+        'Authorization': `Bearer ${refreshToken}`
+      }),
+    }).pipe(
+      tap((response) => {
+        this.setAccessToken(response.data.accessToken);
+      }),
+      catchError(error => {
+        return throwError(() => error);
+      })
+    );
+  }
+
   isAuthenticated(): boolean {
-    return this.isTokenValid() && !this.isTokenExpired();
+    const refreshToken = this.getRefreshToken();
+    return this.getAccessToken() !== null || (refreshToken !== null && !this.isTokenExpired(refreshToken));
   }
 
-  getAccessToken(): string | null {
-    return this.cookieService.get('Authorization') || null;
+  getAccessToken() {
+    return this.cookieService.get('access-token') || null;
   }
 
-  getDecodedAccessToken(): JwtPayloadModel | null {
-    const accessToken = this.getAccessToken();
-    return accessToken ? jwtDecode(accessToken) : null;
+  setAccessToken(accessToken: string) {
+    this.cookieService.put('access-token', accessToken);
   }
 
-  getExpiryTime(): number | null {
-    const decodedAccessToken: JwtPayloadModel | null = this.getDecodedAccessToken();
+  getRefreshToken() {
+    return this.cookieService.get('refresh-token') || null;
+  }
+
+  getDecodedToken(token: string): JwtPayloadModel | null {
+    return token ? jwtDecode(token) : null;
+  }
+
+  getExpiryTime(token: string): number | null {
+    const decodedAccessToken: JwtPayloadModel | null = this.getDecodedToken(token);
     return decodedAccessToken && decodedAccessToken.exp !== undefined ? decodedAccessToken.exp : null;
   }
 
-  isTokenValid(): boolean {
-    return this.getAccessToken() !== null;
-  }
-
-  isTokenExpired(): boolean {
-    const expiryTime: number | null = this.getExpiryTime();
+  isTokenExpired(token: string): boolean {
+    const expiryTime: number | null = this.getExpiryTime(token);
     return expiryTime ? (expiryTime * 1000) < Date.now() : true;
   }
 

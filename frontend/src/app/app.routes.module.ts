@@ -20,6 +20,7 @@ import {UserComponent} from "./components/user/user.component";
 import {StatisticComponent} from "./components/statistic/statistic.component";
 import {LandingPageComponent} from "./components/landing-page/landing-page.component";
 import {DashboardComponent} from "./components/dashboard/dashboard.component";
+import {PageNotFoundComponent} from "./shared/components/page-not-found/page-not-found.component";
 
 const routes: Routes = [
   {
@@ -80,6 +81,8 @@ const routes: Routes = [
     path: RouteConstant.TASK,
     component: TaskComponent,
     canActivate: [AuthGuard],
+    data: {requiredRoles: [UserRoleConstant.CUSTOMER, UserRoleConstant.TASKER]}
+
   },
   {
     title: AppPageConstant.PROFILE,
@@ -92,15 +95,20 @@ const routes: Routes = [
     path: RouteConstant.USER,
     component: UserComponent,
     canActivate: [AuthGuard],
-    data: {roles: [UserRoleConstant.ADMIN]}
+    data: {requiredRoles: [UserRoleConstant.ADMIN]}
   },
   {
     title: AppPageConstant.STATISTIC,
     path: RouteConstant.STATISTIC,
     component: StatisticComponent,
     canActivate: [AuthGuard],
-    data: {roles: [UserRoleConstant.ADMIN]}
+    data: {requiredRoles: [UserRoleConstant.ADMIN]}
   },
+  {
+    path: '**',
+    pathMatch: 'full',
+    component: PageNotFoundComponent
+  }
 ];
 
 @NgModule({

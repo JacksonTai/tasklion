@@ -25,7 +25,7 @@ export class ApiService {
 
   post<T>(
     path: string,
-    body: any,
+    body?: any,
     options?: {
       body?: any;
       headers?: HttpHeaders | { [header: string]: string | Array<string> };

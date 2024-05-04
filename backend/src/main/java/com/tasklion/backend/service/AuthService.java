@@ -4,7 +4,6 @@ import com.tasklion.backend.model.AuthResponseModel;
 import com.tasklion.backend.model.LoginRequestModel;
 import com.tasklion.backend.model.RegisterRequestModel;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 
 public interface AuthService {
 
@@ -12,6 +11,6 @@ public interface AuthService {
 
     AuthResponseModel login(LoginRequestModel loginRequestModel);
 
-    void refreshToken(HttpServletRequest request, HttpServletResponse response);
+    AuthResponseModel refreshToken(HttpServletRequest request);
 
 }

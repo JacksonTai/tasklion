@@ -1,9 +1,16 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
+import {ApiService} from "../../shared/services/api/api.service";
+import {ApiUrlConstant} from "../../shared/constants/api-url.constant";
+import {ApiResponseModel} from "../../shared/model/api/api-response.model";
+import {Observable} from "rxjs";
 
 @Injectable({
   providedIn: 'root'
 })
-export class TaskService {
+export class TaskService extends ApiService {
 
-  constructor() { }
+  getTasks(): Observable<ApiResponseModel<any>> {
+    return this.get<ApiResponseModel<any>>(ApiUrlConstant.GET_TASKS);
+  }
+
 }

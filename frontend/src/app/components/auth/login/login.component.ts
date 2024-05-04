@@ -52,7 +52,8 @@ export class LoginComponent implements OnInit {
         .subscribe({
           next: (response: ApiResponseModel<AuthResponseModel>) => {
             this.isLoginFailed = false;
-            this.cookieService.put('Authorization', response?.data?.accessToken);
+            this.cookieService.put('access-token', response?.data?.accessToken);
+            this.cookieService.put('refresh-token', response?.data?.refreshToken);
             window.location.href = RouteConstant.DASHBOARD;
           },
           error: (response: any) => {

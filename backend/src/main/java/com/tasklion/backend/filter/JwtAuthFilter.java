@@ -1,6 +1,5 @@
 package com.tasklion.backend.filter;
 
-import com.tasklion.backend.config.SecurityPropertyConfig;
 import com.tasklion.backend.service.JwtService;
 import com.tasklion.backend.service.impl.TasklionUserDetailsService;
 import jakarta.servlet.FilterChain;
@@ -25,18 +24,20 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 
     private final JwtService jwtService;
     private final TasklionUserDetailsService tasklionUserDetailsService;
-    private final SecurityPropertyConfig securityPropertyConfig;
 
     @Override
     protected void doFilterInternal(@NonNull HttpServletRequest request, @NonNull HttpServletResponse response,
                                     @NonNull FilterChain filterChain) throws ServletException, IOException {
+
         final String authHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
-        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+        final String TOKE_PREFIX = "Bearer ";
+
+        if (authHeader == null || !authHeader.startsWith(TOKE_PREFIX)) {
             filterChain.doFilter(request, response);
             return;
         }
 
-        final String jwt = authHeader.substring(7);
+        final String jwt = authHeader.substring(TOKE_PREFIX.length());
         final String username = jwtService.extractUsername(jwt);
 
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {

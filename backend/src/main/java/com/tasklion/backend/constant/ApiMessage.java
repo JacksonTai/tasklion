@@ -7,10 +7,13 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum ApiMessage {
 
+    INSUFFICIENT_AUTHENTICATION("Insufficient authentication", "insufficient_authentication"),
+    TOKEN_EXPIRED("Token expired", "token_expired"),
+    INVALID_TOKEN("Invalid token", "invalid_token"),
     INVALID_EMAIL_PASSWORD("Sorry, that email or password didn't work.", "invalid_email_password"),
-    LOGIN_SUCCESS("Login success", "login_success"),
+    REFRESH_TOKEN_SUCCESS("Refresh token success", "refresh_token_success"),
     REGISTER_SUCCESS("Register success", "register_success"),
-    ACCESS_TOKEN_EXPIRED("Access token expired", "access_token_expired"),
+    LOGIN_SUCCESS("Login success", "login_success"),
     RECORD_FOUND("Record found", "record_found"),
     ;
 
