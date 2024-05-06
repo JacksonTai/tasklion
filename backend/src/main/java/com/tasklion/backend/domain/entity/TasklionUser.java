@@ -1,46 +1,56 @@
 package com.tasklion.backend.domain.entity;
 
+import com.tasklion.backend.validator.tasklionUser.ValidEmail;
 import jakarta.persistence.*;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 import org.hibernate.proxy.HibernateProxy;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
-import java.util.List;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 @Getter
 @Setter
 @ToString
-@Builder
 @RequiredArgsConstructor
 @AllArgsConstructor
+@SuperBuilder
 @Entity
+@Inheritance(strategy = InheritanceType.JOINED)
 @Table(name = "TASKLION_USER")
-public class TasklionUser implements UserDetails {
+public abstract class TasklionUser implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    @Column(name = "ID")
+    @Column(name = "ID", nullable = false)
     private String id;
 
     @Column(name = "USERNAME")
     private String username;
 
+    @ValidEmail
     @Column(name = "EMAIL")
     private String email;
 
     @Column(name = "PASSWORD")
     private String password;
 
-    @Column(name = "ROLE")
-    private String role;
+    @Builder.Default
+    @OneToMany(mappedBy = "tasklionUser", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private Set<UserRole> userRoles = new HashSet<>();
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority("ROLE_" + role));
+        Set<GrantedAuthority> authorities = new HashSet<>();
+        for (UserRole userRole : userRoles) {
+            authorities.add(new SimpleGrantedAuthority("ROLE_" + userRole.getRole().getName()));
+        }
+        return authorities;
     }
 
     @Override

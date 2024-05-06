@@ -12,5 +12,5 @@ public enum TasklionUserRole {
     CUSTOMER("Customer"),
     ;
 
-    private final String displayName;
+    public final String displayName;
 }

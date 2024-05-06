@@ -1,10 +1,8 @@
 package com.tasklion.backend.domain.entity;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
+import lombok.experimental.SuperBuilder;
 import org.hibernate.proxy.HibernateProxy;
 
 import java.util.Objects;
@@ -13,18 +11,18 @@ import java.util.Objects;
 @Setter
 @ToString
 @RequiredArgsConstructor
+@AllArgsConstructor
+@SuperBuilder
 @Entity
+@Table(name = "TASKER")
 public class Tasker extends TasklionUser {
 
-    @Column(name = "FIRST_NAME")
-    private String firstName;
-
-    @Column(name = "LAST_NAME")
-    private String lastName;
-
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "ADDRESS_ID", referencedColumnName = "ID")
-    private Address address;
+    @JoinColumn(name = "PERSONAL_DETAILS_ID", referencedColumnName = "ID")
+    private PersonalDetail personalDetail;
+
+    @Column(name = "ABOUT_ME")
+    private String aboutMe;
 
     @Override
     public final boolean equals(Object o) {

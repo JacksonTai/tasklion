@@ -1,25 +1,29 @@
 package com.tasklion.backend.domain.entity;
 
 import jakarta.persistence.*;
-import lombok.*;
-import lombok.experimental.SuperBuilder;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 import org.hibernate.proxy.HibernateProxy;
 
 import java.util.Objects;
 
+@Entity
 @Getter
 @Setter
 @ToString
 @RequiredArgsConstructor
-@AllArgsConstructor
-@SuperBuilder
-@Entity
-@Table(name = "CUSTOMER")
-public class Customer extends TasklionUser {
+@Table(name = "ROLE")
+public class Role {
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "PERSONAL_DETAILS_ID", referencedColumnName = "ID")
-    private PersonalDetail personalDetail;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "ID", nullable = false)
+    private Long id;
+
+    @Column(name = "NAME", unique = true, nullable = false)
+    private String name;
 
     @Override
     public final boolean equals(Object o) {
@@ -28,8 +32,8 @@ public class Customer extends TasklionUser {
         Class<?> oEffectiveClass = o instanceof HibernateProxy ? ((HibernateProxy) o).getHibernateLazyInitializer().getPersistentClass() : o.getClass();
         Class<?> thisEffectiveClass = this instanceof HibernateProxy ? ((HibernateProxy) this).getHibernateLazyInitializer().getPersistentClass() : this.getClass();
         if (thisEffectiveClass != oEffectiveClass) return false;
-        Customer customer = (Customer) o;
-        return getId() != null && Objects.equals(getId(), customer.getId());
+        Role role = (Role) o;
+        return getId() != null && Objects.equals(getId(), role.getId());
     }
 
     @Override

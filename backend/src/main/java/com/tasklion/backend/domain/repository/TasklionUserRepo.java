@@ -8,6 +8,10 @@ import java.util.Optional;
 public interface TasklionUserRepo extends JpaRepository<TasklionUser, String> {
 
     Optional<TasklionUser> findByUsername(String username);
+
     Optional<TasklionUser> findByEmail(String email);
 
+    boolean existsByUsername(String username);
+
+    boolean existsByEmail(String email);
 }
