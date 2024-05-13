@@ -1,5 +1,6 @@
 package com.tasklion.backend.model;
 
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -14,6 +15,7 @@ import lombok.experimental.SuperBuilder;
 public class TaskerModel extends TasklionUserModel {
 
     private PersonalDetailModel personalDetail;
+    @NotBlank
     private String aboutMe;
     private String[] skills;
 }

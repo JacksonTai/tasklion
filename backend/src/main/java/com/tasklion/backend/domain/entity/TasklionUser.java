@@ -1,6 +1,6 @@
 package com.tasklion.backend.domain.entity;
 
-import com.tasklion.backend.validator.tasklionUser.ValidEmail;
+import com.tasklion.backend.validator.ValidEmail;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;

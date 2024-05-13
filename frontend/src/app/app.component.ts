@@ -27,6 +27,7 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
     initFlowbite();
+
     this.router.events.pipe(
       filter(event => event instanceof NavigationEnd)
     ).subscribe(() => {

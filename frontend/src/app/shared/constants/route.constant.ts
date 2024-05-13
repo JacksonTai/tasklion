@@ -2,6 +2,8 @@ export const RouteConstant = {
   ROOT: "",
   LOGIN: "login",
   REGISTER: "register",
+  CUSTOMER: "customer",
+  TASKER: "tasker",
   DASHBOARD: "dashboard",
   ABOUT: "about",
   CONTACT: "contact",

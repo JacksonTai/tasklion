@@ -63,7 +63,11 @@ public class SecurityConfig {
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
                 .addFilterBefore(filterChainExceptionHandler, LogoutFilter.class)
                 .authorizeHttpRequests(request -> request
-                        .requestMatchers(apiBaseUrl + "/auth/**").permitAll()
+                        .requestMatchers(
+                                apiBaseUrl + "/auth/**",
+                                apiBaseUrl + "/state/**",
+                                apiBaseUrl + "/city/**"
+                        ).permitAll()
                         .requestMatchers(apiBaseUrl + "/tasks/**").hasAnyRole(
                                 TasklionUserRole.CUSTOMER.name(),
                                 TasklionUserRole.TASKER.name())

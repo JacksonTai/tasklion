@@ -12,6 +12,7 @@ public enum ApiMessage {
     INVALID_TOKEN("Invalid token", "invalid_token"),
     INVALID_EMAIL_PASSWORD("Sorry, that email or password didn't work.", "invalid_email_password"),
     INTERNAL_SERVER_ERROR("Internal server error", "internal_server_error"),
+    VALIDATION_ERROR("Validation error", "validation_error"),
     REFRESH_TOKEN_SUCCESS("Refresh token success", "refresh_token_success"),
     REGISTER_SUCCESS("Register success", "register_success"),
     LOGIN_SUCCESS("Login success", "login_success"),

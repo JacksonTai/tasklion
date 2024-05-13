@@ -20,8 +20,12 @@ export class AuthService extends ApiService {
   private cookieService: CookieService = inject(CookieService);
   private router: Router = inject(Router);
 
-  register(registerRequestModel: RegisterRequestModel): Observable<ApiResponseModel<any>> {
-    return this.post<RegisterRequestModel>(ApiUrlConstant.REGISTER, registerRequestModel);
+  registerTasker(registerRequestModel: RegisterRequestModel): Observable<ApiResponseModel<any>> {
+    return this.post<RegisterRequestModel>(ApiUrlConstant.TASKER_REGISTER, registerRequestModel);
+  }
+
+  registerCustomer(registerRequestModel: RegisterRequestModel): Observable<ApiResponseModel<any>> {
+    return this.post<RegisterRequestModel>(ApiUrlConstant.CUSTOMER_REGISTER, registerRequestModel);
   }
 
   login(loginRequestModel: LoginRequestModel): Observable<ApiResponseModel<any>> {
