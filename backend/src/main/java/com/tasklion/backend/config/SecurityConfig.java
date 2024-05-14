@@ -56,7 +56,10 @@ public class SecurityConfig {
                     return config;
                 }))
                 .csrf(csrf -> csrf.csrfTokenRequestHandler(requestHandler)
-                        .ignoringRequestMatchers(apiBaseUrl + "/auth/**")
+                        .ignoringRequestMatchers(
+                                request -> request.getServletPath().startsWith(apiBaseUrl + "/auth"),
+                                request -> request.getServletPath().startsWith(apiBaseUrl + "/tasklion-user/is-exists")
+                        )
                         .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
                 )
                 .addFilterAfter(new CsrfCookieFilter(), BasicAuthenticationFilter.class)
@@ -66,7 +69,8 @@ public class SecurityConfig {
                         .requestMatchers(
                                 apiBaseUrl + "/auth/**",
                                 apiBaseUrl + "/state/**",
-                                apiBaseUrl + "/city/**"
+                                apiBaseUrl + "/city/**",
+                                apiBaseUrl + "/tasklion-user/is-exists"
                         ).permitAll()
                         .requestMatchers(apiBaseUrl + "/tasks/**").hasAnyRole(
                                 TasklionUserRole.CUSTOMER.name(),

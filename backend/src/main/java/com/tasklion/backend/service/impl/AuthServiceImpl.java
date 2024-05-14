@@ -62,7 +62,7 @@ public class AuthServiceImpl implements AuthService {
                 .tasklionUser(tasklionUser)
                 .build());
 
-//        TasklionUser savedTasklionUser = tasklionUserRepo.save(tasklionUser);
+        TasklionUser savedTasklionUser = tasklionUserRepo.save(tasklionUser);
         return new AuthResponseModel(jwtService.generateToken(tasklionUser),
                 jwtService.generateRefreshToken(tasklionUser));
     }

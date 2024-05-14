@@ -1,6 +1,5 @@
 package com.tasklion.backend.domain.entity;
 
-import com.tasklion.backend.validator.ValidEmail;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
@@ -33,7 +32,7 @@ public abstract class TasklionUser implements UserDetails {
     @Column(name = "USERNAME")
     private String username;
 
-    @ValidEmail
+//    @ValidEmail
     @Column(name = "EMAIL")
     private String email;
 

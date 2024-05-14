@@ -3,10 +3,11 @@ import {AuthService} from "../../../../shared/services/auth/auth.service";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {finalize} from "rxjs";
 import {CookieService} from "ngx-cookie";
-import {AuthResponseModel} from "../../../../shared/model/auth/auth-response.model";
+import {AuthResponseModel} from "../../../../shared/models/auth/auth-response.model";
 import {RouteConstant} from "../../../../shared/constants/route.constant";
-import {ApiResponseModel} from "../../../../shared/model/api/api-response.model";
-import {ErrorMessage} from "../../../../shared/model/ErrorMessage";
+import {ApiResponseModel} from "../../../../shared/models/api/api-response.model";
+import {ValidationMessagesModel} from "../../../../shared/models/validation-messages.model";
+import {LOGIN_FORM_VALIDATION_MESSAGE} from "../../../../shared/constants/form/login-form.constant";
 
 @Component({
   selector: 'tasklion-login-page',
@@ -19,15 +20,7 @@ export class LoginFormComponent implements OnInit {
   protected isLoading: boolean = false;
   protected isLoginFailed: boolean = false;
   protected loginFailedMessage: string | undefined;
-  protected validationMessages: ErrorMessage = {
-    email: {
-      required: 'Email is required',
-      invalid: 'Please provide a valid email',
-    },
-    password: {
-      required: 'Password is required',
-    }
-  };
+  protected readonly validationMessages: ValidationMessagesModel = LOGIN_FORM_VALIDATION_MESSAGE;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -53,8 +46,6 @@ export class LoginFormComponent implements OnInit {
         .subscribe({
           next: (response: ApiResponseModel<AuthResponseModel>) => {
             this.isLoginFailed = false;
-            this.cookieService.put('access-token', response?.data?.accessToken);
-            this.cookieService.put('refresh-token', response?.data?.refreshToken);
             window.location.href = RouteConstant.DASHBOARD;
           },
           error: (response: any) => {

@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.proxy.HibernateProxy;
 
+import java.time.LocalDate;
 import java.util.Objects;
 
 @Getter
@@ -27,12 +28,15 @@ public class PersonalDetail {
     @Column(name = "PHONE_NUMBER")
     private String phoneNumber;
 
-    @Column(name = "PROFILE_PICTURE_URL")
-    private String profilePictureUrl;
+    @Column(name = "DATE_OF_BIRTH")
+    private LocalDate dateOfBirth;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "ADDRESS_ID", referencedColumnName = "ID")
     private Address address;
+
+    @Column(name = "PROFILE_PICTURE_URL")
+    private String profilePictureUrl;
 
     @Override
     public final boolean equals(Object o) {

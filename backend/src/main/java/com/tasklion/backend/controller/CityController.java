@@ -21,6 +21,7 @@ public class CityController {
 
     @GetMapping("/by-state")
     public SuccessResponseModel<Map<String, List<String>>> getCitiesByState() {
+        log.info("[/city/by-state]");
         return SuccessResponseModel.<Map<String, List<String>>>builder()
                 .data(cityService.getCitiesByState())
                 .build();

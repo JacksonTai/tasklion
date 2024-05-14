@@ -28,12 +28,24 @@ public class GlobalExceptionHandler {
             fieldErrors.add(message);
             errors.put(fieldName, fieldErrors);
         });
-        return  ErrorResponseModel.<Map<String, List<String>>>builder()
+        return ErrorResponseModel.<Map<String, List<String>>>builder()
                 .httpStatus(HttpStatus.BAD_REQUEST.value())
                 .status(HttpStatus.BAD_REQUEST.getReasonPhrase())
                 .message(ApiMessage.VALIDATION_ERROR.getMessage())
                 .internalCode(ApiMessage.VALIDATION_ERROR.getKey())
                 .error(errors)
+                .build();
+    }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ErrorResponseModel<Void> handleIllegalArgumentException(IllegalArgumentException ex) {
+        log.error(ex.getMessage());
+        return ErrorResponseModel.<Void>builder()
+                .httpStatus(HttpStatus.BAD_REQUEST.value())
+                .status(HttpStatus.BAD_REQUEST.getReasonPhrase())
+                .message(ex.getMessage())
+                .internalCode(ApiMessage.ILLEGAL_ARGUMENT.getKey())
                 .build();
     }
 

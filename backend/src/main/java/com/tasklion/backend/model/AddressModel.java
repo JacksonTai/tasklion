@@ -12,9 +12,9 @@ import lombok.experimental.SuperBuilder;
 public class AddressModel {
 
     private Long id;
-    private String street;
+    private String addressLine;
     private String city;
     private String state;
-    private String postalCode;
+    private String postcode;
 
 }

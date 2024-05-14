@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {ApiService} from "../api/api.service";
 import {ApiUrlConstant} from "../../constants/api-url.constant";
 import {Observable} from "rxjs";
-import {ApiResponseModel} from "../../model/api/api-response.model";
+import {ApiResponseModel} from "../../models/api/api-response.model";
 
 @Injectable({
   providedIn: 'root'

@@ -12,10 +12,10 @@ import lombok.experimental.SuperBuilder;
 public class PersonalDetailModel {
 
     private Long id;
-    private String firstName;
-    private String lastName;
+    private String fullName;
     private String phoneNumber;
-    private String profilePictureUrl;
+    private String dateOfBirth;
     private AddressModel address;
+    private String profilePictureUrl;
 
 }

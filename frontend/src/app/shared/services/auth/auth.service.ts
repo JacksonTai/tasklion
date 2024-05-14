@@ -1,5 +1,5 @@
 import {inject, Injectable} from '@angular/core';
-import {LoginRequestModel} from "../../model/auth/login-request.model";
+import {LoginRequestModel} from "../../models/auth/login-request.model";
 import {ApiUrlConstant} from "../../constants/api-url.constant";
 import {ApiService} from "../api/api.service";
 import {HttpHeaders} from "@angular/common/http";
@@ -8,9 +8,10 @@ import {CookieService} from "ngx-cookie";
 import {Router} from "@angular/router";
 import {RouteConstant} from "../../constants/route.constant";
 import {jwtDecode} from "jwt-decode";
-import {JwtPayloadModel} from "../../model/auth/jwt-payload.model";
-import {ApiResponseModel} from "../../model/api/api-response.model";
-import {RegisterRequestModel} from "../../model/auth/register-request.model";
+import {JwtPayloadModel} from "../../models/auth/jwt-payload.model";
+import {ApiResponseModel} from "../../models/api/api-response.model";
+import {CustomerModel} from "../../models/customer.model";
+import {TaskerModel} from "../../models/tasker.model";
 
 @Injectable({
   providedIn: 'root'
@@ -20,20 +21,32 @@ export class AuthService extends ApiService {
   private cookieService: CookieService = inject(CookieService);
   private router: Router = inject(Router);
 
-  registerTasker(registerRequestModel: RegisterRequestModel): Observable<ApiResponseModel<any>> {
-    return this.post<RegisterRequestModel>(ApiUrlConstant.TASKER_REGISTER, registerRequestModel);
+  registerTasker(taskerModel: TaskerModel): Observable<ApiResponseModel<any>> {
+    return this.post<TaskerModel>(ApiUrlConstant.TASKER_REGISTER, taskerModel);
   }
 
-  registerCustomer(registerRequestModel: RegisterRequestModel): Observable<ApiResponseModel<any>> {
-    return this.post<RegisterRequestModel>(ApiUrlConstant.CUSTOMER_REGISTER, registerRequestModel);
+  registerCustomer(customerModel: CustomerModel): Observable<ApiResponseModel<any>> {
+    return this.post<CustomerModel>(ApiUrlConstant.CUSTOMER_REGISTER, customerModel).pipe(
+      tap((response) => {
+        this.setRefreshToken(response.data.refreshToken);
+        this.setAccessToken(response.data.accessToken);
+      }),
+      catchError(error => {
+        return throwError(() => error);
+      })
+    );
   }
 
   login(loginRequestModel: LoginRequestModel): Observable<ApiResponseModel<any>> {
-    return this.post<LoginRequestModel>(ApiUrlConstant.LOGIN, loginRequestModel, {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json'
+    return this.post<LoginRequestModel>(ApiUrlConstant.LOGIN, loginRequestModel).pipe(
+      tap((response) => {
+        this.setRefreshToken(response.data.refreshToken);
+        this.setAccessToken(response.data.accessToken);
       }),
-    });
+      catchError(error => {
+        return throwError(() => error);
+      })
+    );
   }
 
   logout() {
@@ -75,6 +88,10 @@ export class AuthService extends ApiService {
 
   getRefreshToken() {
     return this.cookieService.get('refresh-token') || null;
+  }
+
+  setRefreshToken(refreshToken: string) {
+    this.cookieService.put('refresh-token', refreshToken);
   }
 
   getDecodedToken(token: string): JwtPayloadModel | null {

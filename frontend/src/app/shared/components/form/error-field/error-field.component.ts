@@ -2,7 +2,7 @@ import {Component, Input} from '@angular/core';
 import {AbstractControl, FormControl, FormGroupDirective} from "@angular/forms";
 
 @Component({
-  selector: 'tasklion-error-field-test',
+  selector: 'tasklion-error-field',
   templateUrl: './error-field.component.html',
   styleUrls: ['./error-field.component.scss']
 })

@@ -21,8 +21,8 @@ public class Address {
     @Column(name = "ID", nullable = false)
     private Long id;
 
-    @Column(name = "STREET")
-    private String street;
+    @Column(name = "ADDRESS_LINE")
+    private String addressLine;
 
     @Column(name = "CITY")
     private String city;
@@ -30,8 +30,8 @@ public class Address {
     @Column(name = "STATE")
     private String state;
 
-    @Column(name = "POSTAL_CODE")
-    private String postalCode;
+    @Column(name = "POSTCODE")
+    private String postcode;
 
     @Override
     public final boolean equals(Object o) {

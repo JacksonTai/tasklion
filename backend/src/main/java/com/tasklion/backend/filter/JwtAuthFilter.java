@@ -1,7 +1,7 @@
 package com.tasklion.backend.filter;
 
 import com.tasklion.backend.service.JwtService;
-import com.tasklion.backend.service.impl.TasklionUserDetailsService;
+import com.tasklion.backend.service.impl.TasklionUserServiceImpl;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -23,7 +23,7 @@ import java.io.IOException;
 public class JwtAuthFilter extends OncePerRequestFilter {
 
     private final JwtService jwtService;
-    private final TasklionUserDetailsService tasklionUserDetailsService;
+    private final TasklionUserServiceImpl tasklionUserServiceImpl;
 
     @Override
     protected void doFilterInternal(@NonNull HttpServletRequest request, @NonNull HttpServletResponse response,
@@ -41,7 +41,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         final String username = jwtService.extractUsername(jwt);
 
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-            UserDetails userDetails = tasklionUserDetailsService.loadUserByUsername(username);
+            UserDetails userDetails = tasklionUserServiceImpl.loadUserByUsername(username);
             if (jwtService.isTokenValid(jwt, userDetails)) {
                 UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(userDetails,
                         null, userDetails.getAuthorities());

@@ -1,3 +1,3 @@
-export interface ErrorMessage {
+export interface ValidationMessagesModel {
   [key: string]: { [key: string]: string };
 }

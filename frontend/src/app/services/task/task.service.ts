@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {ApiService} from "../../shared/services/api/api.service";
 import {ApiUrlConstant} from "../../shared/constants/api-url.constant";
-import {ApiResponseModel} from "../../shared/model/api/api-response.model";
+import {ApiResponseModel} from "../../shared/models/api/api-response.model";
 import {Observable} from "rxjs";
 
 @Injectable({
