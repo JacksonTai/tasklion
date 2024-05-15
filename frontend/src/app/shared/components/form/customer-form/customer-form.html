@@ -35,46 +35,12 @@
   </div>
 
   <div class="col-span-6">
-    <hr class="h-px my-4 bg-gray-200 border-0 dark:bg-gray-700">
-    <h6 class="text-lg font-bold dark:text-white">Address</h6>
-  </div>
-
-  <div class="col-span-6">
-    <label for="addressLine" class="block text-sm font-medium text-gray-700">Address Line</label>
-    <input type="text" id="addressLine" name="addressLine" formControlName="addressLine"
-           class="mt-1 w-full rounded-md border-gray-200 bg-white text-sm text-gray-700 shadow-sm"/>
-    <tasklion-error-field [control]="customerForm.controls['addressLine']"
-                          [errorMessages]="validationMessages['addressLine']"></tasklion-error-field>
-  </div>
-
-  <div class="col-span-6 sm:col-span-2">
-    <label for="state" class="block text-sm font-medium text-gray-900">State</label>
-    <select name="state" id="state" formControlName="state" (change)="onCityChange($event)"
-            class="mt-1.5 w-full rounded-lg border-gray-300 text-gray-700 sm:text-sm">
-      <option [value]="''" disabled selected>Choose a state</option>
-      <option *ngFor="let state of states" [value]="state">{{ state }}</option>
-    </select>
-    <tasklion-error-field [control]="customerForm.controls['state']"
-                          [errorMessages]="validationMessages['state']"></tasklion-error-field>
-  </div>
-
-  <div class="col-span-6 sm:col-span-2">
-    <label for="city" class="block text-sm font-medium text-gray-900">City</label>
-    <select name="city" id="city" formControlName="city"
-            class="mt-1.5 w-full rounded-lg border-gray-300 text-gray-700 sm:text-sm">
-      <option [value]="''" disabled selected>Choose a city</option>
-      <option *ngFor="let city of cities" [value]="city">{{ city }}</option>
-    </select>
-    <tasklion-error-field [control]="customerForm.controls['city']"
-                          [errorMessages]="validationMessages['city']"></tasklion-error-field>
-  </div>
-
-  <div class="col-span-6 sm:col-span-2">
-    <label for="postcode" class="block text-sm font-medium text-gray-700">Postcode</label>
-    <input type="text" id="postcode" name="postcode" formControlName="postcode" maxlength="5"
-           class="mt-1 w-full rounded-md border-gray-200 bg-white text-sm text-gray-700 shadow-sm"/>
-    <tasklion-error-field [control]="customerForm.controls['postcode']"
-                          [errorMessages]="validationMessages['postcode']"></tasklion-error-field>
+    <label for="address" class="block text-sm font-medium text-gray-700">Address</label>
+    <input class="mt-1 w-full rounded-md border-gray-200 bg-white text-sm text-gray-700 shadow-sm" id="address"
+           type="text" name="address" ngx-gp-autocomplete #placesRef="ngx-places" formControlName="address"
+           (change)="handleAddressChange()" (onAddressChange)="handleAddressChange($event)" [options]='options'/>
+    <tasklion-error-field [control]="customerForm.controls['googleMapPlaceId']"
+                          [errorMessages]="validationMessages['googleMapPlaceId']"></tasklion-error-field>
   </div>
 
   <div class="col-span-6">

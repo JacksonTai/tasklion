@@ -10,7 +10,7 @@ export class ErrorFieldComponent {
   @Input() control!: FormControl | AbstractControl;
   @Input() errorMessages!: { [key: string]: string };
 
-  constructor(public formDirective: FormGroupDirective) {
+  constructor(private formDirective: FormGroupDirective) {
   }
 
   isInvalidField(): boolean {

@@ -1,7 +1,6 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, ViewChild} from '@angular/core';
 import {FormGroup} from "@angular/forms";
-import {StartupService} from "../../../../shared/services/startup/startup.service";
-import {CustomerFormComponent} from "../customer-form/customer-form.component";
+import {CustomerFormComponent} from "../../../../shared/components/form/customer-form/customer-form.component";
 import {AuthService} from "../../../../shared/services/auth/auth.service";
 import {ApiResponseModel} from "../../../../shared/models/api/api-response.model";
 import {AuthResponseModel} from "../../../../shared/models/auth/auth-response.model";
@@ -16,25 +15,17 @@ import {CustomerModel} from "../../../../shared/models/customer.model";
   templateUrl: './registration-form.component.html',
   styleUrls: ['./registration-form.component.scss']
 })
-export class RegistrationFormComponent implements OnInit {
+export class RegistrationFormComponent {
 
   @ViewChild(CustomerFormComponent) customerFormComponent!: CustomerFormComponent;
 
   protected readonly RouteConstant = RouteConstant;
-  protected cityByState: any;
   protected isLoading: boolean = false;
   protected isRegisterFailed: boolean = false;
 
   constructor(
-    private startupService: StartupService,
     private authService: AuthService,
   ) {
-  }
-
-  ngOnInit(): void {
-    this.startupService.getCityByState().subscribe(response => {
-      this.cityByState = response.data
-    })
   }
 
   register() {

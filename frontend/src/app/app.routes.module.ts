@@ -27,6 +27,7 @@ const routes: Routes = [
     title: AppConstant.TASKLION,
     path: RouteConstant.ROOT,
     component: LandingPageComponent,
+    canActivate: [NoAuthGuard],
   },
   {
     title: AppPageConstant.LOGIN,

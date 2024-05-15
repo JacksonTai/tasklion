@@ -12,9 +12,6 @@ import lombok.experimental.SuperBuilder;
 public class AddressModel {
 
     private Long id;
-    private String addressLine;
-    private String city;
-    private String state;
-    private String postcode;
+    private String googleMapPlaceId;
 
 }

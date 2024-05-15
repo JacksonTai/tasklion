@@ -18,21 +18,11 @@ export const CUSTOMER_FORM_VALIDATION_MESSAGE: ValidationMessagesModel = {
     pattern: 'Invalid date of birth. Please enter a valid date in the format DD/MM/YYYY.',
     minAge: 'You must be at least 18 years old to register.',
   },
-  addressLine: {
-    required: 'Address line is required',
-    minlength: 'Address line must be at least 5 characters long',
-    maxlength: 'Address line cannot be more than 100 characters',
-    pattern: 'Please enter letters, numbers, spaces, commas (,), periods (.), and hash symbols (#) only.'
+  address: {
+    required: 'Address is required',
   },
-  state: {
-    required: 'Please select a state',
-  },
-  city: {
-    required: 'Please select a city',
-  },
-  postcode: {
-    required: 'Postcode is required',
-    pattern: 'Invalid postcode. Please enter a valid Malaysian postcode.',
+  googleMapPlaceId: {
+    required: 'Please select a location from the dropdown',
   },
   username: {
     required: 'Username is required.',

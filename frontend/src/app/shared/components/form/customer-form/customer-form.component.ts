@@ -1,12 +1,12 @@
-import {Component, Input, OnChanges, OnInit, SimpleChanges, ViewChild} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, FormGroupDirective, Validators} from "@angular/forms";
-import {ValidationMessagesModel} from "../../../../shared/models/validation-messages.model";
-import {CUSTOMER_FORM_VALIDATION_MESSAGE} from "../../../../shared/constants/form/customer-form.constant";
-import {RegexConstant} from "../../../../shared/constants/regex.constant";
-import {TasklionUserValidator} from "../../../../shared/validators/tasklion-user.validator";
+import {ValidationMessagesModel} from "../../../models/validation-messages.model";
+import {CUSTOMER_FORM_VALIDATION_MESSAGE} from "../../../constants/form/customer-form.constant";
+import {RegexConstant} from "../../../constants/regex.constant";
+import {TasklionUserValidator} from "../../../validators/tasklion-user.validator";
 import {TasklionUserService} from "../../../../services/tasklion-user/tasklion-user.service";
-import {PersonalDetailValidator} from "../../../../shared/validators/personal-detail.validator";
-import {CommonValidator} from "../../../../shared/validators/common.validator";
+import {PersonalDetailValidator} from "../../../validators/personal-detail.validator";
+import {CommonValidator} from "../../../validators/common.validator";
 import usernameExistsValidator = TasklionUserValidator.usernameExistsValidator;
 import emailExistsValidator = TasklionUserValidator.emailExistsValidator;
 import minAgeValidator = PersonalDetailValidator.minAgeValidator;
@@ -21,15 +21,15 @@ import phoneNumberExistsValidator = PersonalDetailValidator.phoneNumberExistsVal
   templateUrl: './customer-form.html',
   styleUrls: ['./customer-form.component.scss'],
 })
-export class CustomerFormComponent implements OnInit, OnChanges {
+export class CustomerFormComponent implements OnInit {
 
-  @Input() cityByState: any;
   @ViewChild(FormGroupDirective) formDirective!: FormGroupDirective;
 
   protected readonly validationMessages: ValidationMessagesModel = CUSTOMER_FORM_VALIDATION_MESSAGE;
-  states: string[] = [];
-  cities: string[] = [];
   customerForm!: FormGroup;
+  options = {
+    componentRestrictions: {country: 'MY'}
+  };
 
   constructor(
     private formBuilder: FormBuilder,
@@ -62,18 +62,8 @@ export class CustomerFormComponent implements OnInit, OnChanges {
         Validators.pattern(RegexConstant.DATE_YYYY_MM_DD),
         minAgeValidator(18)
       ]),
-      addressLine: new FormControl('', [
-        Validators.required,
-        Validators.minLength(5),
-        Validators.maxLength(100),
-        Validators.pattern(RegexConstant.ADDRESS_LINE),
-      ]),
-      state: new FormControl('', [Validators.required]),
-      city: new FormControl('', [Validators.required]),
-      postcode: new FormControl('', [
-        Validators.required,
-        Validators.pattern(RegexConstant.POSTCODE),
-      ]),
+      address: new FormControl('', Validators.required),
+      googleMapPlaceId: new FormControl('', Validators.required),
       username: new FormControl('', {
         validators: [
           Validators.required,
@@ -110,14 +100,8 @@ export class CustomerFormComponent implements OnInit, OnChanges {
     });
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
-    if (this.cityByState) {
-      this.states = Object.keys(this.cityByState);
-    }
-  }
-
-  onCityChange($event: any): void {
-    this.cities = this.cityByState[$event.target.value];
+  handleAddressChange(address?: any): void {
+    this.customerForm.get('googleMapPlaceId')?.setValue(address?.place_id ?? null);
   }
 
 }

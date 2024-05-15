@@ -31,15 +31,17 @@ import {DashIfEmptyPipe} from './shared/pipes/dash-if-empty/dash-if-empty.pipe';
 import {DashboardComponent} from './components/dashboard/dashboard.component';
 import {PageNotFoundComponent} from './shared/components/page/page-not-found/page-not-found.component';
 import {RegistrationFormComponent} from './components/auth/registration/registration-form/registration-form.component';
-import {CustomerFormComponent} from './components/auth/registration/customer-form/customer-form.component';
+import {CustomerFormComponent} from './shared/components/form/customer-form/customer-form.component';
 import {
   InternalServerErrorPageComponent
 } from './shared/components/page/internal-server-error-page/internal-server-error-page.component';
 import {
   UnderMaintenancePageComponent
 } from './shared/components/page/under-maintenance-page/under-maintenance-page.component';
-import {ErrorFieldComponent} from './shared/components/form/error-field/error-field.component';
+import {ErrorFieldComponent} from './shared/components/form/field/error-field/error-field.component';
 import {LogoComponent} from './shared/components/logo/logo.component';
+import {NgxGpAutocompleteModule} from "@angular-magic/ngx-gp-autocomplete";
+import {Loader} from "@googlemaps/js-api-loader";
 
 @NgModule({
   declarations: [
@@ -80,10 +82,20 @@ import {LogoComponent} from './shared/components/logo/logo.component';
     MaterialModule,
     FormsModule,
     ReactiveFormsModule,
+    NgxGpAutocompleteModule
   ],
   providers: [
     {provide: ENVIRONMENT, useValue: environment},
     {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},
+    {
+      provide: Loader,
+      useValue: new Loader(
+        {
+          apiKey: environment.googleMapApiKey,
+          libraries: ['places'],
+        }
+      )
+    },
   ],
   bootstrap: [AppComponent]
 })

@@ -21,17 +21,8 @@ public class Address {
     @Column(name = "ID", nullable = false)
     private Long id;
 
-    @Column(name = "ADDRESS_LINE")
-    private String addressLine;
-
-    @Column(name = "CITY")
-    private String city;
-
-    @Column(name = "STATE")
-    private String state;
-
-    @Column(name = "POSTCODE")
-    private String postcode;
+    @Column(name = "GOOGLE_MAP_PLACE_ID")
+    private String googleMapPlaceId;
 
     @Override
     public final boolean equals(Object o) {

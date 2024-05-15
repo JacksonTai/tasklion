@@ -15,10 +15,7 @@ export class CustomerMapper implements Mapper<any, CustomerModel> {
         phoneNumber: formValues.phoneNumber,
         dateOfBirth: formValues.dateOfBirth,
         address: {
-          addressLine: formValues.addressLine,
-          city: formValues.city,
-          state: formValues.state,
-          postcode: formValues.postcode,
+          googleMapPlaceId: formValues.googleMapPlaceId,
         },
       },
     };
