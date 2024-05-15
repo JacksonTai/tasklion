@@ -1,6 +1,16 @@
-import {AbstractControl, ValidationErrors, ValidatorFn} from "@angular/forms";
+import {AbstractControl, AsyncValidatorFn, ValidationErrors, ValidatorFn} from "@angular/forms";
+import {TasklionUserService} from "../../services/tasklion-user/tasklion-user.service";
+import {CommonValidator} from "./common.validator";
 
-export namespace FormValidator {
+export namespace PersonalDetailValidator {
+
+  import existsValidator = CommonValidator.existsValidator;
+
+  export const fullNameExistsValidator = (tasklionUserService: TasklionUserService): AsyncValidatorFn =>
+    existsValidator(tasklionUserService, 'fullName', 'fullNameExists');
+
+  export const phoneNumberExistsValidator = (tasklionUserService: TasklionUserService): AsyncValidatorFn =>
+    existsValidator(tasklionUserService, 'phoneNumber', 'phoneNumberExists');
 
   export function minAgeValidator(minAge: number): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
@@ -19,21 +29,6 @@ export namespace FormValidator {
         return age < minAge ? {minAge: {requiredAge: minAge}} : null;
       }
       return null;
-    };
-  }
-
-  export function matchValidator(matchTo: string, reverse?: boolean): ValidatorFn {
-    return (control: AbstractControl):
-      ValidationErrors | null => {
-      if (control.parent && reverse) {
-        const c = (control.parent?.controls as any)[matchTo] as AbstractControl;
-        if (c) {
-          c.updateValueAndValidity();
-        }
-        return null;
-      }
-      return !!control.parent && !!control.parent.value &&
-      control.value === (control.parent?.controls as any)[matchTo].value ? null : {match: true};
     };
   }
 

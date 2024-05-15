@@ -3,15 +3,18 @@ import {FormBuilder, FormControl, FormGroup, FormGroupDirective, Validators} fro
 import {ValidationMessagesModel} from "../../../../shared/models/validation-messages.model";
 import {CUSTOMER_FORM_VALIDATION_MESSAGE} from "../../../../shared/constants/form/customer-form.constant";
 import {RegexConstant} from "../../../../shared/constants/regex.constant";
-import {FormValidator} from "../../../../shared/validators/form.validator";
-import {CharacterValidator} from "../../../../shared/validators/character.validator";
 import {TasklionUserValidator} from "../../../../shared/validators/tasklion-user.validator";
-import {TasklionUserService} from "../../../../services/user/tasklion-user.service";
-import matchValidator = FormValidator.matchValidator;
-import startEndUnderscoreValidator = CharacterValidator.startEndUnderscoreValidator;
-import consecutiveUnderscoreValidator = CharacterValidator.consecutiveUnderscoreValidator;
-import minAgeValidator = FormValidator.minAgeValidator;
+import {TasklionUserService} from "../../../../services/tasklion-user/tasklion-user.service";
+import {PersonalDetailValidator} from "../../../../shared/validators/personal-detail.validator";
+import {CommonValidator} from "../../../../shared/validators/common.validator";
 import usernameExistsValidator = TasklionUserValidator.usernameExistsValidator;
+import emailExistsValidator = TasklionUserValidator.emailExistsValidator;
+import minAgeValidator = PersonalDetailValidator.minAgeValidator;
+import consecutiveUnderscoreValidator = CommonValidator.consecutiveUnderscoreValidator;
+import startEndUnderscoreValidator = CommonValidator.startEndUnderscoreValidator;
+import matchValidator = CommonValidator.matchValidator;
+import fullNameExistsValidator = PersonalDetailValidator.fullNameExistsValidator;
+import phoneNumberExistsValidator = PersonalDetailValidator.phoneNumberExistsValidator;
 
 @Component({
   selector: 'tasklion-customer-form',
@@ -36,16 +39,24 @@ export class CustomerFormComponent implements OnInit, OnChanges {
 
   ngOnInit(): void {
     this.customerForm = this.formBuilder.group({
-      fullName: new FormControl('', [
-        Validators.required,
-        Validators.minLength(3),
-        Validators.maxLength(50),
-        Validators.pattern(RegexConstant.ALPHABETIC)
-      ]),
-      phoneNumber: new FormControl('', [
-        Validators.required,
-        Validators.pattern(RegexConstant.MY_PHONE_NUMBER_NO_PREFIX)
-      ]),
+      fullName: new FormControl('', {
+        validators: [
+          Validators.required,
+          Validators.minLength(3),
+          Validators.maxLength(50),
+          Validators.pattern(RegexConstant.ALPHABETIC)
+        ],
+        asyncValidators: fullNameExistsValidator(this.tasklionUserService),
+        updateOn: 'blur',
+      }),
+      phoneNumber: new FormControl('', {
+        validators: [
+          Validators.required,
+          Validators.pattern(RegexConstant.MY_PHONE_NUMBER_NO_PREFIX)
+        ],
+        asyncValidators: phoneNumberExistsValidator(this.tasklionUserService),
+        updateOn: 'blur',
+      }),
       dateOfBirth: new FormControl('', [
         Validators.required,
         Validators.pattern(RegexConstant.DATE_YYYY_MM_DD),
@@ -64,21 +75,25 @@ export class CustomerFormComponent implements OnInit, OnChanges {
         Validators.pattern(RegexConstant.POSTCODE),
       ]),
       username: new FormControl('', {
-          validators: [
-            Validators.required,
-            Validators.minLength(6),
-            Validators.maxLength(30),
-            Validators.pattern(RegexConstant.ALPHANUMERIC_AND_UNDERSCORE),
-            consecutiveUnderscoreValidator(),
-            startEndUnderscoreValidator(),
-          ],
-          asyncValidators: usernameExistsValidator(this.tasklionUserService),
-          updateOn: 'blur'
-        }),
-      email: new FormControl('', [
-        Validators.required,
-        Validators.pattern(RegexConstant.EMAIL),
-      ]),
+        validators: [
+          Validators.required,
+          Validators.minLength(6),
+          Validators.maxLength(30),
+          Validators.pattern(RegexConstant.ALPHANUMERIC_AND_UNDERSCORE),
+          consecutiveUnderscoreValidator(),
+          startEndUnderscoreValidator(),
+        ],
+        asyncValidators: usernameExistsValidator(this.tasklionUserService),
+        updateOn: 'blur',
+      }),
+      email: new FormControl('', {
+        validators: [
+          Validators.required,
+          Validators.pattern(RegexConstant.EMAIL),
+        ],
+        asyncValidators: emailExistsValidator(this.tasklionUserService),
+        updateOn: 'blur',
+      }),
       password: new FormControl('', [
         Validators.required,
         Validators.minLength(8),

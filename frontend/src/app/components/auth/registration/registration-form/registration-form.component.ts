@@ -6,7 +6,7 @@ import {AuthService} from "../../../../shared/services/auth/auth.service";
 import {ApiResponseModel} from "../../../../shared/models/api/api-response.model";
 import {AuthResponseModel} from "../../../../shared/models/auth/auth-response.model";
 import {RouteConstant} from "../../../../shared/constants/route.constant";
-import FormUtil from "../../../../shared/utils/formUtil";
+import FormUtil from "../../../../shared/utils/form.util";
 import {finalize} from "rxjs";
 import {CustomerMapper} from "../../../../shared/mappers/customer.mapper";
 import {CustomerModel} from "../../../../shared/models/customer.model";
@@ -32,8 +32,8 @@ export class RegistrationFormComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.startupService.getCityByState().subscribe(res => {
-      this.cityByState = res.data
+    this.startupService.getCityByState().subscribe(response => {
+      this.cityByState = response.data
     })
   }
 

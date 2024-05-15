@@ -6,10 +6,12 @@ export const CUSTOMER_FORM_VALIDATION_MESSAGE: ValidationMessagesModel = {
     minlength: 'Full name must be at least 3 characters long',
     maxlength: 'Full name cannot be more than 50 characters',
     pattern: 'Full name can only contain alphabetic characters',
+    fullNameExists: 'Full name is already registered. Please use another full name.'
   },
   phoneNumber: {
     required: 'Phone number is required',
     pattern: 'Invalid phone number. Please enter a valid Malaysian phone number (excluding +60).',
+    phoneNumberExists: 'Phone number is already registered. Please use another phone number.'
   },
   dateOfBirth: {
     required: 'Date of birth is required',
@@ -44,6 +46,7 @@ export const CUSTOMER_FORM_VALIDATION_MESSAGE: ValidationMessagesModel = {
   email: {
     required: 'Email is required',
     pattern: 'Invalid email. Please enter a valid email address.',
+    emailExists: 'Email is already registered. Please use another email address.'
   },
   password: {
     required: 'Password is required',

@@ -1,5 +1,6 @@
 package com.tasklion.backend.service.impl;
 
+import com.tasklion.backend.domain.repository.PersonalDetailRepo;
 import com.tasklion.backend.domain.repository.TasklionUserRepo;
 import com.tasklion.backend.model.FieldValueModel;
 import com.tasklion.backend.service.TasklionUserService;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Service;
 public class TasklionUserServiceImpl implements TasklionUserService, UserDetailsService {
 
     private final TasklionUserRepo tasklionUserRepo;
+    private final PersonalDetailRepo personalDetailRepo;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -23,11 +25,13 @@ public class TasklionUserServiceImpl implements TasklionUserService, UserDetails
 
     @Override
     public boolean isExists(FieldValueModel fieldValueModel) {
-        String value = fieldValueModel.getValue();
-        String field = fieldValueModel.getField();
+        String value = fieldValueModel.getValue().trim();
+        String field = fieldValueModel.getField().trim();
         return switch (field) {
-            case "username" -> tasklionUserRepo.existsByUsername(value);
-            case "email" -> tasklionUserRepo.existsByEmail(value);
+            case "fullName" -> personalDetailRepo.existsByFullNameContainingIgnoreCase(value);
+            case "phoneNumber" -> personalDetailRepo.existsByPhoneNumber(value);
+            case "username" -> tasklionUserRepo.existsByUsernameContainingIgnoreCase(value);
+            case "email" -> tasklionUserRepo.existsByEmailContainingIgnoreCase(value);
             default -> throw new IllegalArgumentException("Invalid field: " + field);
         };
     }

@@ -11,7 +11,7 @@ public interface TasklionUserRepo extends JpaRepository<TasklionUser, String> {
 
     Optional<TasklionUser> findByEmail(String email);
 
-    boolean existsByUsername(String username);
+    boolean existsByUsernameContainingIgnoreCase(String username);
 
-    boolean existsByEmail(String email);
+    boolean existsByEmailContainingIgnoreCase(String email);
 }
