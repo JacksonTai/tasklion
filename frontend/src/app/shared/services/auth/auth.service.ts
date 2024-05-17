@@ -21,35 +21,13 @@ export class AuthService extends ApiService {
   private cookieService: CookieService = inject(CookieService);
   private router: Router = inject(Router);
 
-  registerTasker(taskerModel: TaskerModel): Observable<ApiResponseModel<any>> {
-    return this.post<TaskerModel>(ApiUrlConstant.TASKER_REGISTER, taskerModel);
-  }
-
-  registerCustomer(customerModel: CustomerModel): Observable<ApiResponseModel<any>> {
-    return this.post<CustomerModel>(ApiUrlConstant.CUSTOMER_REGISTER, customerModel).pipe(
-      tap((response) => {
-        this.setRefreshToken(response.data.refreshToken);
-        this.setAccessToken(response.data.accessToken);
-      }),
-      catchError(error => {
-        return throwError(() => error);
-      })
-    );
-  }
-
   login(loginRequestModel: LoginRequestModel): Observable<ApiResponseModel<any>> {
     return this.post<LoginRequestModel>(ApiUrlConstant.LOGIN, loginRequestModel).pipe(
-      tap((response) => {
-        this.setRefreshToken(response.data.refreshToken);
-        this.setAccessToken(response.data.accessToken);
-      }),
-      catchError(error => {
-        return throwError(() => error);
-      })
+      tap((response: ApiResponseModel<any>) => this.handleTokenResponse(response)),
     );
   }
 
-  logout() {
+  logout(): void {
     this.cookieService.remove('access-token');
     this.cookieService.remove('refresh-token');
     if (!this.getAccessToken()) {
@@ -57,9 +35,28 @@ export class AuthService extends ApiService {
     }
   }
 
+  registerTasker(taskerModel: TaskerModel): Observable<ApiResponseModel<any>> {
+    return this.register(ApiUrlConstant.TASKER_REGISTER, taskerModel);
+  }
+
+  registerCustomer(customerModel: CustomerModel): Observable<ApiResponseModel<any>> {
+    return this.register(ApiUrlConstant.CUSTOMER_REGISTER, customerModel);
+  }
+
+  private register(url: string, data: any): Observable<any> {
+    return this.post(url, data).pipe(
+      tap(response => this.handleTokenResponse(response))
+    );
+  }
+
+  private handleTokenResponse(response: any) {
+    this.setRefreshToken(response.data.refreshToken);
+    this.setAccessToken(response.data.accessToken);
+  }
+
   requestNewAccessToken(): Observable<any> {
-    const refreshToken = this.getRefreshToken();
-    return this.post<any>(ApiUrlConstant.REFRESH_TOKEN, null, {
+    const refreshToken: string | null = this.getRefreshToken();
+    return this.post<any>(ApiUrlConstant.GET_REFRESH_TOKEN, null, {
       headers: new HttpHeaders({
         'Authorization': `Bearer ${refreshToken}`
       }),
@@ -74,23 +71,23 @@ export class AuthService extends ApiService {
   }
 
   isAuthenticated(): boolean {
-    const refreshToken = this.getRefreshToken();
+    const refreshToken: string | null = this.getRefreshToken();
     return this.getAccessToken() !== null || (refreshToken !== null && !this.isTokenExpired(refreshToken));
   }
 
-  getAccessToken() {
+  getAccessToken(): string | null {
     return this.cookieService.get('access-token') || null;
   }
 
-  setAccessToken(accessToken: string) {
+  setAccessToken(accessToken: string): void {
     this.cookieService.put('access-token', accessToken);
   }
 
-  getRefreshToken() {
+  getRefreshToken(): string | null {
     return this.cookieService.get('refresh-token') || null;
   }
 
-  setRefreshToken(refreshToken: string) {
+  setRefreshToken(refreshToken: string): void {
     this.cookieService.put('refresh-token', refreshToken);
   }
 

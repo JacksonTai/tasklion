@@ -15,7 +15,6 @@ public class PersonalDetailModel {
     private String fullName;
     private String phoneNumber;
     private String dateOfBirth;
-    private AddressModel address;
     private String profilePictureUrl;
 
 }

@@ -31,10 +31,6 @@ public class PersonalDetail {
     @Column(name = "DATE_OF_BIRTH")
     private LocalDate dateOfBirth;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "ADDRESS_ID", referencedColumnName = "ID")
-    private Address address;
-
     @Column(name = "PROFILE_PICTURE_URL")
     private String profilePictureUrl;
 

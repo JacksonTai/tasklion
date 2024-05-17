@@ -21,6 +21,8 @@ import {LandingPageComponent} from "./components/landing-page/landing-page.compo
 import {DashboardComponent} from "./components/dashboard/dashboard.component";
 import {PageNotFoundComponent} from "./shared/components/page/page-not-found/page-not-found.component";
 import {RegistrationFormComponent} from "./components/auth/registration/registration-form/registration-form.component";
+import {CustomerFormComponent} from "./shared/components/form/customer-form/customer-form.component";
+import {TaskerFormComponent} from "./shared/components/form/tasker-form/tasker-form.component";
 
 const routes: Routes = [
   {
@@ -39,6 +41,25 @@ const routes: Routes = [
     title: AppPageConstant.REGISTER,
     path: RouteConstant.REGISTER,
     component: RegistrationFormComponent,
+    children: [
+      {
+        path: '',
+        redirectTo: RouteConstant.CUSTOMER,
+        pathMatch: 'full',
+      },
+      {
+        path: RouteConstant.CUSTOMER,
+        component: CustomerFormComponent,
+        canActivate: [NoAuthGuard],
+        data: {registerRole: UserRoleConstant.CUSTOMER}
+      },
+      {
+        path: RouteConstant.TASKER,
+        component: TaskerFormComponent,
+        canActivate: [NoAuthGuard],
+        data: {registerRole: UserRoleConstant.TASKER}
+      }
+    ],
     canActivate: [NoAuthGuard],
   },
   {
@@ -83,7 +104,6 @@ const routes: Routes = [
     component: TaskPageComponent,
     canActivate: [AuthGuard],
     data: {requiredRoles: [UserRoleConstant.CUSTOMER, UserRoleConstant.TASKER]}
-
   },
   {
     title: AppPageConstant.PROFILE,

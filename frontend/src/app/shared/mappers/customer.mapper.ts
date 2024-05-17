@@ -1,23 +1,16 @@
-import {Mapper} from "./mapper";
 import {CustomerModel} from "../models/customer.model";
 import {UserRoleConstant} from "../constants/user-role.constant";
 
-export class CustomerMapper implements Mapper<any, CustomerModel> {
+export class CustomerMapper {
 
-  mapFrom(formValues: any): CustomerModel {
+  static mapFrom(formValues: any): CustomerModel {
+    const {username, email, password} = formValues.accountDetail;
     return {
-      username: formValues.username,
-      email: formValues.email,
-      password: formValues.password,
+      username,
+      email,
+      password,
       role: UserRoleConstant.CUSTOMER,
-      personalDetail: {
-        fullName: formValues.fullName,
-        phoneNumber: formValues.phoneNumber,
-        dateOfBirth: formValues.dateOfBirth,
-        address: {
-          googleMapPlaceId: formValues.googleMapPlaceId,
-        },
-      },
+      personalDetail: formValues.personalDetail
     };
   }
 

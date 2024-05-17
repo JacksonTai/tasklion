@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
+import {RouteConstant} from "../../shared/constants/route.constant";
 
 @Component({
   selector: 'tasklion-landing-page',
@@ -7,4 +8,5 @@ import { Component } from '@angular/core';
 })
 export class LandingPageComponent {
 
+    protected readonly RouteConstant = RouteConstant;
 }

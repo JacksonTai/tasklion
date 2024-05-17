@@ -5,11 +5,12 @@ import lombok.*;
 import lombok.experimental.SuperBuilder;
 import org.hibernate.proxy.HibernateProxy;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Getter
 @Setter
-@ToString
 @RequiredArgsConstructor
 @AllArgsConstructor
 @SuperBuilder
@@ -23,6 +24,14 @@ public class Tasker extends TasklionUser {
 
     @Column(name = "ABOUT_ME")
     private String aboutMe;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "ADDRESS_ID", referencedColumnName = "ID")
+    private Address address;
+
+    @OneToMany(mappedBy = "tasker", cascade = CascadeType.ALL)
+    @Builder.Default
+    private List<Service> services = new ArrayList<>();
 
     @Override
     public final boolean equals(Object o) {

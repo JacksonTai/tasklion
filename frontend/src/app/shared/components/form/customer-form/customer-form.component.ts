@@ -1,20 +1,6 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
-import {FormBuilder, FormControl, FormGroup, FormGroupDirective, Validators} from "@angular/forms";
-import {ValidationMessagesModel} from "../../../models/validation-messages.model";
-import {CUSTOMER_FORM_VALIDATION_MESSAGE} from "../../../constants/form/customer-form.constant";
-import {RegexConstant} from "../../../constants/regex.constant";
-import {TasklionUserValidator} from "../../../validators/tasklion-user.validator";
-import {TasklionUserService} from "../../../../services/tasklion-user/tasklion-user.service";
-import {PersonalDetailValidator} from "../../../validators/personal-detail.validator";
-import {CommonValidator} from "../../../validators/common.validator";
-import usernameExistsValidator = TasklionUserValidator.usernameExistsValidator;
-import emailExistsValidator = TasklionUserValidator.emailExistsValidator;
-import minAgeValidator = PersonalDetailValidator.minAgeValidator;
-import consecutiveUnderscoreValidator = CommonValidator.consecutiveUnderscoreValidator;
-import startEndUnderscoreValidator = CommonValidator.startEndUnderscoreValidator;
-import matchValidator = CommonValidator.matchValidator;
-import fullNameExistsValidator = PersonalDetailValidator.fullNameExistsValidator;
-import phoneNumberExistsValidator = PersonalDetailValidator.phoneNumberExistsValidator;
+import {Component, OnInit} from '@angular/core';
+import {FormBuilder, FormGroup} from "@angular/forms";
+import {ActivatedRoute} from "@angular/router";
 
 @Component({
   selector: 'tasklion-customer-form',
@@ -23,85 +9,19 @@ import phoneNumberExistsValidator = PersonalDetailValidator.phoneNumberExistsVal
 })
 export class CustomerFormComponent implements OnInit {
 
-  @ViewChild(FormGroupDirective) formDirective!: FormGroupDirective;
-
-  protected readonly validationMessages: ValidationMessagesModel = CUSTOMER_FORM_VALIDATION_MESSAGE;
-  customerForm!: FormGroup;
-  options = {
-    componentRestrictions: {country: 'MY'}
-  };
+  protected customerForm!: FormGroup;
 
   constructor(
     private formBuilder: FormBuilder,
-    private tasklionUserService: TasklionUserService
+    private activatedRoute: ActivatedRoute,
   ) {
   }
 
   ngOnInit(): void {
     this.customerForm = this.formBuilder.group({
-      fullName: new FormControl('', {
-        validators: [
-          Validators.required,
-          Validators.minLength(3),
-          Validators.maxLength(50),
-          Validators.pattern(RegexConstant.ALPHABETIC)
-        ],
-        asyncValidators: fullNameExistsValidator(this.tasklionUserService),
-        updateOn: 'blur',
-      }),
-      phoneNumber: new FormControl('', {
-        validators: [
-          Validators.required,
-          Validators.pattern(RegexConstant.MY_PHONE_NUMBER_NO_PREFIX)
-        ],
-        asyncValidators: phoneNumberExistsValidator(this.tasklionUserService),
-        updateOn: 'blur',
-      }),
-      dateOfBirth: new FormControl('', [
-        Validators.required,
-        Validators.pattern(RegexConstant.DATE_YYYY_MM_DD),
-        minAgeValidator(18)
-      ]),
-      address: new FormControl('', Validators.required),
-      googleMapPlaceId: new FormControl('', Validators.required),
-      username: new FormControl('', {
-        validators: [
-          Validators.required,
-          Validators.minLength(6),
-          Validators.maxLength(30),
-          Validators.pattern(RegexConstant.ALPHANUMERIC_AND_UNDERSCORE),
-          consecutiveUnderscoreValidator(),
-          startEndUnderscoreValidator(),
-        ],
-        asyncValidators: usernameExistsValidator(this.tasklionUserService),
-        updateOn: 'blur',
-      }),
-      email: new FormControl('', {
-        validators: [
-          Validators.required,
-          Validators.pattern(RegexConstant.EMAIL),
-        ],
-        asyncValidators: emailExistsValidator(this.tasklionUserService),
-        updateOn: 'blur',
-      }),
-      password: new FormControl('', [
-        Validators.required,
-        Validators.minLength(8),
-        Validators.pattern(RegexConstant.UPPER_CASE),
-        Validators.pattern(RegexConstant.LOWER_CASE),
-        Validators.pattern(RegexConstant.PASSWORD_SPECIAL_CHAR),
-        Validators.pattern(RegexConstant.NUMBER),
-        matchValidator('confirmPassword', true)
-      ]),
-      confirmPassword: new FormControl('', [
-        Validators.required,
-        matchValidator('password'),
-      ]),
+      personalDetails: new FormGroup({}),
+      accountDetails: new FormGroup({})
     });
-  }
-
-  handleAddressChange(address?: any): void {
-    this.customerForm.get('googleMapPlaceId')?.setValue(address?.place_id ?? null);
   }
 
 }

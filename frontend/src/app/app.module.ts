@@ -16,7 +16,7 @@ import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {environment} from "../environments/environment";
 import {ENVIRONMENT} from "./shared/services/environment/environment";
 import {ValidationPipe} from './shared/pipes/validation/validation.pipe';
-import {AuthInterceptor} from "./interceptors/auth.interceptor";
+import {AuthInterceptor} from "./interceptors/auth-interceptor/auth.interceptor";
 import {CookieModule} from "ngx-cookie";
 import {AboutPageComponent} from './components/about/about-page.component';
 import {ContactPageComponent} from './components/contact/contact-page.component';
@@ -38,10 +38,17 @@ import {
 import {
   UnderMaintenancePageComponent
 } from './shared/components/page/under-maintenance-page/under-maintenance-page.component';
-import {ErrorFieldComponent} from './shared/components/form/field/error-field/error-field.component';
+import {ErrorFieldComponent} from './shared/components/error-field/error-field.component';
 import {LogoComponent} from './shared/components/logo/logo.component';
 import {NgxGpAutocompleteModule} from "@angular-magic/ngx-gp-autocomplete";
 import {Loader} from "@googlemaps/js-api-loader";
+import {
+  PersonalDetailFormComponent
+} from './shared/components/form/personal-detail-form/personal-detail-form.component';
+import {AccountDetailFormComponent} from './shared/components/form/account-detail-form/account-detail-form.component';
+import {TaskerDetailFormComponent} from './shared/components/form/tasker-detail-form/tasker-detail-form.component';
+import {TaskerFormComponent} from './shared/components/form/tasker-form/tasker-form.component';
+import {ServiceDetailFormComponent} from './shared/components/form/service-detail-form/service-detail-form.component';
 
 @NgModule({
   declarations: [
@@ -72,6 +79,12 @@ import {Loader} from "@googlemaps/js-api-loader";
     UnderMaintenancePageComponent,
     ErrorFieldComponent,
     LogoComponent,
+    PersonalDetailFormComponent,
+    PersonalDetailFormComponent,
+    AccountDetailFormComponent,
+    TaskerDetailFormComponent,
+    TaskerFormComponent,
+    ServiceDetailFormComponent,
   ],
   imports: [
     AppRoutesModule,
@@ -82,7 +95,7 @@ import {Loader} from "@googlemaps/js-api-loader";
     MaterialModule,
     FormsModule,
     ReactiveFormsModule,
-    NgxGpAutocompleteModule
+    NgxGpAutocompleteModule,
   ],
   providers: [
     {provide: ENVIRONMENT, useValue: environment},

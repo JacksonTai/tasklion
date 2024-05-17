@@ -3,6 +3,7 @@
   <component name="SqlDialectMappings">
     <file url="file://$PROJECT_DIR$/backend/sql/DDL/CITY.sql" dialect="PostgreSQL" />
     <file url="file://$PROJECT_DIR$/backend/sql/DDL/CUSTOMER.sql" dialect="PostgreSQL" />
+    <file url="file://$PROJECT_DIR$/backend/sql/DDL/PERSONAL_DETAILS.sql" dialect="PostgreSQL" />
     <file url="file://$PROJECT_DIR$/backend/sql/DDL/ROLE.sql" dialect="PostgreSQL" />
     <file url="file://$PROJECT_DIR$/backend/sql/DDL/TASKER.sql" dialect="PostgreSQL" />
     <file url="file://$PROJECT_DIR$/backend/sql/DDL/TASKLION_USER.sql" dialect="PostgreSQL" />

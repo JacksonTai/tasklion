@@ -17,7 +17,8 @@ export class AppComponent implements OnInit {
 
   private readonly headerFooterExcludedRoutes: string[] = [
     RouteConstant.LOGIN,
-    RouteConstant.REGISTER
+    RouteConstant.REGISTER_CUSTOMER,
+    RouteConstant.REGISTER_TASKER,
   ];
 
   constructor(
@@ -31,7 +32,7 @@ export class AppComponent implements OnInit {
     this.router.events.pipe(
       filter(event => event instanceof NavigationEnd)
     ).subscribe(() => {
-      this.hideNavAndFooter = this.headerFooterExcludedRoutes.includes(this.getCurrentRoutePath());
+      this.hideNavAndFooter = this.headerFooterExcludedRoutes.some(route => this.router.url === `/${route}`);
     });
   }
 
