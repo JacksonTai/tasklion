@@ -1,12 +1,44 @@
 <form class=" grid grid-cols-6 gap-x-6" [formGroup]="taskerDetailForm">
 
+  <div class="col-span-6 sm:col-span-2 mt-4">
+    <label for="state" class="block text-sm font-medium text-gray-900">State</label>
+    <select name="state" id="state" formControlName="state" (change)="onCityChange($event)"
+            class="mt-1.5 w-full rounded-lg border-gray-300 text-gray-700 sm:text-sm">
+      <option [value]="''" disabled selected>Choose a state</option>
+      <option *ngFor="let state of states" [value]="state">{{ state }}</option>
+    </select>
+    <tasklion-error-field [control]="taskerDetailForm.controls['state']"
+                          [errorMessages]="validationMessages['state']"></tasklion-error-field>
+  </div>
+
+  <div class="col-span-6 sm:col-span-2 mt-4">
+    <label for="city" class="block text-sm font-medium text-gray-900">City</label>
+    <select name="city" id="city" formControlName="city"
+            class="mt-1.5 w-full rounded-lg border-gray-300 text-gray-700 sm:text-sm">
+      <option [value]="''" disabled selected>Choose a city</option>
+      <option *ngFor="let city of cities" [value]="city">{{ city }}</option>
+    </select>
+    <tasklion-error-field [control]="taskerDetailForm.controls['city']"
+                          [errorMessages]="validationMessages['city']"></tasklion-error-field>
+  </div>
+
+  <div class="col-span-6 sm:col-span-2 mt-4">
+    <label for="postcode" class="block text-sm font-medium text-gray-700">Postcode</label>
+    <input type="text" id="postcode" name="postcode" formControlName="postcode" maxlength="5"
+           class="mt-1 w-full rounded-md border-gray-200 bg-white text-sm text-gray-700 shadow-sm"/>
+    <tasklion-error-field [control]="taskerDetailForm.controls['postcode']"
+                          [errorMessages]="validationMessages['postcode']"></tasklion-error-field>
+  </div>
+
   <div class="col-span-6 mt-4">
-    <label for="address" class="block text-sm font-medium text-gray-700">Address</label>
-    <input class="mt-1 w-full rounded-md border-gray-200 bg-white text-sm text-gray-700 shadow-sm" id="address"
-           type="text" name="address" ngx-gp-autocomplete #placesRef="ngx-places" formControlName="address"
-           (change)="handleAddressChange()" (onAddressChange)="handleAddressChange($event)" [options]='options'/>
-    <tasklion-error-field [control]="taskerDetailForm.controls['googleMapPlaceId']"
-                          [errorMessages]="validationMessages['googleMapPlaceId']"></tasklion-error-field>
+    <svg class="flex-shrink-0 inline w-4 h-4 me-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+         fill="currentColor" viewBox="0 0 20 20">
+      <path
+        d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z"/>
+    </svg>
+    <p class="inline text-gray-500 dark:text-gray-400 text-sm">
+      The address info is needed to match you with tasks in your area.
+    </p>
   </div>
 
 </form>

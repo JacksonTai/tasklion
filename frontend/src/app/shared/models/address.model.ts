@@ -1,3 +1,6 @@
 export interface AddressModel {
-  googleMapPlaceId: string;
+  addressLine: string;
+  city: string;
+  state: string;
+  postcode: string;
 }

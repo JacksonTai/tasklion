@@ -29,6 +29,8 @@ public class City {
     @JoinColumn(name = "STATE_ID")
     private State state;
 
+
+
     @Override
     public final boolean equals(Object o) {
         if (this == o) return true;

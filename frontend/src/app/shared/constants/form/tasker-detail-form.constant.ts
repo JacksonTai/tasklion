@@ -9,13 +9,16 @@ export class TaskerDetailFormConstant {
       minlength: 'Username must be at least 6 characters long.',
       maxlength: 'Username cannot exceed 30 characters.',
     },
-    address: {
-      required: 'Address is required',
+    state: {
+      required: 'State is required',
     },
-    googleMapPlaceId: {
-      required: 'Please select a location from the dropdown',
+    city: {
+      required: 'City is required',
+    },
+    postcode: {
+      required: 'Postcode is required',
+      pattern: 'Invalid postcode',
     },
   }
-
 
 }

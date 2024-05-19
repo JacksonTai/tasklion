@@ -5,7 +5,7 @@ export class TaskerMapper {
 
   static mapFrom(formValues: any): TaskerModel {
     const {username, email, password} = formValues.accountDetail;
-    const {aboutMe, googleMapPlaceId, services} = formValues.taskerDetail;
+    const {aboutMe, addressLine, state, city, postcode, services} = formValues.taskerDetail;
     return {
       username,
       email,
@@ -13,7 +13,10 @@ export class TaskerMapper {
       role: UserRoleConstant.CUSTOMER,
       aboutMe,
       address: {
-        googleMapPlaceId
+        addressLine,
+        state,
+        city,
+        postcode
       },
       services,
       personalDetail: formValues.personalDetail

@@ -1,6 +1,5 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup} from "@angular/forms";
-import {ActivatedRoute} from "@angular/router";
 
 @Component({
   selector: 'tasklion-customer-form',
@@ -13,11 +12,14 @@ export class CustomerFormComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private activatedRoute: ActivatedRoute,
   ) {
   }
 
   ngOnInit(): void {
+    this.initCustomerForm();
+  }
+
+  initCustomerForm(): void {
     this.customerForm = this.formBuilder.group({
       personalDetails: new FormGroup({}),
       accountDetails: new FormGroup({})

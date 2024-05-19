@@ -16,6 +16,10 @@ export class TaskerFormComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.initTaskerForm();
+  }
+
+  initTaskerForm(): void {
     this.taskerForm = this.formBuilder.group({
       personalDetails: new FormGroup({}),
       taskerDetails: new FormGroup({}),
