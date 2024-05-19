@@ -15,11 +15,12 @@ import {LoginFormConstant} from "../../../../shared/constants/form/login-form.co
 })
 export class LoginFormComponent implements OnInit {
 
+  protected readonly validationMessages: ValidationMessagesModel = LoginFormConstant.VALIDATION_MESSAGE;
+  protected readonly RouteConstant = RouteConstant;
   protected loginForm!: FormGroup;
   protected isLoading: boolean = false;
   protected isLoginFailed: boolean = false;
   protected loginFailedMessage: string | undefined;
-  protected readonly validationMessages: ValidationMessagesModel = LoginFormConstant.VALIDATION_MESSAGE;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -28,6 +29,10 @@ export class LoginFormComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.initLoginForm();
+  }
+
+  initLoginForm(): void {
     this.loginForm = this.formBuilder.group({
       email: ['', Validators.required],
       password: ['', Validators.required],
@@ -54,5 +59,4 @@ export class LoginFormComponent implements OnInit {
     }
   }
 
-  protected readonly RouteConstant = RouteConstant;
 }

@@ -30,8 +30,8 @@ public class TasklionUserServiceImpl implements TasklionUserService, UserDetails
         return switch (field) {
             case "fullName" -> personalDetailRepo.existsByFullNameContainingIgnoreCase(value);
             case "phoneNumber" -> personalDetailRepo.existsByPhoneNumber(value);
-            case "username" -> tasklionUserRepo.existsByUsernameContainingIgnoreCase(value);
-            case "email" -> tasklionUserRepo.existsByEmailContainingIgnoreCase(value);
+            case "username" -> tasklionUserRepo.existsByUsernameIgnoreCase(value);
+            case "email" -> tasklionUserRepo.existsByEmailIgnoreCase(value);
             default -> throw new IllegalArgumentException("Invalid field: " + field);
         };
     }

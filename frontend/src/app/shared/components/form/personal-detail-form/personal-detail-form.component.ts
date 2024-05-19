@@ -28,6 +28,10 @@ export class PersonalDetailFormComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.initPersonalDetailForm();
+  }
+
+  initPersonalDetailForm(): void {
     this.personalDetailForm = this.formBuilder.group({
       fullName: new FormControl('', {
         validators: [

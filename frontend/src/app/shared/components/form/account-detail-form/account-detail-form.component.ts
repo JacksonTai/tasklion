@@ -31,6 +31,10 @@ export class AccountDetailFormComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.initAccountDetailForm();
+  }
+
+  initAccountDetailForm(): void {
     this.accountDetailForm = this.formBuilder.group({
       username: new FormControl('', {
         validators: [

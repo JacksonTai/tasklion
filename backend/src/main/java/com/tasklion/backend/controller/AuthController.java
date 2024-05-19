@@ -28,7 +28,7 @@ public class AuthController {
     private final AuthService authService;
 
     @PostMapping("/register/customer")
-    public ResponseEntity<SuccessResponseModel<AuthResponseModel>> register(
+    public ResponseEntity<SuccessResponseModel<AuthResponseModel>> registerCustomer(
             @RequestBody @Valid CustomerModel customerModel) {
         log.info("[/register/customer]: {}", customerModel);
         SuccessResponseModel<AuthResponseModel> response = SuccessResponseModel.<AuthResponseModel>builder()
@@ -41,7 +41,7 @@ public class AuthController {
     }
 
     @PostMapping("/register/tasker")
-    public ResponseEntity<SuccessResponseModel<AuthResponseModel>> register(
+    public ResponseEntity<SuccessResponseModel<AuthResponseModel>> registerTasker(
             @RequestBody @Valid TaskerModel taskerModel) {
         log.info("[/register/tasker]: {}", taskerModel);
         SuccessResponseModel<AuthResponseModel> response = SuccessResponseModel.<AuthResponseModel>builder()

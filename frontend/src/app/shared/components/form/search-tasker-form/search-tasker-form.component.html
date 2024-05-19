@@ -1,0 +1,12 @@
+<form [formGroup]="searchTaskerForm">
+
+  <div class="col-span-6 sm:col-span-2 mt-4">
+    <input type="text" id="search" name="search" formControlName="search" maxlength="5"
+           placeholder="Describe your task"
+           class="mt-1.5 w-full rounded-md border-gray-200 bg-white text-sm text-gray-700 shadow-sm"/>
+    <tasklion-error-field [control]="searchTaskerForm.controls['search']"
+                          [errorMessages]="validationMessages['search']"></tasklion-error-field>
+  </div>
+  <tasklion-address-detail-form></tasklion-address-detail-form>
+
+</form>

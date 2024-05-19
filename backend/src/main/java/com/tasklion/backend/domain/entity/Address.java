@@ -3,6 +3,7 @@ package com.tasklion.backend.domain.entity;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.proxy.HibernateProxy;
+import org.hibernate.validator.constraints.Length;
 
 import java.util.Objects;
 
@@ -21,8 +22,20 @@ public class Address {
     @Column(name = "ID", nullable = false)
     private Long id;
 
-    @Column(name = "GOOGLE_MAP_PLACE_ID")
-    private String googleMapPlaceId;
+    @Column(name = "ADDRESS_LINE")
+    private String addressLine;
+
+    @Column(name = "CITY")
+    @Length(max = 30)
+    private String city;
+
+    @Column(name = "STATE")
+    @Length(max = 20)
+    private String state;
+
+    @Column(name = "POSTCODE")
+    @Length(max = 5)
+    private String postcode;
 
     @Override
     public final boolean equals(Object o) {
