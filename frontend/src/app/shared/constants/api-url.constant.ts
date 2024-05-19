@@ -21,7 +21,6 @@ export class ApiUrlConstant {
     ApiUrlConstant.TASKER_REGISTER,
     ApiUrlConstant.CUSTOMER_REGISTER,
     ApiUrlConstant.IS_TASKLION_USER_EXISTS,
-    ApiUrlConstant.GET_CITY_BY_STATE,
   ];
 
 }

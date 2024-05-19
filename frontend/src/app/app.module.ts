@@ -51,6 +51,9 @@ import {TaskerFormComponent} from './shared/components/form/tasker-form/tasker-f
 import {ServiceDetailFormComponent} from './shared/components/form/service-detail-form/service-detail-form.component';
 import {SearchTaskerFormComponent} from './shared/components/form/search-tasker-form/search-tasker-form.component';
 import {TaskerDetailFormComponent} from './shared/components/form/tasker-detail-form/tasker-detail-form.component';
+import {
+  CustomerDashboardPageComponent
+} from './components/dashboard/customer-dashboard-page/customer-dashboard-page.component';
 
 @NgModule({
   declarations: [
@@ -89,6 +92,7 @@ import {TaskerDetailFormComponent} from './shared/components/form/tasker-detail-
     ServiceDetailFormComponent,
     SearchTaskerFormComponent,
     TaskerDetailFormComponent,
+    CustomerDashboardPageComponent,
   ],
   imports: [
     AppRoutesModule,
