@@ -1,0 +1,33 @@
+<form class=" grid grid-cols-6 gap-x-6" [formGroup]="addressDetailForm">
+
+  <div class="col-span-6 sm:col-span-2 mt-4">
+    <label for="state" class="block text-sm font-medium text-gray-900">State</label>
+    <select name="state" id="state" formControlName="state" (change)="onCityChange($event)"
+            class="mt-1.5 w-full rounded-lg border-gray-300 text-gray-700 sm:text-sm">
+      <option [value]="''" disabled selected>Choose a state</option>
+      <option *ngFor="let state of states" [value]="state">{{ state }}</option>
+    </select>
+    <tasklion-error-field [control]="addressDetailForm.controls['state']"
+                          [errorMessages]="validationMessages['state']"></tasklion-error-field>
+  </div>
+
+  <div class="col-span-6 sm:col-span-2 mt-4">
+    <label for="city" class="block text-sm font-medium text-gray-900">City</label>
+    <select name="city" id="city" formControlName="city"
+            class="mt-1.5 w-full rounded-lg border-gray-300 text-gray-700 sm:text-sm">
+      <option [value]="''" disabled selected>Choose a city</option>
+      <option *ngFor="let city of cities" [value]="city">{{ city }}</option>
+    </select>
+    <tasklion-error-field [control]="addressDetailForm.controls['city']"
+                          [errorMessages]="validationMessages['city']"></tasklion-error-field>
+  </div>
+
+  <div class="col-span-6 sm:col-span-2 mt-4">
+    <label for="postcode" class="block text-sm font-medium text-gray-700">Postcode</label>
+    <input type="text" id="postcode" name="postcode" formControlName="postcode" maxlength="5"
+           class="mt-1.5 w-full rounded-md border-gray-200 bg-white text-sm text-gray-700 shadow-sm"/>
+    <tasklion-error-field [control]="addressDetailForm.controls['postcode']"
+                          [errorMessages]="validationMessages['postcode']"></tasklion-error-field>
+  </div>
+
+</form>

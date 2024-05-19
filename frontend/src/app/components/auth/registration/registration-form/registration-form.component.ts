@@ -7,7 +7,7 @@ import {FormStateService} from "../../../../shared/services/form-state/form-stat
 import {FormBuilder, FormGroup} from "@angular/forms";
 import {PersonalDetailFormConstant} from "../../../../shared/constants/form/personal-detail-form.constant";
 import {AccountDetailFormConstant} from "../../../../shared/constants/form/account-detail-form.constant";
-import {TaskerDetailFormConstant} from "../../../../shared/constants/form/tasker-detail-form.constant";
+import {AddressDetailFormConstant} from "../../../../shared/constants/form/address-detail-form.constant";
 import {Router} from "@angular/router";
 import {CustomerMapper} from "../../../../shared/mappers/customer.mapper";
 import {TaskerMapper} from "../../../../shared/mappers/tasker.mapper";
@@ -22,7 +22,7 @@ export class RegistrationFormComponent implements OnInit {
   protected readonly RouteConstant = RouteConstant;
   protected personalDetailForm$: Observable<FormGroup> = new Observable();
   protected accountDetailForm$: Observable<FormGroup> = new Observable();
-  protected taskerDetailForm$: Observable<FormGroup> = new Observable();
+  protected addressDetailForm$: Observable<FormGroup> = new Observable();
   protected personalDetailForm!: FormGroup;
   protected accountDetailForm!: FormGroup;
 
@@ -41,7 +41,7 @@ export class RegistrationFormComponent implements OnInit {
   ngOnInit() {
     this.personalDetailForm$ = this.formStateService.getForm(PersonalDetailFormConstant.FORM_ID);
     this.accountDetailForm$ = this.formStateService.getForm(AccountDetailFormConstant.FORM_ID);
-    this.taskerDetailForm$ = this.formStateService.getForm(TaskerDetailFormConstant.FORM_ID);
+    this.addressDetailForm$ = this.formStateService.getForm(AddressDetailFormConstant.FORM_ID);
   }
 
   register(): void {
@@ -78,14 +78,14 @@ export class RegistrationFormComponent implements OnInit {
         }
         return registrationObservable;
       case RouteConstant.REGISTER_TASKER:
-        this.taskerDetailForm$.subscribe((taskerDetailForm: FormGroup) => {
-          FormUtil.markAllFieldsAsDirty(taskerDetailForm);
+        this.addressDetailForm$.subscribe((addressDetailForm: FormGroup): void => {
+          FormUtil.markAllFieldsAsDirty(addressDetailForm);
           this.taskerForm = this.formBuilder.group({
             personalDetail: this.personalDetailForm.value,
             accountDetail: this.accountDetailForm.value,
-            taskerDetail: taskerDetailForm.value,
+            addressDetail: addressDetailForm.value,
           });
-          if (this.personalDetailForm.valid && this.accountDetailForm.valid && taskerDetailForm.valid) {
+          if (this.personalDetailForm.valid && this.accountDetailForm.valid && addressDetailForm.valid) {
             this.isLoading = true;
             registrationObservable = this.authService.registerTasker(TaskerMapper.mapFrom(this.taskerForm.value));
           }
