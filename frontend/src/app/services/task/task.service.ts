@@ -10,7 +10,7 @@ import {Observable} from "rxjs";
 export class TaskService extends ApiService {
 
   getTasks(): Observable<ApiResponseModel<any>> {
-    return this.get<ApiResponseModel<any>>(ApiUrlConstant.GET_TASKS);
+    return this.get<ApiResponseModel<any>>(ApiUrlConstant.TASKS);
   }
 
 }

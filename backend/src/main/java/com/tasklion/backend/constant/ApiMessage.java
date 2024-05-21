@@ -9,6 +9,7 @@ public enum ApiMessage {
 
     INSUFFICIENT_AUTHENTICATION("Insufficient authentication", "insufficient_authentication"),
     ILLEGAL_ARGUMENT("Illegal argument", "illegal_argument"),
+    MISSING_REQUEST_PARAMETER("Missing request parameter", "missing_request_parameter"),
     TOKEN_EXPIRED("Token expired", "token_expired"),
     INVALID_TOKEN("Invalid token", "invalid_token"),
     INVALID_EMAIL_PASSWORD("Sorry, that email or password didn't work.", "invalid_email_password"),

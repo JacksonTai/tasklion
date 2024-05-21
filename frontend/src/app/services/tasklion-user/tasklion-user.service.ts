@@ -11,7 +11,7 @@ import {ApiResponseModel} from "../../shared/models/api/api-response.model";
 export class TasklionUserService extends ApiService {
 
   public isExists(fieldValueModel: FieldValueModel): Observable<ApiResponseModel<any>> {
-    return this.post<ApiResponseModel<any>>(ApiUrlConstant.IS_TASKLION_USER_EXISTS, fieldValueModel);
+    return this.post<ApiResponseModel<any>>(ApiUrlConstant.IS_USER_EXISTS, fieldValueModel);
   }
 
 }

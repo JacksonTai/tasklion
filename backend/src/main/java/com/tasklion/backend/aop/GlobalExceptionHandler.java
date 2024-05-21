@@ -1,10 +1,12 @@
 package com.tasklion.backend.aop;
 
 import com.tasklion.backend.constant.ApiMessage;
+import com.tasklion.backend.exception.ResourceNotFoundException;
 import com.tasklion.backend.model.api.ErrorResponseModel;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -47,6 +49,25 @@ public class GlobalExceptionHandler {
                 .message(ex.getMessage())
                 .internalCode(ApiMessage.ILLEGAL_ARGUMENT.getKey())
                 .build();
+    }
+
+    @ExceptionHandler(MissingServletRequestParameterException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ErrorResponseModel<Void> handleMissingServletRequestParameterException(
+            org.springframework.web.bind.MissingServletRequestParameterException ex) {
+        log.error(ex.getMessage());
+        return ErrorResponseModel.<Void>builder()
+                .httpStatus(HttpStatus.BAD_REQUEST.value())
+                .status(HttpStatus.BAD_REQUEST.getReasonPhrase())
+                .message(ex.getMessage())
+                .internalCode(ApiMessage.MISSING_REQUEST_PARAMETER.getKey())
+                .build();
+    }
+
+    @ExceptionHandler(ResourceNotFoundException.class)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void handleTasklionUserNotFoundException(ResourceNotFoundException ex) {
+        log.error(ex.getMessage());
     }
 
     @ExceptionHandler(Exception.class)

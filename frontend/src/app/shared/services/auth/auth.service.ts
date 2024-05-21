@@ -56,7 +56,7 @@ export class AuthService extends ApiService {
 
   requestNewAccessToken(): Observable<any> {
     const refreshToken: string | null = this.getRefreshToken();
-    return this.post<any>(ApiUrlConstant.GET_REFRESH_TOKEN, null, {
+    return this.post<any>(ApiUrlConstant.AUTH_REFRESH_TOKEN, null, {
       headers: new HttpHeaders({
         'Authorization': `Bearer ${refreshToken}`
       }),

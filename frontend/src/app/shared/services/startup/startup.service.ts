@@ -10,6 +10,6 @@ import {ApiResponseModel} from "../../models/api/api-response.model";
 export class StartupService extends ApiService {
 
   getCityByState(): Observable<ApiResponseModel<any>> {
-    return this.get(ApiUrlConstant.GET_CITY_BY_STATE)
+    return this.get(ApiUrlConstant.CITY_BY_STATE)
   }
 }

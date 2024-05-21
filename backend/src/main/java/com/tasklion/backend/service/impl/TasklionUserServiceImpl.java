@@ -2,7 +2,10 @@ package com.tasklion.backend.service.impl;
 
 import com.tasklion.backend.domain.repository.PersonalDetailRepo;
 import com.tasklion.backend.domain.repository.TasklionUserRepo;
+import com.tasklion.backend.exception.ResourceNotFoundException;
+import com.tasklion.backend.mapper.TasklionUserMapper;
 import com.tasklion.backend.model.FieldValueModel;
+import com.tasklion.backend.model.TasklionUserModel;
 import com.tasklion.backend.service.TasklionUserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -35,4 +38,12 @@ public class TasklionUserServiceImpl implements TasklionUserService, UserDetails
             default -> throw new IllegalArgumentException("Invalid field: " + field);
         };
     }
+
+    @Override
+    public TasklionUserModel getTasklionUser(String username) {
+        return tasklionUserRepo.findByUsername(username)
+                .map(TasklionUserMapper.INSTANCE::toModel)
+                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
+    }
+
 }

@@ -32,7 +32,6 @@ public abstract class TasklionUser implements UserDetails {
     @Column(name = "USERNAME")
     private String username;
 
-//    @ValidEmail
     @Column(name = "EMAIL")
     private String email;
 
@@ -42,6 +41,8 @@ public abstract class TasklionUser implements UserDetails {
     @Builder.Default
     @OneToMany(mappedBy = "tasklionUser", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<UserRole> userRoles = new HashSet<>();
+
+    public abstract PersonalDetail getPersonalDetail();
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

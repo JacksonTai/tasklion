@@ -23,7 +23,7 @@ export class AuthInterceptor implements HttpInterceptor {
   }
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
-    const isRequestingRefreshToken: boolean = request.url.includes(ApiUrlConstant.GET_REFRESH_TOKEN);
+    const isRequestingRefreshToken: boolean = request.url.includes(ApiUrlConstant.AUTH_REFRESH_TOKEN);
     const accessToken: string | null = this.authService.getAccessToken();
     if (accessToken) {
       request = this.addToken(request, accessToken);

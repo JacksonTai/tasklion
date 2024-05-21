@@ -36,18 +36,16 @@ public class AuthServiceImpl implements AuthService {
     private final JwtService jwtService;
     private final TasklionUserRepo tasklionUserRepo;
     private final RoleRepo roleRepo;
-    private final CustomerMapper customerMapper;
-    private final TaskerMapper taskerMapper;
 
     @Override
     public AuthResponseModel registerCustomer(CustomerModel customerModel) {
-        Customer customer = customerMapper.toEntity(customerModel);
+        Customer customer = CustomerMapper.INSTANCE.toEntity(customerModel);
         return registerTasklionUser(customer, TasklionUserRole.CUSTOMER);
     }
 
     @Override
     public AuthResponseModel registerTasker(TaskerModel taskerModel) {
-        Tasker tasker = taskerMapper.toEntity(taskerModel);
+        Tasker tasker = TaskerMapper.INSTANCE.toEntity(taskerModel);
         return registerTasklionUser(tasker, TasklionUserRole.TASKER);
     }
 
@@ -63,8 +61,8 @@ public class AuthServiceImpl implements AuthService {
                 .build());
 
         TasklionUser savedTasklionUser = tasklionUserRepo.save(tasklionUser);
-        return new AuthResponseModel(jwtService.generateToken(tasklionUser),
-                jwtService.generateRefreshToken(tasklionUser));
+        return new AuthResponseModel(jwtService.generateToken(savedTasklionUser),
+                jwtService.generateRefreshToken(savedTasklionUser));
     }
 
     @Override
