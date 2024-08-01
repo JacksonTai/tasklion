@@ -1,9 +1,18 @@
 import {Component, OnInit} from '@angular/core';
-import {initFlowbite} from 'flowbite';
+import {initFlowbite, initModals} from 'flowbite';
 import {AppConstant} from "./shared/constants/app.constant";
-import {ActivatedRoute, NavigationEnd, Router} from "@angular/router";
+import {ActivatedRoute, Event, NavigationEnd, Router} from "@angular/router";
 import {RouteConstant} from "./shared/constants/route.constant";
 import {filter} from "rxjs";
+
+import {IStaticMethods} from 'preline/preline';
+import HSTabs from "@preline/tabs";
+
+declare global {
+  interface Window {
+    HSStaticMethods: IStaticMethods;
+  }
+}
 
 @Component({
   selector: 'app-root',
@@ -15,12 +24,6 @@ export class AppComponent implements OnInit {
   title: string = AppConstant.TASKLION;
   protected hideNavAndFooter: boolean = false;
 
-  private readonly headerFooterExcludedRoutes: string[] = [
-    RouteConstant.LOGIN,
-    RouteConstant.REGISTER_CUSTOMER,
-    RouteConstant.REGISTER_TASKER,
-  ];
-
   constructor(
     private router: Router,
     private activatedRoute: ActivatedRoute
@@ -29,15 +32,26 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
     initFlowbite();
+    initModals();
+    this.router.events.subscribe((event: Event): void => {
+      if (event instanceof NavigationEnd) {
+        setTimeout((): void => {
+          HSTabs.autoInit();
+        }, 100);
+      }
+    });
+
     this.router.events.pipe(
       filter(event => event instanceof NavigationEnd)
-    ).subscribe(() => {
-      this.hideNavAndFooter = this.headerFooterExcludedRoutes.some(route => this.router.url === `/${route}`);
+    ).subscribe((): void => {
+      this.hideNavAndFooter = RouteConstant.headerFooterExcludedRoutes.some(
+        (route: string): boolean => this.router.url.startsWith(`/${route}`)
+      );
     });
   }
 
   private getCurrentRoutePath(): string {
-    let currentRoute = '';
+    let currentRoute: string = '';
     let route = this.activatedRoute;
     while (route.firstChild) {
       route = route.firstChild;

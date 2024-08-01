@@ -1,0 +1,19 @@
+<form [formGroup]="taskerDetailForm">
+
+  <div class="col-span-6 mt-4">
+    <hr class="h-px mb-4 bg-gray-200 border-0 dark:bg-gray-700">
+  </div>
+
+  <div class="col-span-6 mt-4">
+    <div class="flex justify-between items-center">
+      <label for="aboutMe" class="block text-lg font-bold">About Me</label>
+      <span class="block text-sm text-gray-500 dark:text-neutral-500">250 characters</span>
+    </div>
+    <textarea rows="3" id="aboutMe" name="aboutMe" formControlName="aboutMe" maxlength="100"
+              class="mt-1 w-full rounded-md border-gray-200 bg-white text-sm text-gray-700 shadow-sm"
+              placeholder="I have X years experience in..."></textarea>
+    <tasklion-error-field [control]="taskerDetailForm.controls['aboutMe']"
+                          [errorMessages]="taskerDetailValidationMessage['aboutMe']"></tasklion-error-field>
+  </div>
+
+</form>

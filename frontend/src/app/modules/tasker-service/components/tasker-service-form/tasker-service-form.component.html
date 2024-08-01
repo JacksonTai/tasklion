@@ -1,0 +1,28 @@
+<section *ngIf="!isFetchingData else loadingTemplate">
+  <form class="bg-white mt-3 mb-4"  [formGroup]="taskerServiceDetailForm">
+    <div class="col-span-6 mt-2">
+      <div class="flex justify-between items-center mb-1">
+        <label for="category" class="block text-sm font-medium text-gray-700">Category </label>
+      </div>
+      <ng-select [labelForId]="'category'" [items]="categories" [addTag]="true"
+                 bindLabel="name" formControlName="category">
+      </ng-select>
+      <tasklion-error-field [control]="taskerServiceDetailForm.controls['category']"
+                            [errorMessages]="validationMessages['category']"></tasklion-error-field>
+    </div>
+    <div class="col-span-6 mt-4">
+      <div class="flex justify-between items-center">
+        <label for="description" class="block text-sm font-medium text-gray-700">Description </label>
+        <span class="block text-sm text-gray-500 dark:text-neutral-500">100 characters</span>
+      </div>
+      <textarea rows="2" type="text" id="description" name="description" formControlName="description"
+                class="mt-1 w-full rounded-md border-gray-200 bg-white text-sm text-gray-700 shadow-sm"></textarea>
+      <tasklion-error-field [control]="taskerServiceDetailForm.controls['description']"
+                            [errorMessages]="validationMessages['description']"></tasklion-error-field>
+    </div>
+  </form>
+</section>
+
+<ng-template #loadingTemplate>
+  <tasklion-loading-spinner></tasklion-loading-spinner>
+</ng-template>

@@ -1,0 +1,46 @@
+<section class="max-w-screen-lg mx-auto">
+  <h2 class="text-2xl font-bold mb-3">Statistics Report</h2>
+  <ng-container *ngIf="!isFetchingData else loadingTemplate">
+    <div class="grid grid-cols-12 gap-5">
+      <div class="p-5 col-span-full border border-gray-300 rounded-lg">
+        <h3 class="text-lg font-bold mb-5">Total Tasks</h3>
+        <p-chart type="bar" [data]="barData" [options]="barOptions" style="height: 300px;"></p-chart>
+      </div>
+      <div class="p-5 col-span-full lg:col-span-6 border border-gray-300 rounded-lg">
+        <h3 class="text-lg font-bold mb-3">Total Active Users</h3>
+        <p-chart type="doughnut" [data]="donutData" [options]="donutOptions"></p-chart>
+      </div>
+      <div class="p-5 col-span-full lg:col-span-6 border border-gray-300 rounded-lg">
+        <h3 class="text-lg font-bold mb-3">Most Offered Services</h3>
+        <div class="relative overflow-x-auto">
+          <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+            <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+            <tr>
+              <th scope="col" class="px-6 py-3">
+                Service
+              </th>
+              <th scope="col" class="px-6 py-3">
+                Count
+              </th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let service of mostOfferedServices" class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+              <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                {{ service.field }}
+              </th>
+              <td class="px-6 py-4">
+                {{ service.value }}
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+</section>
+
+<ng-template #loadingTemplate>
+  <tasklion-loading-spinner></tasklion-loading-spinner>
+</ng-template>

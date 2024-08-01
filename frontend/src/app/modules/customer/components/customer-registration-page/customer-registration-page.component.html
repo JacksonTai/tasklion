@@ -1,0 +1,27 @@
+<div class="min-h-screen mx-auto flex items-center justify-center py-6 px-4 max-w-screen-xl">
+    <div class="grid lg:grid-cols-12 items-center gap-10 w-full">
+        <div class="col-span-full lg:col-span-5 max-lg:text-center mx-auto">
+            <tasklion-logo class="flex justify-center lg:block"></tasklion-logo>
+            <h2 class="my-3 lg:text-5xl text-4xl font-extrabold lg:leading-[55px]">
+                Let’s create your Tasklion account!
+            </h2>
+            <p class="text-sm my-6">
+                Say goodbye to struggling with those never-ending chores.
+            </p>
+            <a href="{{ RouteConstant.FAQ }}" target="_blank"
+               class="inline-block mb-4 mx-auto text-gray-700 text-sm underline">
+                What is a Tasklion Account?
+            </a>
+            <p class="mt-4 text-sm text-gray-500 sm:mt-0">
+                Already have a Tasklion account?
+                <a href="{{ RouteConstant.CUSTOMER_LOGIN }}" class="text-gray-700 underline">Sign in</a>
+            </p>
+        </div>
+        <div class="col-span-full lg:col-span-7 space-y-6 lg:ml-auto max-lg:mx-auto w-full">
+            <tasklion-customer-registration-form (registrationSuccess)="onSuccessfulRegistration($event)"></tasklion-customer-registration-form>
+            <div>
+                <tasklion-agreement></tasklion-agreement>
+            </div>
+        </div>
+    </div>
+</div>

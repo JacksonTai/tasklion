@@ -1,7 +1,7 @@
 package com.tasklion.backend;
 
-import com.tasklion.backend.config.ApiPropertyConfig;
-import com.tasklion.backend.config.SecurityPropertyConfig;
+import com.tasklion.backend.common.config.ApiPropertyConfig;
+import com.tasklion.backend.security.config.SecurityPropertyConfig;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;

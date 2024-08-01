@@ -1,17 +1,10 @@
-import {CustomerModel} from "../models/customer.model";
-import {UserRoleConstant} from "../constants/user-role.constant";
+import {CustomerModel} from "src/app/modules/customer/models/customer.model";
 
 export class CustomerMapper {
 
-  static mapFrom(formValues: any): CustomerModel {
-    const {username, email, password} = formValues.accountDetail;
-    return {
-      username,
-      email,
-      password,
-      role: UserRoleConstant.CUSTOMER,
-      personalDetail: formValues.personalDetail
-    };
+  static toModel(formValues: any): CustomerModel {
+    const {accountDetail: tasklionAccount = {}, personalDetail = {}} = formValues;
+    return {tasklionAccount, personalDetail};
   }
 
 }

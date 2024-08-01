@@ -1,0 +1,45 @@
+<form [formGroup]="taskerServiceDetailForm" (submit)="addService()">
+  <div class="col-span-6 mt-4">
+    <hr class="h-px mb-4 bg-gray-200 border-0 dark:bg-gray-700">
+    <h6 class="text-lg font-bold">Service</h6>
+  </div>
+
+  <div formArrayName="services">
+    <div *ngFor="let service of getServices().controls; let i = index" [formGroupName]="i">
+      <ng-container>
+        <div class="bg-white mt-3 mb-4">
+          <div class="col-span-6 mt-2">
+            <div class="flex justify-between items-center mb-1">
+              <label for="category" class="block text-sm font-medium text-gray-700">Category </label>
+              <tasklion-delete-button (clicked)="removeService(i)"></tasklion-delete-button>
+            </div>
+            <ng-select [labelForId]="'category'" [items]="categories" [addTag]="true"
+                       bindLabel="name" formControlName="category">
+            </ng-select>
+            <div *ngIf="isFieldInvalid(i, 'category') && isFieldTouched(i, 'category')" class="text-red-500 text-xs mt-1">
+              <div *ngIf="getFieldError(i, 'category', 'required')">{{ validationMessage['category']['required'] }}</div>
+              <div *ngIf="getFieldError(i, 'category', 'maxlength')">   {{ validationMessage['category']['maxlength'] }}</div>
+            </div>
+          </div>
+          <div class="col-span-6 mt-4">
+            <div class="flex justify-between items-center">
+              <label for="description" class="block text-sm font-medium text-gray-700">Description </label>
+              <span class="block text-sm text-gray-500 dark:text-neutral-500">100 characters</span>
+            </div>
+            <textarea rows="2" type="text" id="description" name="description" formControlName="description"
+                      class="mt-1 w-full rounded-md border-gray-200 bg-white text-sm text-gray-700 shadow-sm"></textarea>
+            <div *ngIf="isFieldInvalid(i, 'description') && isFieldTouched(i, 'description')" class="text-red-500 text-xs mt-1">
+              <div *ngIf="getFieldError(i, 'description', 'required')">{{ validationMessage['description']['required'] }}</div>
+              <div *ngIf="getFieldError(i, 'description', 'maxlength')">{{ validationMessage['description']['maxlength']  }}</div>
+            </div>
+          </div>
+        </div>
+      </ng-container>
+      <hr class="h-px mb-4 bg-gray-200 border-0 dark:bg-gray-700">
+    </div>
+  </div>
+  <button  type="submit"
+     class="py-2.5 px-5 block my-4 w-full text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">
+    Add Service
+  </button>
+</form>

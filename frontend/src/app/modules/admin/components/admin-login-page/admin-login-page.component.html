@@ -1,0 +1,16 @@
+<div class="min-h-screen mx-auto flex items-center justify-center py-6 px-4 max-w-screen-lg">
+  <div class="grid lg:grid-cols-2 items-center gap-10 max-w-6xl w-full">
+    <div class="max-lg:text-center">
+      <tasklion-logo class="flex justify-center lg:block"></tasklion-logo>
+      <h2 class="my-3 lg:text-5xl text-4xl font-extrabold lg:leading-[55px]">
+        Staff Portal
+      </h2>
+    </div>
+    <div class="space-y-6 max-w-md lg:ml-auto max-lg:mx-auto w-full">
+      <h3 class="text-3xl font-extrabold mb-8 max-md:text-center">
+        Sign in to your account
+      </h3>
+      <tasklion-login-form [currentRole]="UserRoleConstant.ADMIN"></tasklion-login-form>
+    </div>
+  </div>
+</div>

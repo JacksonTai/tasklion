@@ -1,7 +1,7 @@
 export const RegexConstant = {
 
   // General
-  ALPHABETIC: /^[a-zA-Z]+$/,
+  ALPHABETIC: /^[a-zA-Z ]+$/,
   ALPHANUMERIC_AND_UNDERSCORE: /^[a-zA-Z0-9_]+$/,
   LOWER_CASE: /[a-z]/,
   UPPER_CASE: /[A-Z]/,

@@ -1,108 +1,149 @@
 import {inject, Injectable} from '@angular/core';
 import {LoginRequestModel} from "../../models/auth/login-request.model";
-import {ApiUrlConstant} from "../../constants/api-url.constant";
+import {ApiEndpointConstant} from "../../constants/api-endpoint.constant";
 import {ApiService} from "../api/api.service";
 import {HttpHeaders} from "@angular/common/http";
-import {catchError, Observable, tap, throwError} from "rxjs";
+import {lastValueFrom, Observable, of, tap} from "rxjs";
 import {CookieService} from "ngx-cookie";
-import {Router} from "@angular/router";
-import {RouteConstant} from "../../constants/route.constant";
 import {jwtDecode} from "jwt-decode";
 import {JwtPayloadModel} from "../../models/auth/jwt-payload.model";
 import {ApiResponseModel} from "../../models/api/api-response.model";
-import {CustomerModel} from "../../models/customer.model";
-import {TaskerModel} from "../../models/tasker.model";
+import {RouteConstant} from "../../constants/route.constant";
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService extends ApiService {
 
+  public currentRole: string = '';
   private cookieService: CookieService = inject(CookieService);
-  private router: Router = inject(Router);
 
-  login(loginRequestModel: LoginRequestModel): Observable<ApiResponseModel<any>> {
-    return this.post<LoginRequestModel>(ApiUrlConstant.LOGIN, loginRequestModel).pipe(
-      tap((response: ApiResponseModel<any>) => this.handleTokenResponse(response)),
+  public login(loginRequestModel: LoginRequestModel): Observable<ApiResponseModel<any>> {
+    return this.post<ApiResponseModel<any>>(ApiEndpointConstant.LOGIN, loginRequestModel, {
+      withCredentials: true
+    });
+  }
+
+  public logout(): Observable<ApiResponseModel<any>> {
+    const refreshToken: string | null = this.getRefreshToken();
+    const headers = new HttpHeaders({
+      'Refresh-Token': `Bearer ${refreshToken}`
+    });
+    return this.post(ApiEndpointConstant.LOGOUT, null, {headers, withCredentials: true})
+  }
+
+  public handleLogoutAndRedirect(): void {
+    this.logout().subscribe({
+      next: (): void => {
+        this.cookieService.remove('access-token');
+        this.cookieService.remove('refresh-token');
+        window.location.href = RouteConstant.ROOT;
+      }
+    });
+  }
+
+  public switchRole(role: string): Observable<ApiResponseModel<any>> {
+    return this.post<ApiResponseModel<any>>(ApiEndpointConstant.AUTH_SWITCH_ROLE,
+      {value: role},
+      {withCredentials: true}
+    ).pipe(
+      tap((response: ApiResponseModel<any>): void => this.handleTokenResponse(response)),
     );
   }
 
-  logout(): void {
-    this.cookieService.remove('access-token');
-    this.cookieService.remove('refresh-token');
-    if (!this.getAccessToken()) {
-      this.router.navigate([RouteConstant.LOGIN]);
+  public handleTokenResponse(response: ApiResponseModel<any>): void {
+    if (response.data) {
+      this.setAccessToken(response.data.accessToken);
+      this.setRefreshToken(response.data.refreshToken);
     }
   }
 
-  registerTasker(taskerModel: TaskerModel): Observable<ApiResponseModel<any>> {
-    return this.register(ApiUrlConstant.TASKER_REGISTER, taskerModel);
+  public getJwtPayload(): JwtPayloadModel | null {
+    const accessToken: string | null = this.getAccessToken();
+    return accessToken ? this.getDecodedToken(accessToken) : null;
   }
 
-  registerCustomer(customerModel: CustomerModel): Observable<ApiResponseModel<any>> {
-    return this.register(ApiUrlConstant.CUSTOMER_REGISTER, customerModel);
-  }
-
-  private register(url: string, data: any): Observable<any> {
-    return this.post(url, data).pipe(
-      tap(response => this.handleTokenResponse(response))
-    );
-  }
-
-  private handleTokenResponse(response: any) {
-    this.setRefreshToken(response.data.refreshToken);
-    this.setAccessToken(response.data.accessToken);
-  }
-
-  requestNewAccessToken(): Observable<any> {
+  public requestNewAccessToken(): Observable<any> {
     const refreshToken: string | null = this.getRefreshToken();
-    return this.post<any>(ApiUrlConstant.AUTH_REFRESH_TOKEN, null, {
-      headers: new HttpHeaders({
-        'Authorization': `Bearer ${refreshToken}`
-      }),
-    }).pipe(
-      tap((response) => {
-        this.setAccessToken(response.data.accessToken);
-      }),
-      catchError(error => {
-        return throwError(() => error);
-      })
-    );
+    const accessToken: string | null = this.getAccessToken();
+    if (refreshToken && accessToken) {
+      return this.post<any>(ApiEndpointConstant.AUTH_REFRESH_TOKEN, null, {
+        headers: new HttpHeaders({
+          'Authorization': `Bearer ${refreshToken}`,
+          'Expired-Access-Token': accessToken
+        }),
+      }).pipe(
+        tap((response): void => this.setAccessToken(response.data.accessToken))
+      );
+    }
+    return of(null);
   }
 
-  isAuthenticated(): boolean {
-    const refreshToken: string | null = this.getRefreshToken();
-    return this.getAccessToken() !== null || (refreshToken !== null && !this.isTokenExpired(refreshToken));
+  public async isFullyAuthenticated(): Promise<boolean> {
+    if (this.isValidAccessToken()) {
+      return this.verifyTokenAsync();
+    }
+    return this.isValidRefreshToken();
   }
 
-  getAccessToken(): string | null {
+  private async verifyTokenAsync(): Promise<boolean> {
+    try {
+      const response: ApiResponseModel<any> = await lastValueFrom(this.verifyToken());
+      return response.data;
+    } catch {
+      return false;
+    }
+  }
+
+  public isAuthenticated(): boolean {
+    return this.isValidAccessToken() || this.isValidRefreshToken();
+  }
+
+  public getAccessToken(): string | null {
     return this.cookieService.get('access-token') || null;
   }
 
-  setAccessToken(accessToken: string): void {
+  public setAccessToken(accessToken: string): void {
     this.cookieService.put('access-token', accessToken);
   }
 
-  getRefreshToken(): string | null {
+  public getRefreshToken(): string | null {
     return this.cookieService.get('refresh-token') || null;
   }
 
-  setRefreshToken(refreshToken: string): void {
+  public setRefreshToken(refreshToken: string): void {
     this.cookieService.put('refresh-token', refreshToken);
   }
 
-  getDecodedToken(token: string): JwtPayloadModel | null {
+  public getDecodedToken(token: string): JwtPayloadModel | null {
     return token ? jwtDecode(token) : null;
   }
 
-  getExpiryTime(token: string): number | null {
+  public getExpiryTime(token: string): number | null {
     const decodedAccessToken: JwtPayloadModel | null = this.getDecodedToken(token);
     return decodedAccessToken && decodedAccessToken.exp !== undefined ? decodedAccessToken.exp : null;
   }
 
-  isTokenExpired(token: string): boolean {
+  private isValidAccessToken(): boolean {
+    const accessToken: string | null = this.getAccessToken();
+    return accessToken !== null && !this.isTokenExpired(accessToken);
+  }
+
+  private isValidRefreshToken(): boolean {
+    const refreshToken: string | null = this.getRefreshToken();
+    return refreshToken !== null && !this.isTokenExpired(refreshToken);
+  }
+
+  public isTokenExpired(token: string): boolean {
     const expiryTime: number | null = this.getExpiryTime(token);
     return expiryTime ? (expiryTime * 1000) < Date.now() : true;
   }
 
+  public getXsrfToken(): string | undefined {
+    return this.cookieService.get('XSRF-TOKEN');
+  }
+
+  verifyToken(): Observable<ApiResponseModel<any>> {
+    return this.get<ApiResponseModel<boolean>>(ApiEndpointConstant.VERIFY_TOKEN);
+  }
 }

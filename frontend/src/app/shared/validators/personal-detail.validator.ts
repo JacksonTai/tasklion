@@ -1,16 +1,16 @@
 import {AbstractControl, AsyncValidatorFn, ValidationErrors, ValidatorFn} from "@angular/forms";
-import {TasklionUserService} from "../../services/tasklion-user/tasklion-user.service";
 import {CommonValidator} from "./common.validator";
+import {TasklionAccountService} from "src/app/modules/tasklion-account/services/tasklion-account.service";
 
 export namespace PersonalDetailValidator {
 
   import existsValidator = CommonValidator.existsValidator;
 
-  export const fullNameExistsValidator = (tasklionUserService: TasklionUserService): AsyncValidatorFn =>
-    existsValidator(tasklionUserService, 'fullName', 'fullNameExists');
+  export const fullNameExistsValidator = (tasklionUserService: TasklionAccountService, currentFullName?: string): AsyncValidatorFn =>
+    existsValidator(tasklionUserService, 'fullName', 'fullNameExists', currentFullName);
 
-  export const phoneNumberExistsValidator = (tasklionUserService: TasklionUserService): AsyncValidatorFn =>
-    existsValidator(tasklionUserService, 'phoneNumber', 'phoneNumberExists');
+  export const phoneNumberExistsValidator = (tasklionUserService: TasklionAccountService, currentPhoneNumber?: string): AsyncValidatorFn =>
+    existsValidator(tasklionUserService, 'phoneNumber', 'phoneNumberExists', currentPhoneNumber);
 
   export function minAgeValidator(minAge: number): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {

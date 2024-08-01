@@ -1,0 +1,64 @@
+<form class="space-y-4 md:space-y-6" [formGroup]="tasklionAccountForm"
+      (ngSubmit)="updateTasklionAccount()" *ngIf="!isFetchingData else loadingTemplate">
+  <hr class="h-px mb-4 bg-gray-200 border-0 dark:bg-gray-700">
+  <div class="mt-3">
+    <tasklion-alert [showIf]="isUpdateSuccess" message="Tasklion account updated successfully"></tasklion-alert>
+  </div>
+  <h6 class="text-lg font-bold dark:text-white">Account Detail</h6>
+
+  <div class="col-span-6 sm:col-span-3 mt-4">
+    <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
+    <input type="email" id="email" name="email" formControlName="email"
+           class="mt-1 w-full rounded-md border-gray-200 bg-white text-sm text-gray-700 shadow-sm"/>
+    <tasklion-error-field [control]="tasklionAccountForm.controls['email']"
+                          [errorMessages]="validationMessages['email']"></tasklion-error-field>
+  </div>
+
+<!--  <div class="col-span-6 sm:col-span-3 mt-4">-->
+<!--    <label for="username" class="block text-sm font-medium text-gray-700">Username</label>-->
+<!--    <input type="text" id="username" name="username" formControlName="username"-->
+<!--           class="mt-1 w-full rounded-md border-gray-200 bg-white text-sm text-gray-700 shadow-sm"/>-->
+<!--    <tasklion-error-field [control]="tasklionAccountForm.controls['username']"-->
+<!--                          [errorMessages]="validationMessages['username']"></tasklion-error-field>-->
+<!--    <ul class=" text-gray-500 list-disc list-inside dark:text-gray-400 text-xs mt-3">-->
+<!--      <li>-->
+<!--        At least 6 characters (and up to 30 characters)-->
+<!--      </li>-->
+<!--      <li>-->
+<!--        Only contains letters, numbers, and underscores-->
+<!--      </li>-->
+<!--    </ul>-->
+<!--    <div class="flex p-4 my-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400" role="alert">-->
+<!--      <svg class="flex-shrink-0 inline w-4 h-4 me-3 mt-[2px]" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">-->
+<!--        <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z"/>-->
+<!--      </svg>-->
+<!--      <span class="sr-only">Danger</span>-->
+<!--      <div>-->
+<!--        <span class="font-medium">Changing your username can have unintended side effects:</span>-->
+<!--        <ul class="mt-1.5 list-disc list-inside">-->
+<!--          <li>Links to your profile will break</li>-->
+<!--          <li>Existing tasks will be assigned to your new username</li>-->
+<!--        </ul>-->
+<!--      </div>-->
+<!--    </div>-->
+<!--  </div>-->
+
+  <div>
+    <a href="{{ RouteConstant.TASKLION_ACCOUNT }}/{{ RouteConstant.CHANGE_PASSWORD }}"
+       class="py-2.5 px-5 block mb-2 lg:mb-0 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">
+      Change Password
+    </a>
+  </div>
+
+  <div class="mt-4">
+    <tasklion-personal-detail-form [personalDetail]="personalDetail"></tasklion-personal-detail-form>
+  </div>
+
+  <div>
+    <tasklion-submit-button [isLoading]="isUpdating" label="Save"></tasklion-submit-button>
+  </div>
+</form>
+
+<ng-template #loadingTemplate>
+  <tasklion-loading-spinner></tasklion-loading-spinner>
+</ng-template>

@@ -1,20 +1,15 @@
-import {UserRoleConstant} from "../constants/user-role.constant";
-import {TaskerModel} from "../models/tasker.model";
+import {TaskerModel} from "src/app/modules/tasker/models/tasker.model";
 
 export class TaskerMapper {
 
-  static mapFrom(formValues: any): TaskerModel {
-    const {accountDetail, personalDetail, addressDetail: address = {}, taskerDetail = {}} = formValues;
-    const {username, email, password} = accountDetail;
-    const {aboutMe = '', services = []} = taskerDetail;
+  static toModel(formValues: any): TaskerModel {
+    const {accountDetail: tasklionAccount = {}, personalDetail = {}, taskerDetail = {}} = formValues;
+    const {aboutMe = null, serviceAreas = [], services = []} = taskerDetail;
     return {
-      username,
-      email,
-      password,
-      role: UserRoleConstant.CUSTOMER,
+      tasklionAccount,
+      serviceAreas,
       aboutMe,
       services,
-      address,
       personalDetail
     };
   }

@@ -1,0 +1,161 @@
+<nav class="bg-white border-gray-200 dark:bg-gray-900">
+  <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
+    <tasklion-logo></tasklion-logo>
+    <ng-container *ngIf="isAuthenticated">
+      <div class="flex md:order-2">
+        <ng-container *ngIf="isAuthenticated">
+          <div class="flex items-center space-x-3 md:space-x-0 rtl:space-x-reverse">
+            <button type="button" id="user-menu-button" aria-expanded="false" data-dropdown-toggle="user-dropdown"
+                    class="flex text-sm rounded-full md:me-0 focus:ring-4 mr-2 focus:ring-gray-300 dark:focus:ring-gray-600"
+                    data-dropdown-placement="bottom">
+              <span class="sr-only">Open user menu</span>
+              <img class="w-8 h-8 rounded-full" src="/assets/images/default-profile-image.jpg" alt="profile image">
+            </button>
+            <!-- Dropdown menu -->
+            <div
+              class="z-50 hidden my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600"
+              id="user-dropdown">
+              <div class="px-4 py-3">
+                <span class="block text-xs text-gray-500 dark:text-white">Username</span>
+                <span class="block dark:text-white">{{ username | dashIfEmpty }}</span>
+              </div>
+              <ng-container *ngIf="isTaskerMode && isCustomer">
+                <li>
+                  <button (click)="toggleCurrentUserRole()"
+                          class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">
+                    Switch to Customer
+                  </button>
+                </li>
+              </ng-container>
+              <ng-container *ngIf="isCustomerMode && isTasker">
+                <li>
+                  <button (click)="toggleCurrentUserRole()"
+                          class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">
+                    Tasker Centre
+                  </button>
+                </li>
+              </ng-container>
+              <ul class="py-2" aria-labelledby="user-menu-button">
+                <li *ngIf="!isAdmin">
+                  <a href="{{ RouteConstant.TASKLION_ACCOUNT }}"
+                     class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">
+                    Taskion Account
+                  </a>
+                </li>
+                <li>
+                  <a (click)="logout()"
+                     class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">
+                    Sign out
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </ng-container>
+        <button data-collapse-toggle="navbar-user" type="button"
+                class="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
+                aria-controls="navbar-user" aria-expanded="false">
+          <span class="sr-only">Open main menu</span>
+          <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 17 14">
+            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M1 1h15M1 7h15M1 13h15"/>
+          </svg>
+        </button>
+      </div>
+    </ng-container>
+    <ng-container *ngIf="!isAuthenticated">
+      <button data-collapse-toggle="navbar-user" type="button"
+              class="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
+              aria-controls="navbar-user" aria-expanded="false">
+        <span class="sr-only">Open main menu</span>
+        <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 17 14">
+          <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M1 1h15M1 7h15M1 13h15"/>
+        </svg>
+      </button>
+    </ng-container>
+    <div class="items-center justify-between hidden w-full md:flex md:w-auto md:order-1" id="navbar-user">
+      <ul
+        class="flex flex-col font-medium p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
+        <ng-container *ngIf="!isAuthenticated">
+          <li>
+            <a href="{{ RouteConstant.TASKER_LOGIN }}"
+               class="py-2.5 px-5 block mb-2 lg:mb-0 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">
+              Tasker Centre
+            </a>
+          </li>
+          <li class="block lg:ml-0">
+            <a href="{{ RouteConstant.CUSTOMER_LOGIN }}"
+               class="block mb-2 lg:mb-0 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
+              Sign in
+            </a>
+          </li>
+        </ng-container>
+        <ng-container *ngIf="isAuthenticated">
+          <ng-container *ngIf="isAdmin">
+            <li>
+              <a href="{{ RouteConstant.USER }}"
+                 class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">
+                Manage User
+              </a>
+            </li>
+            <li>
+              <a href="{{ RouteConstant.STATISTIC }}"
+                 class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">
+                Statistic Report
+              </a>
+            </li>
+          </ng-container>
+          <ng-container *ngIf="isCustomerMode">
+            <li>
+              <a href="{{ RouteConstant.TASK }}"
+                 class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">
+                My Task
+              </a>
+            </li>
+            <li>
+              <a href="{{ RouteConstant.CUSTOMER_DASHBOARD }}"
+                 class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">
+                Book a Task
+              </a>
+            </li>
+            <ng-container *ngIf="!isTasker">
+              <li>
+                <a href="{{ RouteConstant.CUSTOMER_BECOME_A_TASKER }}"
+                   class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">
+                  Become a Tasker
+                </a>
+              </li>
+            </ng-container>
+          </ng-container>
+          <ng-container *ngIf="isTaskerMode">
+            <li>
+              <a href="{{ RouteConstant.TASK }}"
+                 class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">
+                 Task
+              </a>
+            </li>
+            <li>
+              <a href="{{RouteConstant.TASKER}}/{{ RouteConstant.SERVICE }}"
+                 class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">
+                 Service
+              </a>
+            </li>
+            <li>
+              <a href="{{ RouteConstant.TASKER }}/{{ RouteConstant.AVAILABILITY }}"
+                 class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">
+                Availability
+              </a>
+            </li>
+            <li>
+              <a href="{{RouteConstant.TASKER}}/{{ RouteConstant.PROFILE }}"
+                 class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">
+                Tasker Profile
+              </a>
+            </li>
+          </ng-container>
+        </ng-container>
+      </ul>
+    </div>
+  </div>
+</nav>

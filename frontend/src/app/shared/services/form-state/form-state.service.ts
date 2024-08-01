@@ -20,7 +20,7 @@ export class FormStateService {
 
   private getFormStateSubject(formId: string): BehaviorSubject<FormState> {
     if (!this.formStateMap.has(formId)) {
-      const emptyForm = this.formBuilder.group({});
+      const emptyForm: FormGroup = this.formBuilder.group({});
       this.formStateMap.set(formId, new BehaviorSubject<FormState>({form: emptyForm}));
     }
     return this.formStateMap.get(formId)!;

@@ -27,10 +27,10 @@
     <img src="frontend/src/assets/images/logo.png" alt="Logo" width="80" height="80">
   </a>
 
-  <h3 align="center">Tasklion (In Development)</h3>
+  <h3 align="center">Tasklion</h3>
 
   <p align="center">
-    A platform that connects people with local freelancers in Malaysia
+    A platform that connects freelance labor with local demand in Malaysia.
 <!--     <br />
     <a href="https://github.com/othneildrew/Best-README-Template"><strong>Explore the docs »</strong></a>
     <br />
@@ -80,7 +80,9 @@ We understand that for every individual in Malaysia who needs assistance with an
 
 ### How it Works
 
-Users can post tasks they need help with, whether it's fixing a leaky faucet, assembling furniture, or running errands. Nearby helpers can browse these tasks and offer their assistance. Once a task is accepted, users and helpers can communicate, collaborate, and coordinate the completion of the task.
+The customers can search for taskers by service category, service location and time. They can choose the tasker and view the respective services’ rating and reviews before scheduling a task with the tasker.
+The taskers can manage their available time slots, including both specific dates and recurring weekly slots, as well as service areas. This ensures incoming task invitations are only based on the availability they set.
+The admin can view and choose to ban or unban the customers and taskers account. Statistics are viewable by admin in graphical formats, such as charts.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 

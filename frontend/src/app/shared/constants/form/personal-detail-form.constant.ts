@@ -9,7 +9,8 @@ export class PersonalDetailFormConstant {
       minlength: 'Full name must be at least 3 characters long',
       maxlength: 'Full name cannot be more than 50 characters',
       pattern: 'Full name can only contain alphabetic characters',
-      fullNameExists: 'Full name is already registered. Please use another full name.'
+      fullNameExists: 'Full name is already registered. Please use another full name.',
+      consecutiveCharacter: 'Full name cannot contain consecutive spaces'
     },
     phoneNumber: {
       required: 'Phone number is required',

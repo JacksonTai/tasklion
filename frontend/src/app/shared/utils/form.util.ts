@@ -1,13 +1,10 @@
-import {FormControl, FormGroup} from "@angular/forms";
+import {FormGroup} from "@angular/forms";
 
 export default class FormUtil {
 
   static markAllFieldsAsDirty(formGroup: FormGroup): void {
-    Object.keys(formGroup.controls).forEach(field => {
-      const control = formGroup.get(field);
-      if (control instanceof FormControl) {
-        control.markAsDirty({onlySelf: true});
-      }
+    Object.keys(formGroup.controls).forEach((field: string): void => {
+      formGroup.get(field)?.markAsDirty({onlySelf: true});
     });
   }
 

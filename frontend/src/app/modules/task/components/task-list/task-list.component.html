@@ -1,0 +1,96 @@
+<section class="mx-auto">
+  <div class="border-b border-gray-200 dark:border-neutral-700">
+    <nav class="flex space-x-1" aria-label="Tabs" role="tablist">
+      <ul class="flex flex-wrap text-sm font-medium text-center text-gray-500 border-b border-gray-200">
+        <li class="me-2" *ngFor="let status of taskStatus">
+          <button class="p-4 rounded-t-lg" (click)="onTabChange(status)"
+                  [ngClass]="activeTab === status ? 'text-blue-600 bg-gray-100' : 'hover:text-gray-600 hover:bg-gray-50'">
+            {{ TaskStatusConstant.getDisplayName(status) }}
+          </button>
+        </li>
+      </ul>
+    </nav>
+  </div>
+  <ng-container *ngIf="!isLoading else listLoadingTemplate">
+    <section *ngIf="tasks && tasks.length > 0; else emptyState">
+      <div class="relative overflow-x-auto">
+        <table class="w-full my-3 text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+          <thead class="text-sm text-gray-700 bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+          <tr>
+            <th scope="col" class="px-6 py-3">
+              ID
+            </th>
+            <th scope="col" class="px-6 py-3">
+              {{ isTasker ? 'Customer' : 'Tasker' }}
+            </th>
+            <th scope="col" class="px-6 py-3">
+              Service
+            </th>
+            <th scope="col" class="px-6 py-3">
+              Date
+            </th>
+            <th scope="col" class="px-6 py-3">
+              Time
+            </th>
+            <th scope="col" class="px-6 py-3">
+              Requested at
+            </th>
+            <th scope="col" class="px-6 py-3">
+              Action
+            </th>
+          </tr>
+          </thead>
+          <tbody>
+          <ng-container *ngFor="let task of tasks">
+            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+              <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                {{ task.id }}
+              </th>
+              <td class="px-6 py-4">
+                <a
+                  [routerLink]="isTasker ? ['/' +  RouteConstant.CUSTOMER, task.customerUsername] : ['/' +  RouteConstant.TASKER, task.taskerUsername]"
+                  target="_blank"
+                  class="font-medium text-blue-600 dark:text-blue-500 hover:underline">
+                  {{ isTasker ? task.customerUsername : task.taskerUsername }}
+                </a>
+              </td>
+              <td class="px-6 py-4">
+                <a
+                  [routerLink]="isTasker ? ['/' +  RouteConstant.TASKER, RouteConstant.SERVICE, task.taskerServiceId] :
+                   ['/' +  RouteConstant.TASKER,  task.taskerUsername, RouteConstant.SERVICE, task.taskerServiceId]"
+                  target="_blank"
+                  class="font-medium text-blue-600 dark:text-blue-500 hover:underline">
+                  {{ task.serviceCategory }}
+                </a>
+              </td>
+              <td class="px-6 py-4">
+                {{ task.date | date:'dd-MM-yyyy' }}
+              </td>
+              <td class="px-6 py-4">
+                {{ task.startTime | timeFormat }} - {{ task.endTime | timeFormat }}
+              </td>
+              <td class="px-6 py-4">
+                {{ task.creationDateTime | dateTimeFormat: 'Asia/Kuala_Lumpur' : '12-hour' }}
+              </td>
+              <td class="px-6 py-4">
+                <a [routerLink]="['/' +  RouteConstant.TASK, task.id]"
+                   class="font-medium text-blue-600 dark:text-blue-500 hover:underline">View</a>
+              </td>
+            </tr>
+          </ng-container>
+          </tbody>
+        </table>
+      </div>
+      <tasklion-paginator [paginationModel]="tasksPagination"
+                          (pageChange)="onPageChange($event)"></tasklion-paginator>
+    </section>
+  </ng-container>
+</section>
+
+<ng-template #listLoadingTemplate>
+  <tasklion-loading-spinner></tasklion-loading-spinner>
+</ng-template>
+
+<ng-template #emptyState>
+  <tasklion-empty-state message="There is no task available yet"></tasklion-empty-state>
+</ng-template>
