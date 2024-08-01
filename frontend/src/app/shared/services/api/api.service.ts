@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 import {HttpClient, HttpErrorResponse, HttpHeaders, HttpParams} from "@angular/common/http";
 import {catchError, Observable, throwError} from "rxjs";
 import {EnvironmentService} from "../environment/environment.service";
+import {ActivatedRoute, Params, Router} from "@angular/router";
 
 @Injectable({
   providedIn: 'root'
@@ -13,6 +14,8 @@ export class ApiService {
   constructor(
     private http: HttpClient,
     private environmentService: EnvironmentService,
+    private activatedRoute: ActivatedRoute,
+    private router: Router
   ) {
   }
 
@@ -43,15 +46,15 @@ export class ApiService {
   }
 
   put<T>(path: string, body: any, params?: HttpParams, headers?: HttpHeaders): Observable<T> {
-    const url = this.getFullUrl(path);
+    const url: string = this.getFullUrl(path);
     return this.http.put<T>(url, body, {params, headers}).pipe(
       catchError(this.handleError)
     );
   }
 
-  delete<T>(path: string, params?: HttpParams, headers?: HttpHeaders): Observable<T> {
-    const url = this.getFullUrl(path);
-    return this.http.delete<T>(url, {params, headers}).pipe(
+  delete<T>(path: string, body: any = {}, params?: HttpParams, headers?: HttpHeaders): Observable<T> {
+    const url: string = this.getFullUrl(path);
+    return this.http.request<T>('DELETE', url, { body, params, headers }).pipe(
       catchError(this.handleError)
     );
   }
@@ -71,4 +74,15 @@ export class ApiService {
     }
     return throwError(() => error)
   }
+
+  public getUrlParam(paramName: string): string | null {
+    let redirectUrl: string | null = null;
+    this.activatedRoute.queryParams.subscribe((params: Params): void => {
+      if (params[paramName]) {
+        redirectUrl = params[paramName];
+      }
+    });
+    return redirectUrl;
+  }
+
 }

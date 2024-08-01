@@ -1,0 +1,52 @@
+<ng-container *ngIf="!isFetchingData else loadingTemplate">
+  <ng-container *ngIf="taskerServices.length > 0; else emptyStateTemplate">
+    <ng-container *ngFor="let service of taskerServices">
+      <div class="py-3 w-full inline-block">
+        <div class="flex justify-between mb-2">
+          <h5 class="font-semibold text-lg tracking-tight text-gray-900 dark:text-white">
+            {{ service.category.name }}
+          </h5>
+          <ng-container *ngIf="isTaskerServiceRoute()">
+            <div>
+              <a class="me-3 inline-block font-medium text-blue-600 hover:underline"
+                 [routerLink]="[service.id.toString(), RouteConstant.EDIT]">
+                Edit
+              </a>
+              <button (click)="deleteService(service.id.toString())" type="button"
+                      class="cursor-pointer inline-block font-medium text-red-600 hover:underline">
+                Delete
+              </button>
+            </div>
+          </ng-container>
+        </div>
+        <a [routerLink]="getServiceDetailLink(service.id.toString())">
+          <tasklion-rating-detail [overallRating]="service.ratingDetail.overallRating"
+                                  [totalReviews]="service.ratingDetail.totalReviews">
+          </tasklion-rating-detail>
+          <p>{{ service.description }}</p>
+        </a>
+      </div>
+      <hr class="h-px bg-gray-200 border-0 dark:bg-gray-700">
+    </ng-container>
+  </ng-container>
+  <tasklion-paginator [paginationModel]="taskerServicesPagination"
+                      (pageChange)="onPageChange($event)"></tasklion-paginator>
+</ng-container>
+
+<ng-template #emptyStateTemplate>
+  <tasklion-empty-state message="There is no service found">
+  </tasklion-empty-state>
+</ng-template>
+
+<ng-template #loadingTemplate>
+  <tasklion-loading-spinner></tasklion-loading-spinner>
+</ng-template>
+
+<ng-container *ngIf="taskerServices.length > 0">
+  <tasklion-confirmation-modal #deleteModal
+                               [isLoading]="isDeleting"
+                               (confirm)="onDeleteConfirmed($event)"
+                               (cancel)="cancelDelete()">
+  </tasklion-confirmation-modal>
+  <tasklion-information-modal #infoModal></tasklion-information-modal>
+</ng-container>

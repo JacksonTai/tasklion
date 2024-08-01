@@ -1,0 +1,140 @@
+<section class="max-w-[1148px] mx-auto ">
+  <ol class="lg:flex items-center w-full space-y-4 lg:space-x-8 lg:space-y-0 mb-6">
+    <li class=" flex-1">
+      <a (click)="goToDashboard()" class="border-l-2 flex cursor-pointer flex-col border-t-0 pl-4 pt-0 border-solid border-blue-600 font-medium lg:pt-4 lg:border-t-2 lg:border-l-0 lg:pl-0">
+        <span class="text-sm lg:text-base text-blue-600">Step 1</span>
+        <h4 class="text-base lg:text-lg text-gray-900">Describe your task</h4>
+      </a>
+    </li>
+    <li class=" flex-1">
+      <a class="border-l-2 flex flex-col border-t-0 pl-4 pt-0 border-solid border-blue-300 font-medium lg:pt-4 lg:border-t-2 lg:border-l-0 lg:pl-0">
+        <span class="text-sm lg:text-base text-blue-600">Step 2</span>
+        <h4 class="text-base lg:text-lg text-gray-900">Browse Taskers</h4>
+      </a>
+    </li>
+    <li class=" flex-1">
+      <a class="border-l-2 flex flex-col border-t-0 pl-4 pt-0 border-solid border-gray-200 font-medium lg:pt-4 lg:border-t-2 lg:border-l-0 lg:pl-0">
+        <span class="text-sm lg:text-base text-gray-400">Step 3</span>
+        <h4 class="text-base lg:text-lg text-gray-900">Choose date & time</h4>
+      </a>
+    </li>
+  </ol>
+  <div class="grid grid-cols-3 gap-6">
+    <aside class="col-span-full lg:col-span-1 max-h-[460px] p-6 border border-gray-300 rounded-lg">
+      <form [formGroup]="searchForm">
+        <div>
+          <label class="mb-3 block font-bold text-gray-700">Date</label>
+          <p-calendar formControlName="dateRange" selectionMode="range" styleClass="w-full" dateFormat="dd/mm/yy"
+                      placeholder="Choose Dates" [showIcon]="true" [showButtonBar]="true" [touchUI]="true"
+                      [readonlyInput]="true" [minDate]="minDate" [maxDate]="maxDate"></p-calendar>
+        </div>
+        <div>
+          <hr class="h-px my-5 bg-gray-200 border-0 dark:bg-gray-700">
+          <div>
+            <label class="mb-3 block font-bold text-gray-700">Time of day</label>
+            <ul
+              class="w-full text-sm text-gray-900 bg-white border border-gray-200 rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+              <li class="w-full border-b border-gray-200 rounded-t-lg dark:border-gray-600">
+                <div class="flex items-center ps-3">
+                  <input id="morning" type="checkbox" formControlName="morning"
+                         (change)="onCheckboxChange($event, 'morning')"
+                         class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
+                  <label for="morning" class="w-full py-3 ms-2 text-sm text-gray-900 dark:text-gray-300">
+                    Morning (6am - 12pm)
+                  </label>
+                </div>
+              </li>
+              <li class="w-full border-b border-gray-200 rounded-t-lg dark:border-gray-600">
+                <div class="flex items-center ps-3">
+                  <input id="afternoon" type="checkbox" formControlName="afternoon"
+                         (change)="onCheckboxChange($event, 'afternoon')"
+                         class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
+                  <label for="afternoon" class="w-full py-3 ms-2 text-sm text-gray-900 dark:text-gray-300">
+                    Afternoon (12pm - 5pm)
+                  </label>
+                </div>
+              </li>
+              <li class="w-full border-b border-gray-200 rounded-t-lg dark:border-gray-600">
+                <div class="flex items-center ps-3">
+                  <input id="evening" type="checkbox" formControlName="evening"
+                         (change)="onCheckboxChange($event, 'evening')"
+                         class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
+                  <label for="evening" class="w-full py-3 ms-2 text-sm text-gray-900 dark:text-gray-300">
+                    Evening (5pm - 9pm)
+                  </label>
+                </div>
+              </li>
+            </ul>
+          </div>
+          <div
+            class="py-5 flex items-center text-sm text-gray-800 before:flex-1 before:border-t before:border-gray-200 before:me-6 after:flex-1 after:border-t after:border-gray-200 after:ms-6">
+            or choose a specific time
+          </div>
+          <div>
+            <select formControlName="specificTime"
+                    class="border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+              <option *ngFor="let time of times" [value]="time">{{ time }}</option>
+            </select>
+          </div>
+        </div>
+      </form>
+    </aside>
+    <ng-container *ngIf="!isFetchingData else loadingTemplate">
+      <section class="col-span-full lg:col-span-2 min-h-screen relative w-full">
+        <ng-container *ngIf="taskers.length > 0 else emptyState">
+          <ng-container *ngFor="let tasker of taskers">
+            <div class="grid grid-cols-4 gap-4 p-6 mb-3 border border-gray-300 rounded-lg">
+              <div class="col-span-full lg:col-span-1 flex flex-col justify-start items-center">
+                <img class="self-center mb-3 mx-auto rounded-full w-full max-w-36"
+                     src="assets/images/default-profile-image.jpg"
+                     alt="profile image"/>
+                <a [routerLink]="['/tasker', tasker.username, RouteConstant.SERVICE, tasker.taskerService.id]" target="_blank"
+                   class="font-medium text-center text-blue-600 text-sm hover:text-blue-800">
+                  View Profile & Reviews
+                </a>
+                <button (click)="onSelectTasker(tasker)"
+                        class="inline-block mt-3 text-center text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 focus:outline-none">
+                  Select & Continue
+                </button>
+              </div>
+              <div class="col-span-full lg:col-span-3">
+                <h5 class="mb-1 mt-3 text-2xl font-semibold text-gray-900 dark:text-white">{{ tasker.fullName }}</h5>
+                <tasklion-rating-detail
+                  [mainRating]="true"
+                  [overallRating]="tasker.taskerService.ratingDetail.overallRating"
+                  [totalReviews]="tasker.taskerService.ratingDetail.totalReviews">
+                </tasklion-rating-detail>
+                <div class="p-4 mt-6 bg-gray-100 rounded-sm">
+                  <h5 class="text-lg font-semibold text-gray-900 dark:text-white">How I can help
+                    with {{ tasker.taskerService.category.name }}:</h5>
+                  <p class="py-2">{{ tasker.taskerService.description }}</p>
+                </div>
+              </div>
+            </div>
+          </ng-container>
+          <div
+            class="my-10 flex items-center text-sm text-gray-800 before:flex-1 before:border-t before:border-gray-200 before:me-6 after:flex-1 after:border-t after:border-gray-200 after:ms-6">
+            End of the list
+          </div>
+          <div class="static bottom-0 w-full">
+            <tasklion-paginator [paginationModel]="taskersPagination"
+                                (pageChange)="onPageChange($event)"></tasklion-paginator>
+          </div>
+        </ng-container>
+      </section>
+    </ng-container>
+  </div>
+</section>
+
+<ng-template #loadingTemplate>
+  <div class="col-span-full lg:col-span-2 ">
+    <tasklion-loading-spinner></tasklion-loading-spinner>
+  </div>
+</ng-template>
+
+<ng-template #emptyState>
+  <div class="border border-gray-300 rounded-lg">
+    <tasklion-empty-state message="There are no Taskers currently available to help with your task.
+Try seeing who’s available on different days."></tasklion-empty-state>
+  </div>
+</ng-template>

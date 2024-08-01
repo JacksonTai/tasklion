@@ -1,15 +1,15 @@
 import {AsyncValidatorFn} from "@angular/forms";
-import {TasklionUserService} from "../../services/tasklion-user/tasklion-user.service";
 import {CommonValidator} from "./common.validator";
+import {TasklionAccountService} from "src/app/modules/tasklion-account/services/tasklion-account.service";
 
 export namespace TasklionUserValidator {
 
   import existsValidator = CommonValidator.existsValidator;
 
-  export const usernameExistsValidator = (tasklionUserService: TasklionUserService): AsyncValidatorFn =>
-    existsValidator(tasklionUserService, 'username', 'usernameExists');
+  export const usernameExistsValidator = (tasklionUserService: TasklionAccountService, currentUsername?: string): AsyncValidatorFn =>
+    existsValidator(tasklionUserService, 'username', 'usernameExists', currentUsername);
 
-  export const emailExistsValidator = (tasklionUserService: TasklionUserService): AsyncValidatorFn =>
-    existsValidator(tasklionUserService, 'email', 'emailExists');
+  export const emailExistsValidator = (tasklionUserService: TasklionAccountService, currentEmail?: string): AsyncValidatorFn =>
+    existsValidator(tasklionUserService, 'email', 'emailExists', currentEmail);
 
 }

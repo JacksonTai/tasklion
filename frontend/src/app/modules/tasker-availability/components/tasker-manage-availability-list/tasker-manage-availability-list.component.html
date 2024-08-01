@@ -1,0 +1,57 @@
+<div class="mt-5 relative overflow-x-auto shadow-md sm:rounded-lg" *ngIf="!isFetchingData else loadingTemplate">
+  <ng-container *ngIf="Object.keys(days).length > 0; else emptyStateTemplate">
+    <ng-container *ngFor="let day of Object.keys(days)">
+      <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+        <thead class="text-center text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+        <tr>
+          <th scope="col" colspan="2" class="px-6 py-3">
+            {{ day }}
+          </th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700" *ngFor="let availability of days[day]">
+          <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+            {{ availability.startTime | timeFormat }} - {{ availability.endTime | timeFormat }}
+            <span *ngIf="availability.date"
+                  class="bg-gray-100 text-gray-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-gray-700 dark:text-gray-300">
+              {{ availability.date }}
+            </span>
+            <span *ngIf="availability.repeat"
+                  class="bg-blue-100 text-blue-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-blue-900 dark:text-blue-300">
+              Repeat Weekly
+            </span>
+          </th>
+          <td class="px-6 py-4 text-right">
+            <button class="inline-block me-2 font-medium text-blue-600 hover:underline"
+                    [routerLink]="[availability.id.toString(), RouteConstant.EDIT]" [queryParams]="{isRepeat: availability.repeat}">
+              Edit
+            </button>
+            <button (click)="deleteAvailability(availability.id, availability.repeat)" type="button"
+                    class="font-medium text-red-600 hover:underline">Delete
+            </button>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </ng-container>
+  </ng-container>
+</div>
+
+<ng-template #emptyStateTemplate>
+  <tasklion-empty-state message="There is no availability being added yet.">
+  </tasklion-empty-state>
+</ng-template>
+
+<ng-template #loadingTemplate>
+  <tasklion-loading-spinner></tasklion-loading-spinner>
+</ng-template>
+
+<ng-container *ngIf="Object.keys(days).length > 0">
+  <tasklion-confirmation-modal #deleteModal
+                               [isLoading]="isDeleting"
+                               (confirm)="onDeleteConfirmed($event)"
+                               (cancel)="cancelDelete()">
+  </tasklion-confirmation-modal>
+  <tasklion-information-modal #infoModal></tasklion-information-modal>
+</ng-container>

@@ -1,0 +1,64 @@
+<nav class="flex mb-3" aria-label="Breadcrumb">
+  <ol class="inline-flex items-center space-x-1 md:space-x-2 rtl:space-x-reverse">
+    <li>
+      <div class="flex items-center">
+        <a [routerLink]="['/', RouteConstant.TASK]"
+           class="text-sm font-medium text-gray-500 hover:text-blue-600">
+          Tasks
+        </a>
+      </div>
+    </li>
+    <li>
+      <div class="flex items-center">
+        <svg class="rtl:rotate-180 w-3 h-3 text-gray-400 mx-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+             fill="none" viewBox="0 0 6 10">
+          <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4"/>
+        </svg>
+        <a [routerLink]="['/', RouteConstant.TASK, taskId]"
+           class="ms-1 text-sm font-medium text-gray-500 hover:text-blue-600">
+          Detail
+        </a>
+      </div>
+    </li>
+    <li aria-current="page">
+      <div class="flex items-center">
+        <svg class="rtl:rotate-180 w-3 h-3 text-gray-400 mx-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+             fill="none" viewBox="0 0 6 10">
+          <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4"/>
+        </svg>
+        <span class="ms-1 text-sm font-medium text-gray-700 md:ms-2">
+          Add Review
+        </span>
+      </div>
+    </li>
+  </ol>
+</nav>
+<form [formGroup]="serviceReviewForm" (ngSubmit)="onSubmit()">
+  <hr class="h-px my-4 bg-gray-200 border-0 dark:bg-gray-700">
+  <div class="mb-5">
+    <label class="block mb-1 font-medium text-gray-700">Rate tasker's service quality</label>
+    <p class="text-gray-600 text-sm mb-3">Rate from 1 (Poor) to 5 (Amazing)</p>
+    <div class="flex flex-wrap">
+      <ng-container *ngFor="let rating of ratingOptions">
+        <div class="flex items-center me-4">
+          <input id="{{rating}}" type="radio" [value]="rating" name="rating" formControlName="rating"
+                 class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 focus:ring-2">
+          <label for="{{rating}}" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">{{ rating }}</label>
+        </div>
+      </ng-container>
+    </div>
+    <tasklion-error-field [control]="serviceReviewForm.controls['rating']"
+                          [errorMessages]="validationMessages['rating']"></tasklion-error-field>
+  </div>
+  <div class="mb-5">
+    <label for="comment" class="block font-medium text-gray-700">Comment
+      <span class="text-gray-600 text-sm">(Optional)</span>
+    </label>
+    <textarea rows="4" type="text" id="comment" name="comment" formControlName="comment" maxlength="250"
+              placeholder="Share more thoughts on the service to help others." [class.bg-gray-50]="false"
+              class="resize-none mt-1 w-full rounded-md border-gray-200 text-sm text-gray-700 shadow-sm"></textarea>
+    <tasklion-error-field [control]="serviceReviewForm.controls['comment']"
+                          [errorMessages]="validationMessages['comment']"></tasklion-error-field>
+  </div>
+  <tasklion-submit-button [isLoading]="isAdding" label="Add Review"></tasklion-submit-button>
+</form>

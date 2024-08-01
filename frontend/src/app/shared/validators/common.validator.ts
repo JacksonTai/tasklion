@@ -4,10 +4,18 @@ import {debounceTime, map, Observable, of} from "rxjs";
 export namespace CommonValidator {
 
   export function consecutiveUnderscoreValidator(): ValidatorFn {
+    return consecutiveCharacterValidator("_");
+  }
+
+  export function consecutiveSpaceValidator(): ValidatorFn {
+    return consecutiveCharacterValidator(" ");
+  }
+
+  export function consecutiveCharacterValidator(character: string): ValidatorFn {
     return (control: AbstractControl): { [key: string]: any } | null => {
       const value: string = control.value;
-      if (value && value.includes("__")) {
-        return {consecutiveUnderscore: true};
+      if (value && value.includes(character + character)) {
+        return {consecutiveCharacter: true};
       }
       return null;
     };
@@ -16,16 +24,12 @@ export namespace CommonValidator {
   export function startEndUnderscoreValidator(): ValidatorFn {
     return (control: AbstractControl): { [key: string]: any } | null => {
       const value: string = control.value;
-      if (value && (value.startsWith("_") || value.endsWith("_"))) {
-        return {startEndUnderscore: true};
-      }
-      return null;
+      return value && (value.startsWith("_") || value.endsWith("_")) ? {startEndUnderscore: true} : null;
     };
   }
 
-  export function matchValidator(matchTo: string, reverse?: boolean): ValidatorFn {
-    return (control: AbstractControl):
-      ValidationErrors | null => {
+  export function notMatchValidator(matchTo: string, reverse?: boolean): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
       if (control.parent && reverse) {
         const c = (control.parent?.controls as any)[matchTo] as AbstractControl;
         if (c) {
@@ -34,14 +38,28 @@ export namespace CommonValidator {
         return null;
       }
       return !!control.parent && !!control.parent.value &&
-      control.value === (control.parent?.controls as any)[matchTo].value ? null : {match: true};
+      control.value === (control.parent?.controls as any)[matchTo].value ? null : {notMatch: true};
     };
   }
 
-  export function existsValidator(service: any, fieldName: string, errorName: string): AsyncValidatorFn {
+  export function matchValidator(matchTo: string, reverse?: boolean): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+      if (control.parent && reverse) {
+        const c = (control.parent?.controls as any)[matchTo] as AbstractControl;
+        if (c) {
+          c.updateValueAndValidity();
+        }
+        return null;
+      }
+      return !!control.parent && !!control.parent.value &&
+      control.value !== (control.parent?.controls as any)[matchTo].value ? null : {match: true};
+    };
+  }
+
+  export function existsValidator(service: any, fieldName: string, errorName: string, currentValue?: string): AsyncValidatorFn {
     return (control: AbstractControl): Observable<ValidationErrors | null> => {
       const value = control.value;
-      if (!value) {
+      if (!value || (currentValue && value === currentValue))  {
         return of(null);
       }
       return service.isExists({field: fieldName, value: value})

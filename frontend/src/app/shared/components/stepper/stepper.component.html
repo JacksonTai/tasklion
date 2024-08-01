@@ -1,0 +1,20 @@
+<nav class="flex my-3" aria-label="Breadcrumb">
+  <ol *ngFor="let step of steps; let i = index; let isLast = last"
+      class="inline-flex items-center space-x-1 md:space-x-2 rtl:space-x-reverse">
+    <li class="inline-flex items-center">
+      <button [class.active]="selectedIndex === i" disabled
+              [ngClass]="selectedIndex === i ? 'text-gray-700 dark:text-white' : 'text-gray-400 dark:text-gray-400'"
+              class="inline-flex items-center text-sm font-medium">
+        {{ step.label }}
+      </button>
+      <svg *ngIf="!isLast" class="flex-shrink-0 mx-2 overflow-visible size-4 text-gray-400 dark:text-neutral-600"
+           xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+           stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="m9 18 6-6-6-6"></path>
+      </svg>
+    </li>
+  </ol>
+</nav>
+<div *ngIf="selected">
+  <ng-container [ngTemplateOutlet]="selected.content"></ng-container>
+</div>

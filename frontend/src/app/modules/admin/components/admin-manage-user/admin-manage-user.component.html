@@ -1,0 +1,13 @@
+<section class="max-w-screen-lg mx-auto">
+  <div class="flex items-center justify-between mb-5">
+    <h2 class="text-2xl font-bold">Manage User</h2>
+    <ng-container *ngIf="isAdminManageUserListRoute$ | async">
+    <a [routerLink]="[RouteConstant.ADD]"
+       class="py-2.5 px-5 block text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">
+      Create New User
+    </a>
+    </ng-container>
+  </div>
+  <router-outlet></router-outlet>
+</section>
+

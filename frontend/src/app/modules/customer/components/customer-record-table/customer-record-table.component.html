@@ -1,0 +1,94 @@
+<ng-container *ngIf="!isLoading else listLoadingTemplate">
+     <section *ngIf="customers && customers.length > 0; else emptyState">
+      <div class="relative overflow-x-auto">
+        <table class="w-full my-3 text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+          <thead class="text-sm text-gray-700 bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+          <tr>
+            <th scope="col" class="px-6 py-3">
+              Username
+            </th>
+            <th scope="col" class="px-6 py-3">
+              Email
+            </th>
+            <th scope="col" class="px-6 py-3">
+              Full Name
+            </th>
+            <th scope="col" class="px-6 py-3">
+              Phone Number
+            </th>
+            <th scope="col" class="px-6 py-3">
+              Date of Birth
+            </th>
+            <th scope="col" class="px-6 py-3">
+              Status
+            </th>
+            <th scope="col" class="px-6 py-3">
+              Action
+            </th>
+          </tr>
+          </thead>
+          <tbody>
+          <ng-container *ngFor="let customer of customers">
+            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+              <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                {{ customer.tasklionAccount.username }}
+              </th>
+              <td class="px-6 py-4">
+                {{ customer.tasklionAccount.email }}
+              </td>
+              <td class="px-6 py-4">
+                {{ customer.personalDetail.fullName }}
+              </td>
+              <td class="px-6 py-4">
+                {{ customer.personalDetail.phoneNumber }}
+              </td>
+              <td class="px-6 py-4">
+                {{ customer.personalDetail.dateOfBirth | date:'dd-MM-yyyy' }}
+              </td>
+              <td class="px-6 py-4">
+                {{ TasklionAccountStatusConstant.getDisplayName(customer.tasklionAccount.status) }}
+              </td>
+              <td class="px-6 py-4">
+                <ng-container *ngIf="customer.tasklionAccount.status == TasklionAccountStatusConstant.BANNED">
+                  <a (click)="unbanUser(customer.tasklionAccount.username)"
+                     class="font-medium text-blue-600 dark:text-blue-500 hover:underline ms-3">
+                    Unban
+                  </a>
+                </ng-container>
+                <ng-container *ngIf="customer.tasklionAccount.status == TasklionAccountStatusConstant.ACTIVE">
+                  <a (click)="banUser(customer.tasklionAccount.username)"
+                     class="font-medium text-red-600 dark:text-red-500 hover:underline ms-3">
+                    Ban
+                  </a>
+                </ng-container>
+              </td>
+            </tr>
+          </ng-container>
+          </tbody>
+        </table>
+      </div>
+      <tasklion-paginator [paginationModel]="customersPagination"
+                          (pageChange)="onPageChange($event)"></tasklion-paginator>
+    </section>
+</ng-container>
+
+<ng-template #listLoadingTemplate>
+  <tasklion-loading-spinner></tasklion-loading-spinner>
+</ng-template>
+
+<ng-template #emptyState>
+  <tasklion-empty-state></tasklion-empty-state>
+</ng-template>
+
+<tasklion-confirmation-modal #banConfirmationModal
+                             [isLoading]="isActionLoading"
+                             (confirm)="onBanActionConfirmed($event)"
+                             (cancel)="cancelAction()">
+</tasklion-confirmation-modal>
+
+<tasklion-confirmation-modal #unbanConfirmationModal
+                             [isLoading]="isActionLoading"
+                             (confirm)="onUnbanActionConfirmed($event)"
+                             (cancel)="cancelAction()">
+</tasklion-confirmation-modal>
+<tasklion-information-modal #infoModal></tasklion-information-modal>

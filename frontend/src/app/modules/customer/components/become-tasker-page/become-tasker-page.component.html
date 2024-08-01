@@ -1,0 +1,10 @@
+<section class="max-w-screen-md mx-auto mt-10">
+  <div class="flex justify-between items-center">
+    <h2 class="text-2xl font-bold">
+      Setup your Tasker Account
+    </h2>
+  </div>
+  <tasklion-tasker-detail-form #taskerDetailFormComponent></tasklion-tasker-detail-form>
+  <tasklion-submit-button (click)="setupTasker()" [isLoading]="isLoading"></tasklion-submit-button>
+</section>
+

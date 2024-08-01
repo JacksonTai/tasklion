@@ -1,0 +1,23 @@
+<section class="max-w-screen-md mx-auto">
+  <div class="flex justify-between items-center">
+    <h1 class="text-2xl font-bold">Tasker Profile</h1>
+  </div>
+  <ng-container *ngIf="!isFetchingTaskerData else loadingTemplate">
+    <div class="mt-3">
+      <tasklion-alert [showIf]="isUpdateSuccess" message="Tasker profile updated successfully"></tasklion-alert>
+    </div>
+    <tasklion-tasker-detail-form></tasklion-tasker-detail-form>
+    <div class="mt-5">
+      <tasklion-submit-button (click)="updateTaskerProfile()" [isLoading]="isLoading" label="Save"></tasklion-submit-button>
+    </div>
+    <a [routerLink]="['/' + RouteConstant.SERVICE_AREA]"
+       class="py-2.5 px-5 block mt-3 text-center text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100  ">
+      Manage Service Area
+    </a>
+  </ng-container>
+</section>
+
+<ng-template #loadingTemplate>
+  <tasklion-loading-spinner></tasklion-loading-spinner>
+</ng-template>
+

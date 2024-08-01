@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {ApiService} from "../api/api.service";
-import {ApiUrlConstant} from "../../constants/api-url.constant";
+import {ApiEndpointConstant} from "../../constants/api-endpoint.constant";
 import {Observable} from "rxjs";
 import {ApiResponseModel} from "../../models/api/api-response.model";
 
@@ -10,6 +10,7 @@ import {ApiResponseModel} from "../../models/api/api-response.model";
 export class StartupService extends ApiService {
 
   getCityByState(): Observable<ApiResponseModel<any>> {
-    return this.get(ApiUrlConstant.GET_CITY_BY_STATE)
+    return this.get(ApiEndpointConstant.CITY_BY_STATE)
   }
+
 }

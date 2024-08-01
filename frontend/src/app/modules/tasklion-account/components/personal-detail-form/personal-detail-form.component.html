@@ -1,0 +1,38 @@
+<form class="grid grid-cols-6 gap-x-6 mb-6" [formGroup]="personalDetailForm">
+
+  <div class="col-span-6">
+    <hr class="h-px mb-4 bg-gray-200 border-0 dark:bg-gray-700">
+    <h6 class="text-lg font-bold dark:text-white">Personal Detail</h6>
+  </div>
+
+  <div class="col-span-6 mt-4">
+    <label for="fullName" class="block text-sm font-medium text-gray-700">Full Name</label>
+    <input type="text" id="fullName" name="fullName" formControlName="fullName"
+           class="mt-1 w-full rounded-md border-gray-200 bg-white text-sm text-gray-700 shadow-sm"/>
+    <tasklion-error-field [control]="personalDetailForm.controls['fullName']"
+                          [errorMessages]="validationMessages['fullName']"></tasklion-error-field>
+  </div>
+
+  <div class="col-span-6 sm:col-span-3 mt-4">
+    <label for="phoneNumber" class="block text-sm font-medium text-gray-700">Phone Number</label>
+    <div class="relative">
+      <div class="absolute inset-y-0 start-0 flex items-center ps-3.5 pointer-events-none text-sm">
+        +60
+      </div>
+      <input type="text" id="phoneNumber" placeholder="123456789"
+             formControlName="phoneNumber" maxlength="10"
+             class="mt-1 w-full rounded-md border-gray-200 bg-white text-sm text-gray-700 shadow-sm block pe-10 ps-10 ">
+    </div>
+    <tasklion-error-field [control]="personalDetailForm.controls['phoneNumber']"
+                          [errorMessages]="validationMessages['phoneNumber']"></tasklion-error-field>
+  </div>
+
+  <div class="col-span-6 sm:col-span-3 mt-4">
+    <label for="dateOfBirth" class="block text-sm font-medium text-gray-700">Date of Birth</label>
+    <input type="date" id="dateOfBirth" name="dateOfBirth" formControlName="dateOfBirth"
+           class="mt-1 w-full rounded-md border-gray-200 bg-white text-sm text-gray-700 shadow-sm"/>
+    <tasklion-error-field [control]="personalDetailForm.controls['dateOfBirth']"
+                          [errorMessages]="validationMessages['dateOfBirth']"></tasklion-error-field>
+  </div>
+
+</form>

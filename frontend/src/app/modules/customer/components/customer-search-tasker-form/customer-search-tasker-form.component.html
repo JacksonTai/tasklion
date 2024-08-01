@@ -1,0 +1,95 @@
+<ng-container *ngIf="!isFetchingData else loadingTemplate">
+  <form class=" mx-auto grid grid-cols-12 gap-5" [formGroup]="searchTaskerForm" (ngSubmit)="searchTasker()">
+    <div class="col-span-full">
+      <div class="flex justify-between items-center mb-1">
+      </div>
+      <ng-select [labelForId]="'category'" [items]="categories"
+                 placeholder="Describe your task category, e.g. Mounting"
+                 bindLabel="name" formControlName="category">
+      </ng-select>
+      <tasklion-error-field [control]="searchTaskerForm.controls['category']"
+                            [errorMessages]="validationMessages['category']"></tasklion-error-field>
+    </div>
+
+    <div class="col-span-full">
+      <p class="font-bold mb-2">Your task location</p>
+      <div class="grid grid-cols-3 gap-2">
+        <div class="col-span-full md:col-span-1">
+          <select name="state" id="state" formControlName="state" (change)="onCityChange($event)"
+                  class="font-medium w-full rounded-md border-gray-300 text-gray-700 sm:text-sm">
+            <option [value]="null" disabled selected>Choose a state</option>
+            <option *ngFor="let state of states" [value]="state">{{ state }}</option>
+          </select>
+          <tasklion-error-field [control]="searchTaskerForm.controls['state']"
+                                [errorMessages]="validationMessages['state']"></tasklion-error-field>
+        </div>
+        <div class="col-span-full md:col-span-1">
+          <select name="city" id="city" formControlName="city"
+                  class="font-medium w-full rounded-md border-gray-300 text-gray-700 sm:text-sm">
+            <option [value]="null" disabled selected>Choose a city</option>
+            <option *ngFor="let city of cities" [value]="city">{{ city }}</option>
+          </select>
+          <tasklion-error-field [control]="searchTaskerForm.controls['city']"
+                                [errorMessages]="validationMessages['city']"></tasklion-error-field>
+
+        </div>
+        <div class="col-span-full md:col-span-1">
+          <input type="text" id="postcode" name="postcode" formControlName="postcode" maxlength="5" placeholder="Postcode"
+                 class="font-medium w-full text-sm rounded-md border-gray-300  text-gray-700 sm:text-sm"/>
+          <tasklion-error-field [control]="searchTaskerForm.controls['postcode']"
+                                [errorMessages]="validationMessages['postcode']"></tasklion-error-field>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-span-full">
+      <p class="font-bold mb-2">How big is your task?</p>
+      <ul
+        class="items-center w-full text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg sm:flex dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+        <li class="w-full border-b border-gray-200 sm:border-b-0 sm:border-r dark:border-gray-600">
+          <div class="flex items-center ps-3">
+            <input id="horizontal-list-radio-license" type="radio" value="1" name="duration" formControlName="duration"
+                   class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
+            <label for="horizontal-list-radio-license"
+                   class="w-full py-3 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">
+              Small - Est. 1 hour
+            </label>
+          </div>
+        </li>
+        <li class="w-full border-b border-gray-200 sm:border-b-0 sm:border-r dark:border-gray-600">
+          <div class="flex items-center ps-3">
+            <input id="horizontal-list-radio-id" type="radio" value="2" name="duration" formControlName="duration"
+                   class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
+            <label for="horizontal-list-radio-id"
+                   class="w-full py-3 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">
+              Medium - Est. 2 hours
+            </label>
+          </div>
+        </li>
+        <li class="w-full border-b border-gray-200 sm:border-b-0 sm:border-r dark:border-gray-600">
+          <div class="flex items-center ps-3">
+            <input id="horizontal-list-radio-military" type="radio" value="3" name="duration" formControlName="duration"
+                   class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
+            <label for="horizontal-list-radio-military"
+                   class="w-full py-3 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">
+              Large - Est. 3 hours
+            </label>
+          </div>
+        </li>
+      </ul>
+      <tasklion-error-field [control]="searchTaskerForm.controls['duration']"
+                            [errorMessages]="validationMessages['duration']"></tasklion-error-field>
+      <p class="text-gray-800 text-xs mt-2">
+        The estimated hours are just a guideline. Actual time may vary based on the specifics of your task.
+      </p>
+    </div>
+
+    <div class="col-span-full">
+      <tasklion-submit-button label="Search for Taskers" [isLoading]="isSubmitting"></tasklion-submit-button>
+    </div>
+  </form>
+</ng-container>
+
+<ng-template #loadingTemplate>
+  <tasklion-loading-spinner></tasklion-loading-spinner>
+</ng-template>

@@ -1,17 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="SqlDialectMappings">
-    <file url="file://$PROJECT_DIR$/backend/sql/DDL/ADDRESS.sql" dialect="PostgreSQL" />
     <file url="file://$PROJECT_DIR$/backend/sql/DDL/CITY.sql" dialect="PostgreSQL" />
     <file url="file://$PROJECT_DIR$/backend/sql/DDL/CUSTOMER.sql" dialect="PostgreSQL" />
-    <file url="file://$PROJECT_DIR$/backend/sql/DDL/PERSONAL_DETAILS.sql" dialect="PostgreSQL" />
+    <file url="file://$PROJECT_DIR$/backend/sql/DDL/MAKER_CHECKER.sql" dialect="PostgreSQL" />
+    <file url="file://$PROJECT_DIR$/backend/sql/DDL/PERSONAL_DETAIL.sql" dialect="PostgreSQL" />
     <file url="file://$PROJECT_DIR$/backend/sql/DDL/ROLE.sql" dialect="PostgreSQL" />
+    <file url="file://$PROJECT_DIR$/backend/sql/DDL/SERVICE_AREA.sql" dialect="PostgreSQL" />
+    <file url="file://$PROJECT_DIR$/backend/sql/DDL/SERVICE_CATEGORY.sql" dialect="PostgreSQL" />
+    <file url="file://$PROJECT_DIR$/backend/sql/DDL/SERVICE_REVIEW.sql" dialect="PostgreSQL" />
+    <file url="file://$PROJECT_DIR$/backend/sql/DDL/TASK.sql" dialect="PostgreSQL" />
     <file url="file://$PROJECT_DIR$/backend/sql/DDL/TASKER.sql" dialect="PostgreSQL" />
-    <file url="file://$PROJECT_DIR$/backend/sql/DDL/TASKLION_USER.sql" dialect="PostgreSQL" />
+    <file url="file://$PROJECT_DIR$/backend/sql/DDL/TASKER_AVAILABILITY.sql" dialect="PostgreSQL" />
+    <file url="file://$PROJECT_DIR$/backend/sql/DDL/TASKER_RECURRING_AVAILABILITY.sql" dialect="PostgreSQL" />
+    <file url="file://$PROJECT_DIR$/backend/sql/DDL/TASKER_SERVICE.sql" dialect="PostgreSQL" />
+    <file url="file://$PROJECT_DIR$/backend/sql/DDL/TASKER_TIME_AVAILABILITY.sql" dialect="PostgreSQL" />
+    <file url="file://$PROJECT_DIR$/backend/sql/DDL/TASKLION_ACCOUNT.sql" dialect="PostgreSQL" />
+    <file url="file://$PROJECT_DIR$/backend/sql/DDL/TOKEN.sql" dialect="PostgreSQL" />
     <file url="file://$PROJECT_DIR$/backend/sql/DDL/USER_ROLE.sql" dialect="PostgreSQL" />
-    <file url="file://$PROJECT_DIR$/backend/sql/DML/CITY.sql" dialect="PostgreSQL" />
-    <file url="file://$PROJECT_DIR$/backend/sql/DML/ROLE.sql" dialect="PostgreSQL" />
-    <file url="file://$PROJECT_DIR$/backend/sql/DML/STATE.sql" dialect="PostgreSQL" />
     <file url="PROJECT" dialect="PostgreSQL" />
   </component>
 </project>

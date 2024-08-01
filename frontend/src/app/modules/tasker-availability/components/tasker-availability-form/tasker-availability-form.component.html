@@ -1,0 +1,77 @@
+<form class="mt-3 mb-4" [formGroup]="taskerAvailabilityForm">
+
+  <div class="mt-4">
+    <label class="mb-2 block text-sm font-medium text-gray-700">Type</label>
+    <div class="mb-2 flex items-center ps-4 border border-gray-200 rounded dark:border-gray-700">
+      <input id="bordered-radio-1" type="radio" value="{{ TaskerAvailabilityTypeConstant.DATE}}"
+             name="availabilityType" formControlName="availabilityType"
+             class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+      <label for="bordered-radio-1" class="w-full py-4 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">
+        Specific Date
+      </label>
+    </div>
+    <div class="flex items-center ps-4 border border-gray-200 rounded dark:border-gray-700">
+      <input checked id="bordered-radio-2" type="radio" value="{{ TaskerAvailabilityTypeConstant.REPEAT }}"
+             name="availabilityType" formControlName="availabilityType"
+             class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+      <label for="bordered-radio-2" class="w-full py-4 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">
+        Repeat Day
+      </label>
+    </div>
+  </div>
+
+  <ng-container [ngSwitch]="taskerAvailabilityForm.get('availabilityType')?.value">
+    <ng-container *ngSwitchCase="TaskerAvailabilityTypeConstant.DATE">
+      <div class="mt-4">
+        <label for="date" class="mb-1 block text-sm font-medium text-gray-700">Date</label>
+        <p-calendar formControlName="date" id="date" name="date" dateFormat='dd/mm/yy' placeholder="dd/mm/yyyy"
+                    [readonlyInput]="true" [touchUI]="true" [minDate]="minDate" [maxDate]="maxDate" [showIcon]="true"
+                    (onSelect)="onDateChange()"  [showButtonBar]="true"
+                    styleClass="mt-1 w-full font-sans rounded-md border-gray-200 bg-white text-sm text-gray-700 shadow-sm"></p-calendar>
+        <tasklion-error-field [control]="taskerAvailabilityForm.controls['date']"
+                              [errorMessages]="validationMessages['date']"></tasklion-error-field>
+      </div>
+    </ng-container>
+    <ng-container *ngSwitchCase="TaskerAvailabilityTypeConstant.REPEAT">
+      <div class="mt-4">
+        <label class="mb-1 block text-sm font-medium text-gray-700">Days</label>
+        <tasklion-error-field [control]="taskerAvailabilityForm.controls['days']"
+                              [errorMessages]="validationMessages['days']"></tasklion-error-field>
+        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2">
+          <ng-container *ngFor="let day of DateConstant.DAYS_OF_WEEK">
+            <div class="flex items-center ps-4 border border-gray-200 rounded dark:border-gray-700">
+              <input id="{{ day }}" type="checkbox" [value]="day" (change)="onDayChange(day, $event)"
+                     class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 ">
+              <label for="{{ day }}" class="w-full py-4 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">
+                {{ day }}
+              </label>
+            </div>
+          </ng-container>
+        </div>
+      </div>
+    </ng-container>
+  </ng-container>
+
+  <div class="mt-4">
+    <label class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">Time</label>
+    <div class="flex justify-between">
+      <div class="me-3 w-full">
+        <input [ngxTimepicker]="startTime" [min]="getMinStartTime()" max="9:00 PM"
+               id="start-time" formControlName="startTime" placeholder="Start time" readonly
+               class="h-10 border w-full leading-none border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5">
+        <ngx-material-timepicker #startTime [minutesGap]="30"></ngx-material-timepicker>
+        <tasklion-error-field [control]="taskerAvailabilityForm.controls['startTime']"
+                              [errorMessages]="validationMessages['startTime']"></tasklion-error-field>
+      </div>
+      <div class="w-full">
+        <input [ngxTimepicker]="endTime" [min]="getMinEndTime()" max="10:00 pm"
+               id="end-time" formControlName="endTime" placeholder="End time" readonly
+               class="h-10 border w-full leading-none border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5">
+        <ngx-material-timepicker #endTime [minutesGap]="30"></ngx-material-timepicker>
+        <tasklion-error-field [control]="taskerAvailabilityForm.controls['endTime']"
+                              [errorMessages]="validationMessages['endTime']"></tasklion-error-field>
+      </div>
+    </div>
+  </div>
+
+</form>

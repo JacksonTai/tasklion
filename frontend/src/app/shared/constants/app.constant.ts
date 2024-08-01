@@ -1,3 +1,3 @@
-export const AppConstant = {
-  TASKLION: "Tasklion",
+export class AppConstant {
+  static readonly TASKLION: string = "customer";
 }

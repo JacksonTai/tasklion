@@ -1,0 +1,30 @@
+<a href="{{ RouteConstant.TASKER_REGISTER }}" class="text-gray-700 underline">Back</a>
+<h2 class="mt-5 mb-3 lg:text-3xl text-4xl font-extrabold lg:leading-[55px]">
+  Get started by creating a Tasklion Account
+</h2>
+
+<tasklion-stepper [linearModeSelected]="false" #stepper>
+  <cdk-step [label]="'1) Personal Detail'">
+    <tasklion-personal-detail-form #personalDetailFormComponent></tasklion-personal-detail-form>
+  </cdk-step>
+  <cdk-step [label]="'2) Account Detail'">
+    <tasklion-account-detail-form #accountDetailFormComponent></tasklion-account-detail-form>
+  </cdk-step>
+  <cdk-step [label]="'3) Tasker Detail'">
+    <tasklion-tasker-detail-form #taskerDetailFormComponent></tasklion-tasker-detail-form>
+  </cdk-step>
+</tasklion-stepper>
+
+<div class="flex justify-end mt-4">
+  <button *ngIf="stepper.selectedIndex > 0" (click)="goBack()"
+          class="py-2.5 px-5 mr-3 block mb-2 lg:mb-0 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">
+    Back
+  </button>
+  <button *ngIf="stepper.selectedIndex !== stepper.steps.length - 1" (click)="goNext()"
+          class="block mb-2 lg:mb-0 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
+    Next
+  </button>
+  <tasklion-submit-button [isLoading]="isLoading" label="Register"
+                          *ngIf="stepper.selectedIndex === stepper.steps.length - 1" (click)="submit()">
+  </tasklion-submit-button>
+</div>

@@ -1,0 +1,14 @@
+<section class="max-w-screen-md mx-auto">
+  <div class="flex items-center justify-between mb-5">
+    <h2 class="text-2xl font-bold">Service Area</h2>
+    <ng-container *ngIf="isServiceAreaRoute$ | async">
+      <a [routerLink]="[RouteConstant.ADD]"
+         class="py-2.5 px-5 block text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">
+        Add Service Area
+      </a>
+    </ng-container>
+  </div>
+  <hr class="h-px bg-gray-200 border-0 dark:bg-gray-700">
+  <router-outlet></router-outlet>
+</section>
+
