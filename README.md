@@ -75,19 +75,14 @@
 
 <!-- ABOUT THE PROJECT -->
 ## About The Project
-[Demo Video](https://1drv.ms/v/s!Ajc-cTegesEEr4Bewn3UTQkt17JWyg?e=pQIz23)
-
-We understand that for every individual in Malaysia who needs assistance with anything from leaky faucets to faulty light fixtures or appliance troubleshooting, there's someone nearby who is ready, willing, and able to lend a hand without hesitation. When these two individuals come together, they profoundly improve each other's lives, offering a more convenient and enriched way of living.
-
-### How it Works
 
 The customers can search for taskers by service category, service location and time. They can choose the tasker and view the respective services’ rating and reviews before scheduling a task with the tasker.
-The taskers can manage their available time slots, including both specific dates and recurring weekly slots, as well as service areas. This ensures incoming task invitations are only based on the availability they set.
-The admin can view and choose to ban or unban the customers and taskers account. Statistics are viewable by admin in graphical formats, such as charts.
+The taskers can manage their available time slots, including both specific dates and recurring weekly slots, as well as service areas. This ensures incoming task invitations are only based on the availability they set. The admin can view and choose to ban or unban the customers and taskers account. Statistics are viewable by admin in graphical formats, such as charts.
+
+[Demo Video](https://1drv.ms/v/s!Ajc-cTegesEEr4Bewn3UTQkt17JWyg?e=pQIz23)
+
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
 
 ### Built With
 
