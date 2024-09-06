@@ -75,7 +75,7 @@
 
 <!-- ABOUT THE PROJECT -->
 ## About The Project
-[Demo Video](https://cloudmails-my.sharepoint.com/:v:/g/personal/tp059628_mail_apu_edu_my/Ee3rvtppN79EhLq06PCcu04B91X-ETfgOmd2eH42BzySPA?e=EZJwg0&nav=eyJyZWZlcnJhbEluZm8iOnsicmVmZXJyYWxBcHAiOiJTdHJlYW1XZWJBcHAiLCJyZWZlcnJhbFZpZXciOiJTaGFyZURpYWxvZy1MaW5rIiwicmVmZXJyYWxBcHBQbGF0Zm9ybSI6IldlYiIsInJlZmVycmFsTW9kZSI6InZpZXcifX0%3D)
+[Demo Video](https://1drv.ms/v/s!Ajc-cTegesEEr4Bewn3UTQkt17JWyg?e=pQIz23)
 
 We understand that for every individual in Malaysia who needs assistance with anything from leaky faucets to faulty light fixtures or appliance troubleshooting, there's someone nearby who is ready, willing, and able to lend a hand without hesitation. When these two individuals come together, they profoundly improve each other's lives, offering a more convenient and enriched way of living.
 
